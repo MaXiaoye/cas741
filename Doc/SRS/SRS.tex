@@ -766,18 +766,18 @@ the assumptions.
 \begin{landscape}
 \begin{table}[h!]
 \centering
-\begin{tabular}{|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline
-	& \aref{A_mechanical}& \aref{A_airFriction}& \aref{A_powder}& \aref{A_initialPE}& \aref{A_ground}& \aref{A_piece}\\
+	& \aref{A_mechanical}& \aref{A_airFriction}& \aref{A_powder}& \aref{A_initialPE}& \aref{A_ground}& \aref{A_piece}& \aref{A_collision}\\
 \hline
-\tref{T_UAM}        & & X& & & & \\ \hline
-\tref{T_CME}        & X& & & & & \\ \hline
-\tref{T_WKF}        & & & & & X& \\ \hline
-\ddref{DD_Fk}        & & & & & X& \\ \hline
-\iref{IM_angle}        & & & & & & \\ \hline
-\iref{IM_DIA}        & & X& & & & \\ \hline
-\iref{IM_DOG}        & & & & & X& \\ \hline
-\lcref{LC_SOP}        & & X& & & & X\\ \hline
+\tref{T_UAM}        & & X& & & & &\\ \hline
+\tref{T_CME}        & X& & & & & &\\ \hline
+\tref{T_WKF}        & & & & & X& &\\ \hline
+\ddref{DD_Fk}        & & & & & X& &\\ \hline
+\iref{IM_angle}        & & & & & & &\\ \hline
+\iref{IM_DIA}        & & X& & & & &\\ \hline
+\iref{IM_DOG}        & & & & & X& &\\ \hline
+\lcref{LC_SOP}        & & X& & & & X&\\ \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Assumptions and Other Items}
 \label{Table:A_trace}
@@ -823,15 +823,15 @@ the assumptions.
 \label{Table:R_trace}
 \end{table}
 
-The purpose of the traceability graphs is also to provide easy references on
-what has to be additionally modified if a certain component is changed.  The
-arrows in the graphs represent dependencies. The component at the tail of an
-arrow is depended on by the component at the head of that arrow. Therefore, if a
-component is changed, the components that it points to should also be
-changed. Figure~\ref{Fig_ATrace} shows the dependencies of theoretical models,
-general definitions, data definitions, instance models, likely changes, and
-assumptions on each other. Figure~\ref{Fig_RTrace} shows the dependencies of
-instance models, requirements, and data constraints on each other.
+%The purpose of the traceability graphs is also to provide easy references on
+%what has to be additionally modified if a certain component is changed.  The
+%arrows in the graphs represent dependencies. The component at the tail of an
+%arrow is depended on by the component at the head of that arrow. Therefore, if a
+%component is changed, the components that it points to should also be
+%changed. Figure~\ref{Fig_ATrace} shows the dependencies of theoretical models,
+%general definitions, data definitions, instance models, likely changes, and
+%assumptions on each other. Figure~\ref{Fig_RTrace} shows the dependencies of
+%instance models, requirements, and data constraints on each other.
 
 % \begin{figure}[h!]
 % 	\begin{center}

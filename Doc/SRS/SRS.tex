@@ -362,33 +362,6 @@ on.
 
 \noindent
 \begin{minipage}{\textwidth}
-\renewcommand*{\arraystretch}{1.5}
-\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-  \hline
-  \rowcolor[gray]{0.9}
-  Number& T\refstepcounter{theorynum}\thetheorynum \label{T_UAM}\\
-  \hline
-  Label&\bf Uniformly accelerated motion\\
-  \hline
-  Equation&  $S= v_{0}t+\frac{1}{2}at^{2}$\\
-  \hline
-  
-  Description & 
-                Description The above equation gives us the distance traveled without having to know the final velocity of the object. Where $t$ is time duration and $v_{0}$ is initial speed. Acceleration $a$ is defined as the rate of change of velocity with respect to time, in a given direction. This would mean that if an object has an acceleration of 1 ms-2 it will increase its velocity (in a given direction) 1 ms-1 every second that it accelerates.\\
-  \hline
-  Source &
-           \url{http://ibphysicsstuff.wikidot.com/uniformaccmotion}\\
-  % The above web link should be replaced with a proper citation to a publication
-  \hline
-  Ref.\ By & \iref{IM_DIA},\iref{IM_DOG}\\
-  \hline
-\end{tabular}
-\end{minipage}\\
-
-~\newline
-
-\noindent
-\begin{minipage}{\textwidth}
 	\renewcommand*{\arraystretch}{1.5}
 	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 		\hline
@@ -459,27 +432,58 @@ models. The dimension of each quantity is also given.
 \begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
 \hline
 \rowcolor[gray]{0.9}
-Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{DD_Fk}\\
+Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{DD_UAM}\\
 \hline
-Label& \bf Kinetic friction\\
+Label& \bf Displacement in uniformly accelerated motion\\
 \hline
-Symbol &$F_{k}$\\
+Symbol &$S$\\
 \hline
 % Units& $Mt^{-3}$\\
 % \hline
   SI Units & N\\
   \hline
-  Equation&$F_{k}=\mu_{k}F_{n}=\mu_{k}mg$\\
+  Equation&$S= v_{0}t+\frac{1}{2}at^{2}$\\
   \hline
   Description & 
-                Kinetic friction $F_{k}$ is a force that acts between moving surfaces. An object that is being moved over a surface will experience a force in the opposite direction as its movement. The magnitude of the force depends on the coefficient of kinetic friction between the two kinds of material. Every combination is different. The coefficient of kinetic friction is assigned the Greek letter "mu" (μ), with a subscript "k". The force of kinetic friction is μk times the normal force on an object, and is expressed in units of Newtons (N).In this project, $F_{n}$ equals to gravity.
+                Description The above equation gives us the distance traveled without having to know the final velocity of the object. Where $t$ is time duration and $v_{0}$ is initial speed. Acceleration $a$ is defined as the rate of change of velocity with respect to time, in a given direction. This would mean that if an object has an acceleration of 1 ms-2 it will increase its velocity (in a given direction) 1 ms-1 every second that it accelerates.
   \\
   \hline
-  Sources&~\url{http://www.softschools.com/formulas/physics/kinetic_friction_formula/92/}  \\
+  Sources&~\url{http://ibphysicsstuff.wikidot.com/uniformaccmotion}  \\
   \hline
-  Ref.\ By & \iref{IM_DOG}\\
+  Ref.\ By & \iref{IM_DIA},\iref{IM_DOG}\\
   \hline
 \end{tabular}
+\end{minipage}\\
+
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{DD_Fk}\\
+		\hline
+		Label& \bf Kinetic friction\\
+		\hline
+		Symbol &$F_{k}$\\
+		\hline
+		% Units& $Mt^{-3}$\\
+		% \hline
+		SI Units & N\\
+		\hline
+		Equation&$F_{k}=\mu_{k}F_{n}=\mu_{k}mg$\\
+		\hline
+		Description & 
+		Kinetic friction $F_{k}$ is a force that acts between moving surfaces. An object that is being moved over a surface will experience a force in the opposite direction as its movement. The magnitude of the force depends on the coefficient of kinetic friction between the two kinds of material. Every combination is different. The coefficient of kinetic friction is assigned the Greek letter "mu" (μ), with a subscript "k". The force of kinetic friction is μk times the normal force on an object, and is expressed in units of Newtons (N).In this project, $F_{n}$ equals to gravity.
+		\\
+		\hline
+		Sources&~\url{http://www.softschools.com/formulas/physics/kinetic_friction_formula/92/}  \\
+		\hline
+		Ref.\ By & \iref{IM_DOG}\\
+		\hline
+	\end{tabular}
 \end{minipage}\\
 
 \subsubsection{Instance Models} \label{sec_instance}    
@@ -770,9 +774,9 @@ the assumptions.
 \hline
 	& \aref{A_mechanical}& \aref{A_airFriction}& \aref{A_powder}& \aref{A_initialPE}& \aref{A_ground}& \aref{A_piece}& \aref{A_collision}\\
 \hline
-\tref{T_UAM}        & & X& & & & &\\ \hline
 \tref{T_CME}        & X& & & & & &\\ \hline
 \tref{T_WKF}        & & & & & X& &\\ \hline
+\ddref{DD_UAM}        & & & & & X& &\\ \hline
 \ddref{DD_Fk}        & & & & & X& &\\ \hline
 \iref{IM_angle}        & & & & & & &\\ \hline
 \iref{IM_DIA}        & & X& & & & &\\ \hline
@@ -789,11 +793,11 @@ the assumptions.
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline        
-	& \tref{T_UAM}& \tref{T_CME}& \tref{T_WKF}& \ddref{DD_Fk}& \iref{IM_angle} & \iref{IM_DIA}& \iref{IM_DOG} \\
+	& \tref{T_CME}& \tref{T_WKF}& \ddref{DD_UAM}& \ddref{DD_Fk} &\iref{IM_angle} & \iref{IM_DIA}& \iref{IM_DOG} \\
 \hline
-\tref{T_UAM}        & & & & & & X&\\ \hline
 \tref{T_CME}        & & & & & & X&\\ \hline
 \tref{T_WKF}        & & & & X& & &X\\ \hline
+\ddref{DD_UAM}        & & & & X& & &X\\ \hline
 \ddref{DD_Fk}        & & & & & & &\\ \hline
 \iref{IM_angle}        & & & & & & &\\ \hline
 \iref{IM_DIA}        & & & & & & &\\ \hline

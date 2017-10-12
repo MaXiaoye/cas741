@@ -689,6 +689,10 @@ Table~\ref{TblSpecParams}.
   \midrule 
   $v_\text{min}$ & 10 m/s\\
   $v_\text{max}$ & 100 m/s\\
+  $L_\text{min}$ & -1000\\
+  $L_\text{max}$ & 1000 m/s\\
+  $\mu_\text{min}$ & 0\\
+  $\mu_\text{max}$ & 1\\
   \bottomrule
 \end{longtable*}
 \end{table}
@@ -726,7 +730,8 @@ qualities that the software is expected to exhibit.
 \noindent \begin{itemize}
 
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs}:] 
-
+	Input the following quantities, which define the tank parameters, material properties
+	and initial conditions:
 	\noindent \begin{longtable*}{l l l} 
 		\toprule
 		\textbf{symbol} & \textbf{unit} & \textbf{description}\\

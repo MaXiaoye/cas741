@@ -359,7 +359,10 @@ likely change [LC], in which the respective assumption is used.
 \begin{itemize}
 
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{A_mechanical}:]
- The forms of energy that are relevant for this problem are kinetic energy and potential energy. Thermal energy is assumed to be negligible in the air. All other forms of energy are negligible.
+ The forms of energy that are relevant for this problem are kinetic energy and
+ potential energy. Thermal energy is assumed to be negligible in the air. All
+ other forms of energy are negligible. \wss{but you have friction?  Work will be
+   done that eventually uses up the initial energy.}
 
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{A_airFriction}:]
 Air friction will be ignored.
@@ -406,7 +409,21 @@ on.
 		\hline
 		
 		Description & 
-		The total mechanical energy (defined as the sum of its potential and kinetic energies) of a particle being acted on by only conservative forces is constant. The potential energy, $E_{p}$, depends on the position of an object subjected to a conservative force. The kinetic energy, $E_{k}$, depends on the speed of an object and is the ability of a moving object to do work on other objects when it collides with them.\\
+		The total mechanical energy (defined as the sum of its potential
+                              and kinetic energies) of a particle being acted on
+                              by only conservative forces is constant. The
+                              potential energy, $E_{p}$, depends on the position
+                              of an object subjected to a conservative
+                              force. The kinetic energy, $E_{k}$, depends on the
+                              speed of an object and is the ability of a moving
+                              object to do work on other objects when it
+                              collides with them.  \wss{What about the work done
+          by nonconservative forces, like friction?  This should be part of
+                              your conservation of energy.  The equation you
+                              have written is only true in the case where the
+                              work done by nonconservative forces is zero.  You
+                              should also reference the assumptions that are
+                              necessary for your theoretical model to apply.}\\
 		\hline
 		Source &
 		\url{http://www.nuclear-power.net/laws-of-conservation/law-of-conservation-of-energy/conservation-of-mechanical-energy/}\\
@@ -476,7 +493,21 @@ Symbol &$S$\\
   Equation&$S= v_{0}t+\frac{1}{2}at^{2}$\\
   \hline
   Description & 
-                 The above equation gives us the distance traveled without having to know the final velocity of the object. Where $t$ is time duration and $v_{0}$ is initial speed. Acceleration $a$ is defined as the rate of change of velocity with respect to time, in a given direction. This would mean that if an object has an acceleration of 1 ms-2 it will increase its velocity (in a given direction) 1 ms-1 every second that it accelerates. This equation is tenable under \aref{A_mechanical},\aref{A_airFriction} and \aref{A_ground} in this project. 
+                 The above equation gives us the distance traveled without
+                having to know the final velocity of the object. Where $t$ is
+                time duration and $v_{0}$ is initial speed. Acceleration $a$ is
+                defined as the rate of change of velocity with respect to time,
+                in a given direction. This would mean that if an object has an
+                acceleration of 1 ms-2 \wss{You can write this as m/s$^2$} it will increase its velocity (in a given
+                direction) 1 ms-1 every second that it accelerates. This
+                equation is tenable under \aref{A_mechanical},
+                \aref{A_airFriction} and \aref{A_ground} in this project.
+                \wss{This equation only applies for constant acceleration.  As
+                the object loses energy the acceleration will decrease.  None of
+                your assumptions mention assuming constant acceleration.  The
+                equation you are using comes from kinematics, where you don't
+                need to worry about forces.  I think you do have to worry about
+                forces, which moves it to the area of kinetics.}
   \\
   \hline
   Sources&~\url{http://ibphysicsstuff.wikidot.com/uniformaccmotion}  \\
@@ -531,7 +562,22 @@ $S=\frac{v_{0}+v_{0}+at}{2}t=v_{0}t+\frac{1}{2}at^{2}$
 		Equation&$F_{k}=\mu_{k}F_{n}=\mu_{k}mg$\\
 		\hline
 		Description & 
-		Kinetic friction $F_{k}$ is a force that acts between moving surfaces. An object that is being moved over a surface will experience a force in the opposite direction as its movement. The magnitude of the force depends on the coefficient of kinetic friction between the two kinds of material. Every combination is different. The coefficient of kinetic friction is assigned the Greek letter "mu" (μ), with a subscript "k". The force of kinetic friction is μk times the normal force on an object, and is expressed in units of Newtons (N).In this project, $F_{n}$ equals to gravity.
+		Kinetic friction $F_{k}$ is a force that acts between moving
+                              surfaces. An object that is being moved over a
+                              surface will experience a force in the opposite
+                              direction as its movement. The magnitude of the
+                              force depends on the coefficient of kinetic
+                              friction between the two kinds of material. Every
+                              combination is different. The coefficient of
+                              kinetic friction is assigned the Greek letter "mu"
+                              (μ), with a subscript "k".  \wss{Use ``quote'' to
+                              get correct quotation marks} The force of kinetic
+                              friction is μk times the normal force on an
+                              object, and is expressed in units of Newtons (N).
+                              In this project, $F_{n}$ equals to
+                              gravity. \wss{gravity is an acceleration, not a
+                              force.  Your force is $mg$, where $m$ is the mass
+                              of the object.  Do you know the mass of the objects?}
 		\\
 		\hline
 		Sources&~\url{http://www.softschools.com/formulas/physics/kinetic_friction_formula/92/}  \\
@@ -665,6 +711,16 @@ $tan\theta_{1}=\frac{|z_{n}|}{\sqrt{x_{n}^{2}+y_{n}^{2}}}$
 $\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{x_{n}^2+y_{n}^2}}$
 ~\newline
 \\
+
+\wss{You really need to work on the physics in your project. You might
+  understand the physics better when you proceed to the next steps.  For
+  instance, you will learn about the problems with applying DD1 - your particles
+  would never stop, they would just keep accelerating.  For your project faking
+  a rational design process should be very helpful.}
+ 
+\wss{You don't say how the object will be broken into pieces.  You have this
+  goal, but as far as I can tell, you never return to it.  You should add goals
+  to your traceability matrix, so that you would see this omission.}
 
 \subsubsection{Data Constraints} \label{sec_DataConstraints}    
 
@@ -800,9 +856,13 @@ $v_{0}=E \cdot 10$
 
 \end{itemize}
 
+\wss{Functional requirements should reference the instance models.}
+
 \subsection{Nonfunctional Requirements}
 
 Performance is influenced by amount of pieces, capability of GPU and CPU. Other nonfunctional requirements are correctness and reusability.
+
+\wss{More information on the NFRs would improve this document.}
 
 \section{Likely Changes}    
 

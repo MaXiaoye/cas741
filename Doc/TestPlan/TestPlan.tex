@@ -1,5 +1,6 @@
 \documentclass[12pt, titlepage]{article}
 
+\usepackage{amsmath, mathtools}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
@@ -15,11 +16,11 @@
 \usepackage[round]{natbib}
 \newcommand{\rref}[1]{R\ref{#1}}
 \newcommand{\ddref}[1]{DD\ref{#1}}
-
+\input{../Comments}
 \begin{document}
 
-\title{Project Title} 
-\author{Author Name}
+\title{Test Plan for Breaking Effect (BE)} 
+\author{Marshall Xiaoye Ma}
 \date{\today}
 	
 \maketitle
@@ -31,8 +32,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+2017-10-21 & 1.0 & New Document\\
 \bottomrule
 \end{tabularx}
 
@@ -40,16 +40,70 @@ Date 2 & 1.1 & Notes\\
 
 \section{Symbols, Abbreviations and Acronyms}
 
-\renewcommand{\arraystretch}{1.2}
-\begin{tabular}{l l} 
-  \toprule		
-  \textbf{symbol} & \textbf{description}\\
-  \midrule 
-  T & Test\\
-  \bottomrule
-\end{tabular}\\
-Please refer to section 2.2 of requirements specification.
+	\renewcommand{\arraystretch}{1.2}
+	%\begin{table}[ht]
+	\noindent \begin{tabular}{l l l} 
+		\toprule		
+		\textbf{symbol} & \textbf{unit} & \textbf{description}\\
+		\midrule 
+		$S$ & unit of length & displacement
+		\\
+		$t$ & $s$ & the time in seconds since the start of the game
+		\\  
+		$v_{0}$ & $m/s$ & initial speed
+		\\ 
+		$a$ & $m/s^2$ & acceleration
+		\\
+		$g$ & $m/s^2$ & gravity acceleration
+		\\
+		$\Delta E_{k}$ & J & variation of kinetic energy
+		\\
+		$\Delta E_{p}$ & J & variation of potential energy
+		\\
+		$W_{f}$ & $J$ & work done by kinetic friction
+		\\
+		$x_{n}$ & $m$ & x coordinates of gravity center of piece $n$, $n \in N$
+		\\
+		$y_{n}$ & $m$ & y coordinates of gravity center of piece $n$
+		\\
+		$z_{n}$ & $m$ & z coordinates of gravity center of piece $n$
+		\\
+		$\theta_{1}$ & degree & angle between initial speed and horizontal
+		\\
+		$\theta_{2}$ & degree & angle between
+		x axiom and projection on horizontal of initial speed
+		\\
+		$S_{x}$ & m & displacement on direction of x axiom
+		\\
+		$S_{y}$ & m & displacement on direction of y axiom
+		\\
+		$S_{z}$ & m & displacement on direction of z axiom
+		\\
+		$\mu_k$ &  & coefficient of friction
+		\\
+		\bottomrule
+	\end{tabular}
 
+	\renewcommand{\arraystretch}{1.2}
+	\begin{tabular}{l l} 
+		\toprule		
+		\textbf{symbol} & \textbf{description}\\
+		\midrule 
+		A & Assumption\\
+		DD & Data Definition\\
+		GD & General Definition\\
+		GS & Goal Statement\\
+		IM & Instance Model\\
+		LC & Likely Change\\
+		PS & Physical System Description\\
+		R & Requirement\\
+		SRS & Software Requirements Specification\\
+		BE & Breaking Effect\\
+		T & Theoretical Model\\
+		\bottomrule
+	\end{tabular}\\
+	
+	
 \newpage
 
 \tableofcontents
@@ -61,8 +115,6 @@ Please refer to section 2.2 of requirements specification.
 \newpage
 
 \pagenumbering{arabic}
-
-This document ...
 
 \section{General Information}
 
@@ -297,10 +349,10 @@ How test will be performed: Automated unit test
 
 \end{enumerate}
 
-\subsubsection{Test gravity center location of each piece}
+\subsubsection{Obtaining gravity center of each piece}
 \label{Sec_testGravityCenter}
 
-This section covers \rref{R_Piece} in SRS that program needs to get gravity center of each piece correctly. \\
+This section covers \rref{R_Piece} in SRS that program needs to obtain gravity center of each piece correctly. Testing for edge cases and error handling will be covered in Section \ref{Sec_UnitTest}. \\
 There is an assumption for this section that all tests in \ref{Sec_TestInput} are passed.
 
 \begin{enumerate}
@@ -319,10 +371,10 @@ How test will be performed: Manually input and check output by developer.
 
 \end{enumerate}
 
-\subsubsection{Test initial speed calculation of each piece}
+\subsubsection{Initial speed calculation of each piece}
 \label{Sec_TestForInitialSpeed}
 
-Test case in this section covers \rref{R_InitialSpeed} in SRS that program calculates initial speed for each piece.
+Test case in this section covers \rref{R_InitialSpeed} in SRS that program calculates initial speed for each piece. Testing for edge cases and error handling will be covered in Section \ref{Sec_UnitTest}.\\
 There is an assumption for this section that all tests in \ref{Sec_TestInput} and \ref{Sec_testGravityCenter} are passed.
 \begin{enumerate}
 
@@ -340,31 +392,57 @@ How test will be performed: Manually input and check output by developer.
 
 \end{enumerate}
 
-\subsubsection{Test for getting the angle between initial speed and horizontal($\theta _{1}$) as well as the angle between x axiom and projection on horizontal of initial speed($\theta _{2}$)}
+\subsubsection{Calculation of angle between initial speed and horizontal($\theta _{1}$) as well as the angle between x axiom and projection on horizontal of initial speed($\theta _{2}$)}
 \label{Sec_TestForAngle}
 
-This section is designed to determine  angle calculation module works correctly to calculate two angles, which covers \rref{R_Calculate} in SRS. \\
+This section is designed to determine  angle calculation module works correctly to calculate two angles, which covers \rref{R_Calculate} in SRS. Testing for edge cases and error handling will be covered in Section \ref{Sec_UnitTest}.\\
 There is an assumption for this section that all tests in \ref{Sec_TestInput}, \ref{Sec_testGravityCenter} and \ref{Sec_TestForInitialSpeed} are passed.
 \begin{enumerate}
 
-\item{testAngles\\}
+\item{testAngles1\\}
 
 Type: Functional, Dynamic, Manual
 
 Initial State: New Session.
 
-Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$, $(x_{n},y_{n},z_{n})$ which is output from \ref{Sec_testGravityCenter}  
+Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$, $(x_{n},y_{n},z_{n})$ and $x_{n},y_{n},z_{n}$ can't be zero, which is output from \ref{Sec_testGravityCenter}  
 
 Output: $\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{x_{n}^2+y_{n}^2}}$ and $\theta_{2}=arctan \frac{y_{n}}{x_{n}}$
 
 How test will be performed: Manually input and check output by developer.
 
+\item{testAngles2\\}
+
+Type: Functional, Dynamic, Manual
+
+Initial State: New Session.
+
+Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$, $(0,0,z_{n})$ and $z_{n}$ can't be zero, which is output from \ref{Sec_testGravityCenter}  
+
+Output: $\theta_{1}=90^{\circ}$ and $\theta_{2}=arctan \frac{y_{n}}{x_{n}}$
+
+How test will be performed: Manually input and check output by developer.
+
+\item{testAngles3\\}
+
+Type: Functional, Dynamic, Manual
+
+Initial State: New Session.
+
+Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$, $(x_{n},y_{n},0)$ and $x_{n},y_{n}$ can't be zero, which is output from \ref{Sec_testGravityCenter}  
+
+Output: $\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{x_{n}^2+y_{n}^2}}$ and $\theta_{2}=90^{\circ}$
+
+How test will be performed: Manually input and check output by developer.
+
 \end{enumerate}
 
-\subsubsection{Test calculation for trace of motion for each piece in the air}
+
+
+\subsubsection{Calculation of displacement for each piece in the air}
 \label{Sec_TestMotionAir}
 
-This section covers \rref{R_Output1} that displacement of each piece in the air should be calculated correctly.\\ 
+This section covers \rref{R_Output1} that displacement of each piece in the air should be calculated correctly. Testing for edge cases and error handling will be covered in Section \ref{Sec_UnitTest}.\\ 
 There is an assumption for this section that all tests in \ref{Sec_TestInput}, \ref{Sec_testGravityCenter}, \ref{Sec_TestForInitialSpeed} and \ref{Sec_TestForAngle} are passed.
 \begin{enumerate}
 
@@ -382,9 +460,9 @@ How test will be performed: Manually input and check output by developer.
 
 \end{enumerate}
 
-\subsubsection{Test calculation for trace of motion for each piece on the ground}
+\subsubsection{Calculation of displacement for each piece on the ground}
 
-This section tests the final functional requirement \rref{R_Output2} is satisfied correctly that displacement of each piece on the ground should be calculated correctly.\\
+This section tests the final functional requirement \rref{R_Output2} is satisfied correctly that displacement of each piece on the ground should be calculated correctly. Testing for edge cases and error handling will be covered in Section \ref{Sec_UnitTest}.\\
 There is an assumption for this section that all tests in \ref{Sec_TestInput}, \ref{Sec_testGravityCenter}, \ref{Sec_TestForInitialSpeed}, \ref{Sec_TestForAngle} and \ref{Sec_TestMotionAir} passed.
 
 \begin{enumerate}
@@ -532,13 +610,86 @@ This test case is designed to compare Breaking Effect with existing plug-in in U
 % ...
 				
 \section{Unit Testing Plan}
-
+\label{Sec_UnitTest}
 Unit Test Generator provided by Visual Studio 2017 will be used to implement automated unit testing for this project.\\
-
-For each module, a test class will be created through Unit Test Generator. Developer provides inputs, runs automated test to see if it is passwd.\\
-
+For each function, a test class will be created through Unit Test Generator. Developer provides inputs, runs automated test to see if it is passed.\\
 Inputs will be provided by different target objects, initial locations, initial momentum, coefficient of friction. \\
+Unit tests for this project focuses on edge cases checking and error handling. Unit tests for input handling module are covered in \ref{Sec_TestInput}.\\ 
+Unit tests for other modules will be designed after modules designing are finished.
 
+\subsection{Unit test for initial speed calculation}
+
+\begin{enumerate}
+	
+	\item{unitTest1\\}
+	
+	Type: Functional, Dynamic, Automated
+	
+	Initial State: New session.
+	
+	Input: Edge cases: E=1, E=10.
+			Error cases: E=nil, E=-1, E=99
+	
+	Output: Initial speed $v_{0}$
+	
+	How test will be performed: Automated unit testing.
+	
+\end{enumerate}
+
+\subsection{Unit test for gravity center calculation}
+
+\begin{enumerate}
+	
+	\item{unitTest2\\}
+	
+	Type: Functional, Dynamic, Automated
+	
+	Initial State: New session.
+	
+	Input: location of target object $(X,Y,Z)$ and object cutting function provide by platform. 
+	\an{Object cutting function is input provided by developer that is only used for doing unit testing. So no such input in System test, where need input from user only.}
+	
+	Output: $(x_{n},y{n},z_{n})$
+	
+	How test will be performed: Automated unit testing.
+	
+\end{enumerate}
+
+\subsection{Unit test for angles calculation}
+
+\begin{enumerate}
+	
+	\item{unitTest3\\}
+	
+	Type: Functional, Dynamic, Automated
+	
+	Initial State: New session.
+	
+	Input: Edge cases for $(X,Y,Z)$, $(x_{n},y_{n},z_{n})$.
+	
+	Output: $\theta_{1}$, $\theta_{2}$
+	
+	How test will be performed: Automated unit testing.
+	
+\end{enumerate}
+
+\subsection{Unit test for displacement calculation}
+
+\begin{enumerate}
+	
+	\item{unitTest4\\}
+	
+	Type: Functional, Dynamic, Automated
+	
+	Initial State: New session.
+	
+	Input: Time $t$, $\theta_{1}$, $\theta_{2}$, $v_{0}$, $\mu_{k}$
+	
+	Output: $a = \mu_{k}g$, $S$ \an{Acceleration $a$ is a intermediate result that don't need a seperate module.}
+	
+	How test will be performed: Automated unit testing.
+	
+\end{enumerate}
 
 \bibliographystyle{plainnat}
 
@@ -548,15 +699,21 @@ Inputs will be provided by different target objects, initial locations, initial 
 
 \section{Appendix}
 
-This is where you can place additional information.
-
 \subsection{Symbolic Parameters}
 
 The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
 Their values are defined in this section for easy maintenance.
 
+\begin{tabular}{l l l} 
+	\toprule		
+	\textbf{symbol} & \textbf{value} & \textbf{description}\\
+	\midrule 
+	$g$ & $9.8 m/s^{2}$ & gravity acceleration\\	
+	\bottomrule
+\end{tabular}\\
+
 \subsection{Usability Survey Questions?}
 
-This is a section that would be appropriate for some teams.
+Usability survey will not be done for this project.
 
 \end{document}

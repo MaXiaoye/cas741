@@ -137,8 +137,6 @@
 		hardware on which the software is running.
 		\item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the
 		initial input data.
-		\item[\refstepcounter{acnum} \actheacnum \label{acFri}:] In real situation, users may have kinds of terrians and textures.
-		As a result, coefficient of friction cannot keep the same everywhere that needs to be changed correspondingly.
 		\item[\refstepcounter{acnum} \actheacnum \label{acCF}:] The cutting function provided by Unity3D. 
 	\end{description}
 	
@@ -156,6 +154,8 @@
 		(Input: File and/or Keyboard, Output: File, Memory, and/or Screen).
 		\item[\refstepcounter{ucnum} \uctheucnum \label{ucInput}:] There will always be
 		a source of input data external to the software.
+		\item[\refstepcounter{ucnum} \uctheucnum \label{ucFri}:] In real situation, users may have kinds of terrians and textures.
+		As a result, coefficient of friction cannot keep the same everywhere that needs to be changed correspondingly.
 	\end{description}
 	
 	\section{Module Hierarchy} \label{SecMH}
@@ -175,6 +175,8 @@
 		\item [\refstepcounter{mnum} \mthemnum \label{mDC1}:] Displacement calculation module one
 		\item [\refstepcounter{mnum} \mthemnum \label{mDC2}:] Displacement calculation module two
 		\item [\refstepcounter{mnum} \mthemnum \label{mSD}:] Software Decision Module
+		\item [\refstepcounter{mnum} \mthemnum \label{mCSC}:] Current speed calculation Module
+		\item [\refstepcounter{mnum} \mthemnum \label{mOM}:] Output Module
 	\end{description}
 	
 	
@@ -196,9 +198,8 @@
 			& Displacement calculation module two\\
 			\midrule
 			
-			\multirow{3}{0.3\textwidth}{Software Decision Module} & {?}\\
-			& ?\\
-			& ?\\
+			\multirow{3}{0.3\textwidth}{Software Decision Module} & Current speed calculation Module\\
+			& Output Module\\
 			\bottomrule
 			
 		\end{tabular}
@@ -315,7 +316,25 @@
 		\item[Implemented By:] Breaking Effect
 	\end{description}
 	
-	\subsubsection{Etc.}
+	\subsubsection{Current speed calculation Module(\mref{mCSC})}
+	
+	\begin{description}
+		\item[Secrets:] How to calculate speed at the start of each frame.
+		\item[Services:] Return speed at the start of each frame.
+		% Changes in these modules are more likely to be motivated by a desire to
+		% improve performance than by externally imposed changes.
+		\item[Implemented By:] Breaking Effect
+	\end{description}
+	
+	\subsubsection{Output Module(\mref{mOM})}
+	
+	\begin{description}
+		\item[Secrets:] Interact with platform to convert data into visualization.
+		\item[Services:] Display motion of pieces in vision.
+		% Changes in these modules are more likely to be motivated by a desire to
+		% improve performance than by externally imposed changes.
+		\item[Implemented By:] Unity3D and Breaking Effect
+		\end{description}
 	
 	\section{Traceability Matrix} \label{SecTM}
 	
@@ -330,13 +349,13 @@
 			\toprule
 			\textbf{Req.} & \textbf{Modules}\\
 			\midrule
-			R1 & \mref{mHH}, \mref{mBH}, \mref{mIF}\\
-			R2 & \mref{mIV}\\
+			R1 & \mref{mHH},\mref{mIF}\\
+			R2 & \mref{mIF}\\
 			R3 & \mref{mIV}\\
 			R4 & \mref{mOGC}\\
 			R5 & \mref{mAC}\\
-			R6 & \mref{mDC1}\\
-			R7 & \mref{mDC2}\\
+			R6 & \mref{mDC1},\mref{mCSC}\\
+			R7 & \mref{mDC2},\mref{mCSC}\\
 			\bottomrule
 		\end{tabular}
 		\caption{Trace Between Requirements and Modules}
@@ -351,7 +370,6 @@
 			\midrule
 			\acref{acHardware} & \mref{mHH}\\
 			\acref{acInput} & \mref{mInput}\\
-			\acref{acFri} & \mref{mDC2}\\
 			\acref{acCF} & \mref{mOGC}\\
 			\bottomrule
 		\end{tabular}

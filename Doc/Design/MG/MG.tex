@@ -154,8 +154,7 @@
 		(Input: File and/or Keyboard, Output: File, Memory, and/or Screen).
 		\item[\refstepcounter{ucnum} \uctheucnum \label{ucInput}:] There will always be
 		a source of input data external to the software.
-		\item[\refstepcounter{ucnum} \uctheucnum \label{ucFri}:] In real situation, users may have kinds of terrians and textures.
-		As a result, coefficient of friction cannot keep the same everywhere that needs to be changed correspondingly.
+		\item[\refstepcounter{ucnum} \uctheucnum \label{ucFri}:] Require more than one coefficient of friction on the ground.
 	\end{description}
 	
 	\section{Module Hierarchy} \label{SecMH}
@@ -168,14 +167,13 @@
 	\begin{description}
 		\item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
 		\item [\refstepcounter{mnum} \mthemnum \label{mBH}:] Behaviour-Hiding Module
-		\item [\refstepcounter{mnum} \mthemnum \label{mIV}:] Input verification Module
-		\item [\refstepcounter{mnum} \mthemnum \label{mIF}:] Input Format Module
+		\item [\refstepcounter{mnum} \mthemnum \label{mIF}:] Input Module
 		\item [\refstepcounter{mnum} \mthemnum \label{mOGC}:] Obtaining gravity center module
 		\item [\refstepcounter{mnum} \mthemnum \label{mAC}:] Angle calculation module
-		\item [\refstepcounter{mnum} \mthemnum \label{mDC1}:] Displacement calculation module one
-		\item [\refstepcounter{mnum} \mthemnum \label{mDC2}:] Displacement calculation module two
+		\item [\refstepcounter{mnum} \mthemnum \label{mDC1}:] Displacement in the air calculation module
+		\item [\refstepcounter{mnum} \mthemnum \label{mDC2}:] Displacement on the ground calculation module
 		\item [\refstepcounter{mnum} \mthemnum \label{mSD}:] Software Decision Module
-		\item [\refstepcounter{mnum} \mthemnum \label{mCSC}:] Current speed calculation Module
+		\item [\refstepcounter{mnum} \mthemnum \label{mOC}:] Object cutting module
 		\item [\refstepcounter{mnum} \mthemnum \label{mOM}:] Output Module
 	\end{description}
 	
@@ -198,7 +196,7 @@
 			& Displacement calculation module two\\
 			\midrule
 			
-			\multirow{3}{0.3\textwidth}{Software Decision Module} & Current speed calculation Module\\
+			\multirow{3}{0.3\textwidth}{Software Decision Module} & Object cutting module\\
 			& Output Module\\
 			\bottomrule
 			
@@ -254,19 +252,11 @@
 		\item[Implemented By:] Breaking Effect
 	\end{description}
 	
-	\subsubsection{Input verification Module (\mref{mIV})}
+	\subsubsection{Input Module (\mref{mIF})}
 	
 	\begin{description}
-		\item[Secrets:]How inputs are verified
-		\item[Services:]Verify that the inputs satisfy the required physical constraints.
-		\item[Implemented By:] Breaking Effect
-	\end{description}
-	
-	\subsubsection{Input Format Module (\mref{mIF})}
-	
-	\begin{description}
-		\item[Secrets:]The format and structure of the input data.
-		\item[Services:]Converts the input data into the data structure used by the
+		\item[Secrets:]The format, structure verification of the input data.
+		\item[Services:]Converts the valid input data into the data structure used by the
 		input parameters module. 
 		\item[Implemented By:] Breaking Effect
 	\end{description}
@@ -286,8 +276,8 @@
 		\item[Services:]Calculate the angle between initial speed $v_{0}$ and horizontal $\theta_{1}$. Calculate the angle between $x$ axiom and projection on horizontal of initial speed $\theta_{2}$.
 		\item[Implemented By:] Breaking Effect
 	\end{description}
-	
-	\subsubsection{Displacement calculation module one(\mref{mDC1})}
+
+	\subsubsection{Displacement in the air calculation module(\mref{mDC1})}
 	
 	\begin{description}
 		\item[Secrets:]How the displacement are calculated.
@@ -295,7 +285,7 @@
 		\item[Implemented By:] Breaking Effect
 	\end{description}
 	
-	\subsubsection{Displacement calculation module two(\mref{mDC2})}
+	\subsubsection{Displacement calculation on the ground module(\mref{mDC2})}
 	
 	\begin{description}
 		\item[Secrets:]How the displacement are calculated.
@@ -316,14 +306,14 @@
 		\item[Implemented By:] Breaking Effect
 	\end{description}
 	
-	\subsubsection{Current speed calculation Module(\mref{mCSC})}
+	\subsubsection{Object cutting Module(\mref{mOC})}
 	
 	\begin{description}
-		\item[Secrets:] How to calculate speed at the start of each frame.
-		\item[Services:] Return speed at the start of each frame.
+		\item[Secrets:] How the target object is splitted into pieces.
+		\item[Services:] Split target object into pieces..
 		% Changes in these modules are more likely to be motivated by a desire to
 		% improve performance than by externally imposed changes.
-		\item[Implemented By:] Breaking Effect
+		\item[Implemented By:] Unity3D
 	\end{description}
 	
 	\subsubsection{Output Module(\mref{mOM})}
@@ -333,7 +323,7 @@
 		\item[Services:] Display motion of pieces in vision.
 		% Changes in these modules are more likely to be motivated by a desire to
 		% improve performance than by externally imposed changes.
-		\item[Implemented By:] Unity3D and Breaking Effect
+		\item[Implemented By:] Unity3D
 		\end{description}
 	
 	\section{Traceability Matrix} \label{SecTM}
@@ -351,11 +341,11 @@
 			\midrule
 			R1 & \mref{mHH},\mref{mIF}\\
 			R2 & \mref{mIF}\\
-			R3 & \mref{mIV}\\
+			R3 & \mref{mIF}\\
 			R4 & \mref{mOGC}\\
 			R5 & \mref{mAC}\\
-			R6 & \mref{mDC1},\mref{mCSC}\\
-			R7 & \mref{mDC2},\mref{mCSC}\\
+			R6 & \mref{mDC1}\\
+			R7 & \mref{mDC2}\\
 			\bottomrule
 		\end{tabular}
 		\caption{Trace Between Requirements and Modules}
@@ -369,8 +359,8 @@
 			\textbf{AC} & \textbf{Modules}\\
 			\midrule
 			\acref{acHardware} & \mref{mHH}\\
-			\acref{acInput} & \mref{mInput}\\
-			\acref{acCF} & \mref{mOGC}\\
+			\acref{acInput} & \mref{mIF}\\
+			\acref{acCF} & \mref{mOC}\\
 			\bottomrule
 		\end{tabular}
 		\caption{Trace Between Anticipated Changes and Modules}

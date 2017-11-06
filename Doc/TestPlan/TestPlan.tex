@@ -293,13 +293,37 @@ How test will be performed: Automated unit test
 
 \begin{enumerate}
 
-\item{testMissingAxiom\\}
+\item{testMissingAxiom1\\}
 
 Type: Functional, Dynamic, Automated
 
 Initial State: New Session.
 
 Input: $E = 5$, $(X,Y,Z) = (0,0,)$, $\mu_{k} = 0.05$  
+
+Output: Error message - Please complete input.
+
+How test will be performed: Automated unit test 
+
+\item{testMissingAxiom2\\}
+
+Type: Functional, Dynamic, Automated
+
+Initial State: New Session.
+
+Input: $E = 5$, $(X,Y,Z) = (0,,0)$, $\mu_{k} = 0.05$  
+
+Output: Error message - Please complete input.
+
+How test will be performed: Automated unit test 
+
+\item{testMissingAxiom3\\}
+
+Type: Functional, Dynamic, Automated
+
+Initial State: New Session.
+
+Input: $E = 5$, $(X,Y,Z) = (,0,0)$, $\mu_{k} = 0.05$  
 
 Output: Error message - Please complete input.
 
@@ -323,15 +347,39 @@ Output: Error message - Explosion level can only be a number from 1 to 10.
 
 How test will be performed: Automated unit test
 
-\item{testWrongCoordinate\\}
+\item{testWrongXY1\\}
 
 Type: Functional, Dynamic, Automated
 
 Initial State: New Session.
 
-Input: $E = 5$, $(X,Y,Z) = (0,0,99999)$, $\mu_{k} = 0.05$  
+Input: $E = 5$, $(X,Y,Z) = (0,99999,0)$, $\mu_{k} = 0.05$  
 
-Output: Error message - Coordinate can only be a number from -1000 to 1000.
+Output: Error message - Coordinate X and Y can only be a number from -1000 to 1000.
+
+How test will be performed: Automated unit test
+
+\item{testWrongXY2\\}
+
+Type: Functional, Dynamic, Automated
+
+Initial State: New Session.
+
+Input: $E = 5$, $(X,Y,Z) = (99999,0,0)$, $\mu_{k} = 0.05$  
+
+Output: Error message - Coordinate X and Y can only be a number from -1000 to 1000.
+
+How test will be performed: Automated unit test
+
+\item{testWrongZ\\}
+
+Type: Functional, Dynamic, Automated
+
+Initial State: New Session.
+
+Input: $E = 5$, $(X,Y,Z) = (0,0,5)$, $\mu_{k} = 0.05$  
+
+Output: Error message - Coordinate Z can only be 0.
 
 How test will be performed: Automated unit test
 
@@ -384,7 +432,7 @@ Type: Functional, Dynamic, Manual
 
 Initial State: New Session.
 
-Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$  
+Input: $E = [1,10]$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$  
 
 Output: initial speed $v_{0} = 10 * E$
 
@@ -405,11 +453,11 @@ Type: Functional, Dynamic, Manual
 
 Initial State: New Session.
 
-Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$, $(x_{n},y_{n},z_{n})$ and $x_{n},y_{n},z_{n}$ can't be zero, which is output from \ref{Sec_testGravityCenter}  
+Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$, $(x_{n},y_{n},z_{n})$ and $x_{n},y_{n},z_{n}$ can't be zero, which is the output list from \ref{Sec_testGravityCenter}  
 
-Output: $\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{x_{n}^2+y_{n}^2}}$ and $\theta_{2}=arctan \frac{y_{n}}{x_{n}}$
+Output: Pairs of $\theta_{1}$ and $\theta_{2}$. Where $\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{x_{n}^2+y_{n}^2}}$ and $\theta_{2}=arctan \frac{y_{n}}{x_{n}}$
 
-How test will be performed: Manually input and check output by developer.
+How test will be performed: Manually input and check output by developer. \an{Here we take $(X,Y,Z) = (0,0,0)$ as input case for System test. Test cases for different values will be covered in unit test part section \ref{Sec_UnitTest}}
 
 \item{testAngles2\\}
 
@@ -435,6 +483,18 @@ Output: $\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{x_{n}^2+y_{n}^2}}$ and $\theta_{
 
 How test will be performed: Manually input and check output by developer.
 
+\item{testAngles4\\}
+
+Type: Functional, Dynamic, Manual
+
+Initial State: New Session.
+
+Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$, $(x_{n},y_{n},z_{n}) = (0,0,0)$ which is output from \ref{Sec_testGravityCenter}  
+
+Output: $\theta_{1}=90^{\circ}$ and $\theta_{2}=90^{\circ}$
+
+How test will be performed: Manually input and check output by developer.
+
 \end{enumerate}
 
 
@@ -454,9 +514,9 @@ Initial State: New Session.
 
 Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$, time t, and $\theta_{1}$, $\theta_{2}$, $v_{0}$ that are result from \ref{Sec_TestForAngle}, \ref{Sec_TestForInitialSpeed}
 
-Output: $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t$, $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t$ and $S_{z}=v_{0}\cdot sin\theta _{1}\cdot t-\frac{1}{2}gt^{2}$
+Output: $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t$, $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t$ and $S_{z}=v_{0}\cdot sin\theta _{1}\cdot t-\frac{1}{2}gt^{2}$. Above output should be shown both in text in console and in vision on the screen. 
 
-How test will be performed: Manually input and check output by developer.
+How test will be performed: Manually input and check output by developer. \an{Here we take $(X,Y,Z) = (0,0,0)$ as input case for System test. Test cases for different values will be covered in unit test part section \ref{Sec_UnitTest}}
 
 \end{enumerate}
 
@@ -475,9 +535,9 @@ Initial State: New Session.
 
 Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$, time t and $\theta_{1}$, $\theta_{2}$, $v_{0}$ that are result from \ref{Sec_TestForAngle}, \ref{Sec_TestForInitialSpeed}
 
-Output: $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t-\frac{1}{2}at^{2}$ and $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t-\frac{1}{2}at^{2}$
+Output: $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t-\frac{1}{2}at^{2}$ and $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t-\frac{1}{2}at^{2}$. Above output should be shown both in text in console and in vision on the screen.
 
-How test will be performed: Manually input and check output by developer.
+How test will be performed: Manually input and check output by developer.\an{Here we take $(X,Y,Z) = (0,0,0)$ as input case for System test. Test cases for different values will be covered in unit test part section \ref{Sec_UnitTest}}
 
 \end{enumerate}
 
@@ -533,7 +593,7 @@ This test case is designed to compare Breaking Effect with existing plug-in in U
 	
 	Initial State: New session.
 	
-	Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$ 
+	Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$. Performance of professional plug-in, example:Realistic Explosions Pack.
 	
 	Output: Motion of each piece.
 	
@@ -647,10 +707,10 @@ Unit tests for other modules will be designed after modules designing are finish
 	
 	Initial State: New session.
 	
-	Input: location of target object $(X,Y,Z)$ and object cutting function provide by platform. 
+	Input: location of target object $(X,Y,0)$ that range of $X and Y$ is $[-1000,1000]$ and object cutting function provide by platform. 
 	\an{Object cutting function is provided by developer that is only used for doing unit testing. Users don't need to input this when using the program. Also no such input in System test, that needs input from user only.}
 	
-	Output: $(x_{n},y{n},z_{n})$
+	Output: A list of coordinates of all pieces in format $(x_{n},y_{n},z_{n})$ in the console.
 	
 	How test will be performed: Automated unit testing.
 	
@@ -660,15 +720,27 @@ Unit tests for other modules will be designed after modules designing are finish
 
 \begin{enumerate}
 	
-	\item{UnitTestAC\\}
+	\item{UnitTestAC1\\}
 	
 	Type: Functional, Dynamic, Automated
 	
 	Initial State: New session.
 	
-	Input: Edge cases for $(X,Y,Z)$, $(x_{n},y_{n},z_{n})$. Example: (1000,1000,1000);(-1000,-1000,-1000)
+	Input: Normal cases for $(X,Y,0)$, $(x_{n},y_{n},z_{n})$. Range of $X and Y$ is $[-1000,1000]$. Example: (10,10,0);(31,-5,-10)
 	
-	Output: $\theta_{1}$, $\theta_{2}$
+	Output: $\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{x_{n}^2+y_{n}^2}}$ and $\theta_{2}=arctan \frac{y_{n}}{x_{n}}$
+	
+	How test will be performed: Automated unit testing.
+	
+	\item{UnitTestAC2\\}
+	
+	Type: Functional, Dynamic, Automated
+	
+	Initial State: New session.
+	
+	Input: Edge cases for $(X,Y,0)$, $(x_{n},y_{n},z_{n})$. Example: (1000,1000,0);(-1000,-1000,-1000)
+	
+	Output: $\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{x_{n}^2+y_{n}^2}}$ and $\theta_{2}=arctan \frac{y_{n}}{x_{n}}$
 	
 	How test will be performed: Automated unit testing.
 	
@@ -678,15 +750,27 @@ Unit tests for other modules will be designed after modules designing are finish
 
 \begin{enumerate}
 	
-	\item{UnitTestDC\\}
+	\item{UnitTestDCA\\}
 	
 	Type: Functional, Dynamic, Automated
 	
 	Initial State: New session.
 	
-	Input: Time $t$, $\theta_{1}$, $\theta_{2}$, $v_{0}$, $\mu_{k}$
+	Input: $E = [1-10]$, $(X,Y,0)$ that range of $X and Y$ is $[-1000,1000]$, $\mu_{k} = [0,1]$, time t, and $\theta_{1}$, $\theta_{2}$, $v_{0}$ that are result from \ref{Sec_TestForAngle}, \ref{Sec_TestForInitialSpeed}.
 	
-	Output: $a = \mu_{k}g$, $S$ \an{Acceleration $a$ is a intermediate result that doesn't need separate module and system test.}
+	Output: $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t$, $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t$ and $S_{z}=v_{0}\cdot sin\theta _{1}\cdot t-\frac{1}{2}gt^{2}$
+	
+	How test will be performed: Automated unit testing.\an{Will perform finite test cases for different input in valid range.}
+	
+	\item{UnitTestDCG\\}
+	
+	Type: Functional, Dynamic, Automated
+	
+	Initial State: New session.
+	
+	Input: $E = [1-10]$, $(X,Y,0)$ that range of X and Y is [-1000,1000], $\mu_{k} = [0,1]$, time t and $\theta_{1}$, $\theta_{2}$, $v_{0}$ that are result from \ref{Sec_TestForAngle}, \ref{Sec_TestForInitialSpeed}
+	
+	Output: $a = \mu_{k}g$, $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t-\frac{1}{2}at^{2}$ and $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t-\frac{1}{2}at^{2}$ \an{Acceleration $a$ is a intermediate result that doesn't need separate module and system test.}
 	
 	How test will be performed: Automated unit testing.
 	

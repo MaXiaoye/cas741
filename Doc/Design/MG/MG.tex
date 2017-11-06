@@ -36,8 +36,8 @@
 
 \begin{document}
 	
-	\title{Module Guide: Project Title} 
-	\author{Author Name}
+	\title{Module Guide: Breaking Effect} 
+	\author{Marshall Xiaoye Ma}
 	\date{\today}
 	
 	\maketitle
@@ -49,8 +49,7 @@
 	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 		\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 		\midrule
-		Date 1 & 1.0 & Notes\\
-		Date 2 & 1.1 & Notes\\
+		2017-10-29 & 1.0 & New document\\
 		\bottomrule
 	\end{tabularx}
 	
@@ -151,10 +150,10 @@
 	
 	\begin{description}
 		\item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] Input/Output devices
-		(Input: File and/or Keyboard, Output: File, Memory, and/or Screen).
+		(Input: Keyboard, Output: Screen).
 		\item[\refstepcounter{ucnum} \uctheucnum \label{ucInput}:] There will always be
 		a source of input data external to the software.
-		\item[\refstepcounter{ucnum} \uctheucnum \label{ucFri}:] Require more than one coefficient of friction on the ground.
+		\item[\refstepcounter{ucnum} \uctheucnum \label{ucFri}:] Input more than one coefficient of friction on the ground.
 	\end{description}
 	
 	\section{Module Hierarchy} \label{SecMH}
@@ -339,13 +338,13 @@
 			\toprule
 			\textbf{Req.} & \textbf{Modules}\\
 			\midrule
-			R1 & \mref{mHH},\mref{mIF}\\
-			R2 & \mref{mIF}\\
-			R3 & \mref{mIF}\\
-			R4 & \mref{mOGC}\\
-			R5 & \mref{mAC}\\
-			R6 & \mref{mDC1}\\
-			R7 & \mref{mDC2}\\
+			\rref{R_Inputs} & \mref{mHH},\mref{mIF}\\
+			\rref{R_InitialSpeed} & \mref{mIF}\\
+			\rref{R_VerifyOutput} & \mref{mIF}\\
+			\rref{R_Piece} & \mref{mOGC},\mref{mOC}\\
+			\rref{R_Calculate} & \mref{mAC}\\
+			\rref{R_Output1} & \mref{mDC1}\\
+			\rref{R_Output2} & \mref{mDC2}\\
 			\bottomrule
 		\end{tabular}
 		\caption{Trace Between Requirements and Modules}

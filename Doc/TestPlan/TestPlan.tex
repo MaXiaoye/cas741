@@ -516,7 +516,7 @@ Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$, time t, and $\theta_{1}$,
 
 Output: $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t$, $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t$ and $S_{z}=v_{0}\cdot sin\theta _{1}\cdot t-\frac{1}{2}gt^{2}$. Above output should be shown both in text in console and in vision on the screen. 
 
-How test will be performed: Manually input and check output by developer. \an{Here we take $(X,Y,Z) = (0,0,0)$ as input case for System test. Test cases for different values will be covered in unit test part section \ref{Sec_UnitTest}}
+How test will be performed: Manually input and check output by developer. \an{Here we take $E = 5$ and  $(X,Y,Z) = (0,0,0)$ as input case for System test. Test cases for different values will be covered in unit test part section \ref{Sec_UnitTest}}
 
 \end{enumerate}
 
@@ -537,7 +537,7 @@ Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$, time t and $\theta_{1}$, 
 
 Output: $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t-\frac{1}{2}at^{2}$ and $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t-\frac{1}{2}at^{2}$. Above output should be shown both in text in console and in vision on the screen.
 
-How test will be performed: Manually input and check output by developer.\an{Here we take $(X,Y,Z) = (0,0,0)$ as input case for System test. Test cases for different values will be covered in unit test part section \ref{Sec_UnitTest}}
+How test will be performed: Manually input and check output by developer.\an{Here we take $E = 5$ and  $(X,Y,Z) = (0,0,0)$ as input case for System test. Test cases for different values will be covered in unit test part section \ref{Sec_UnitTest}}
 
 \end{enumerate}
 
@@ -687,8 +687,8 @@ Unit tests for other modules will be designed after modules designing are finish
 	
 	Initial State: New session.
 	
-	Input: All edge cases. Example: E=1, E=10.
-		Some error cases. Example: E=nil, E=-1, E=99
+	Input: Edge cases for E. Example: E=1, E=10.
+		Error cases for E. Example: E=nil, E=-1, E=99
 	
 	Output: Initial speed $v_{0}$ when edge cases.
 			Error message when error cases.
@@ -707,7 +707,7 @@ Unit tests for other modules will be designed after modules designing are finish
 	
 	Initial State: New session.
 	
-	Input: location of target object $(X,Y,0)$ that range of $X and Y$ is $[-1000,1000]$ and object cutting function provide by platform. 
+	Input: location of target object $(X,Y,0)$ that range of X and Y is $[-1000,1000]$ and object cutting function provide by platform. 
 	\an{Object cutting function is provided by developer that is only used for doing unit testing. Users don't need to input this when using the program. Also no such input in System test, that needs input from user only.}
 	
 	Output: A list of coordinates of all pieces in format $(x_{n},y_{n},z_{n})$ in the console.
@@ -726,7 +726,7 @@ Unit tests for other modules will be designed after modules designing are finish
 	
 	Initial State: New session.
 	
-	Input: Normal cases for $(X,Y,0)$, $(x_{n},y_{n},z_{n})$. Range of $X and Y$ is $[-1000,1000]$. Example: (10,10,0);(31,-5,-10)
+	Input: Normal cases for $(X,Y,0)$, $(x_{n},y_{n},z_{n})$. Range of X and Y is $[-1000,1000]$. Example: (10,10,0);(31,-5,-10)
 	
 	Output: $\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{x_{n}^2+y_{n}^2}}$ and $\theta_{2}=arctan \frac{y_{n}}{x_{n}}$
 	
@@ -756,7 +756,7 @@ Unit tests for other modules will be designed after modules designing are finish
 	
 	Initial State: New session.
 	
-	Input: $E = [1-10]$, $(X,Y,0)$ that range of $X and Y$ is $[-1000,1000]$, $\mu_{k} = [0,1]$, time t, and $\theta_{1}$, $\theta_{2}$, $v_{0}$ that are result from \ref{Sec_TestForAngle}, \ref{Sec_TestForInitialSpeed}.
+	Input: $E = [1-10]$, $(X,Y,0)$ that range of X and Y is $[-1000,1000]$, $\mu_{k} = [0,1]$, time t, and $\theta_{1}$, $\theta_{2}$, $v_{0}$ that are result from \ref{Sec_TestForAngle}, \ref{Sec_TestForInitialSpeed}.
 	
 	Output: $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t$, $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t$ and $S_{z}=v_{0}\cdot sin\theta _{1}\cdot t-\frac{1}{2}gt^{2}$
 	
@@ -770,7 +770,7 @@ Unit tests for other modules will be designed after modules designing are finish
 	
 	Input: $E = [1-10]$, $(X,Y,0)$ that range of X and Y is [-1000,1000], $\mu_{k} = [0,1]$, time t and $\theta_{1}$, $\theta_{2}$, $v_{0}$ that are result from \ref{Sec_TestForAngle}, \ref{Sec_TestForInitialSpeed}
 	
-	Output: $a = \mu_{k}g$, $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t-\frac{1}{2}at^{2}$ and $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t-\frac{1}{2}at^{2}$ \an{Acceleration $a$ is a intermediate result that doesn't need separate module and system test.}
+	Output: $a = \mu_{k}g$, $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t-\frac{1}{2}at^{2}$ and $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t-\frac{1}{2}at^{2}$ \an{Acceleration $a$ is an intermediate result that doesn't need separate module and system test.}
 	
 	How test will be performed: Automated unit testing.
 	

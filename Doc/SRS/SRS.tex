@@ -152,26 +152,26 @@
 		\\
 		$\Delta E_{p}$ & J & variation of potential energy
 		\\
-		$W_{f}$ & J & work done by kinetic friction
+		$W_{f}$ & $J$ & work done by kinetic friction
 		\\
-		$x_{n}$ & m & x coordinates of gravity center of piece $n$, $n \in \mathbb{N}$, which represents just one piece. \wss{Explain the
+		$x_{n}$ & $m$ & x coordinates of gravity center of piece $n$, $n \in \mathbb{N}$, which represents just one piece. \wss{Explain the
 			meaning of $n$?  Also, you should format it like a mathematical variable ($n$,
 			not n).}\an{Add explanation for $n$ and format it as a mathematical variable.}
 		\\
-		$y_{n}$ & m & y coordinates of gravity center of piece n
+		$y_{n}$ & $m$ & y coordinates of gravity center of piece n
 		\\
-		$z_{n}$ & m & z coordinates of gravity center of piece n
+		$z_{n}$ & $m$ & z coordinates of gravity center of piece n
 		\\
 		$\theta_{1}$ & degree & angle between initial speed and horizontal
 		\\
 		$\theta_{2}$ & degree & angle between
 		x axiom and projection on horizontal of initial speed
 		\\
-		$S_{x}$ & m & displacement on direction of x axiom
+		$S_{x}$ & $m$ & displacement on direction of x axiom
 		\\
-		$S_{y}$ & m & displacement on direction of y axiom
+		$S_{y}$ & $m$ & displacement on direction of y axiom
 		\\
-		$S_{z}$ & m & displacement on direction of z axiom
+		$S_{z}$ & $m$ & displacement on direction of z axiom
 		\\
 		$\mu_k$ &  & coefficient of friction
 		\\
@@ -746,7 +746,7 @@
 			\\
 			$Y$ &  & $L_{\text{min}} \leq Y \leq L_{\text{max}}$ & 0 & 10\%
 			\\
-			$Z$ &  & $L_{\text{min}} \leq Z \leq L_{\text{max}}$ & 0 & 10\%
+			$Z$ &  & $0$ & 0 & 0\%
 			\\
 			$x_{n}$ &  & $L_{\text{min}} \leq x_{n} \leq L_{\text{max}}$ & 0 & 10\%
 			\\
@@ -757,6 +757,8 @@
 			$v_{0}$ & $v_{0} > 0$ & $v_{\text{min}} \leq v_{0} \leq v_{\text{max}}$ & 20 m/s & 10\%
 			\\
 			$\mu_{k}$ & $\mu_{k} > 0$ & $\mu_{\text{min}} \leq \mu_{k} \leq \mu_{\text{max}}$ & 0.05 & 10\%
+			\\
+			$E$ &  & $E_{\text{min}} \leq E \leq E_{\text{max}}$ & 5 & 10\%
 			\\
 			\bottomrule
 		\end{longtable*}
@@ -774,7 +776,7 @@
 			$v_\text{min}$ & 10 m/s\\
 			$v_\text{max}$ & 100 m/s\\
 			$L_\text{min}$ & -1000\\
-			$L_\text{max}$ & 1000 m/s\\
+			$L_\text{max}$ & 1000\\
 			$\mu_\text{min}$ & 0\\
 			$\mu_\text{max}$ & 1\\
 			\bottomrule
@@ -814,7 +816,7 @@
 	\noindent \begin{itemize}
 		
 		\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs}:] 
-		Input the following quantities, which define the tank parameters, material properties
+		Input the following quantities, which define the target object
 		and initial conditions:
 		\noindent \begin{longtable*}{l l l} 
 			\toprule
@@ -835,13 +837,13 @@
 		
 		~\newpage
 		
-		\item[R\refstepcounter{reqnum}\thereqnum \label{R_OutputInputs}:] Use inputs in R1 to find initial speed $v_{0}$, as follows:
+		\item[R\refstepcounter{reqnum}\thereqnum \label{R_InitialSpeed}:] Use inputs in R1 to find initial speed $v_{0}$, as follows:
 		
 		$v_{0}=E \cdot 10$
 		
 		\item[R\refstepcounter{reqnum}\thereqnum \label{R_VerifyOutput}:] Verify that the inputs satisfy the required physical constraints shown in Table 1.
 		
-		\item[R\refstepcounter{reqnum}\thereqnum \label{R_piece}:] Generate pieces by calling cutting function in game engine. Then get gravity center of each piece.
+		\item[R\refstepcounter{reqnum}\thereqnum \label{R_Piece}:] Generate pieces by calling cutting function in game engine. Then get gravity center of each piece.
 		
 		\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate}:]
 		Calculate the angle between $v_{0}$ and horizontal($\theta _{1}$). Calculate the angle between x axiom and projection on horizontal of initial speed($\theta _{2}$) by IM\ref{IM_angle}. 
@@ -927,19 +929,20 @@
 	
 	\begin{table}[h!]
 		\centering
-		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
 			\hline
-			& \iref{IM_angle}& \iref{IM_DIA}& \iref{IM_DOG}& \rref{R_Inputs}& \rref{R_OutputInputs}& \rref{R_VerifyOutput}& \rref{R_Calculate}& \rref{R_Output1}& \rref{R_Output2} \\
+			& \iref{IM_angle}& \iref{IM_DIA}& \iref{IM_DOG}& \rref{R_Inputs}& \rref{R_InitialSpeed}& \rref{R_VerifyOutput}& \rref{R_Piece}& \rref{R_Calculate}& \rref{R_Output1}& \rref{R_Output2} \\
 			\hline
-			\iref{IM_angle}            & & & & X& & & X& &\\ \hline
-			\iref{IM_DIA}            & X& & & & & & X& X&\\ \hline
-			\iref{IM_DOG}          & & & & X& & & & &X\\ \hline
-			\rref{R_Inputs}          & & & & & X& & & X&X\\ \hline
-			\rref{R_OutputInputs}     & & & & & & & & &\\ \hline
-			\rref{R_VerifyOutput}    & & & & & & & & &\\ \hline
-			\rref{R_Calculate}   & & & & & & & & X&\\ \hline
-			\rref{R_Output1}  & & & & & & & & &\\ \hline
-			\rref{R_Output2}  & & & & & & & & &\\ \hline
+			\iref{IM_angle}            & & & & X& & & & X& &\\ \hline
+			\iref{IM_DIA}            & X& & & & & & & X& X&\\ \hline
+			\iref{IM_DOG}          & & & & X& & & & & &X\\ \hline
+			\rref{R_Inputs}          & & & & & X& & & & X&X\\ \hline
+			\rref{R_InitialSpeed}     & & & & & & & & & &\\ \hline
+			\rref{R_VerifyOutput}    & & & & & & & & & &\\ \hline
+			\rref{R_Piece}    & & & & & & & & & &\\ \hline
+			\rref{R_Calculate}   & & & & & & & & & X&\\ \hline
+			\rref{R_Output1}  & & & & & & & & & &\\ \hline
+			\rref{R_Output2}  & & & & & & & & & &\\ \hline
 		\end{tabular}
 		\caption{Traceability Matrix Showing the Connections Between Requirements and Instance Models}
 		\label{Table:R_trace}

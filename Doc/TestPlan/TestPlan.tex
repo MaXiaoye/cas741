@@ -125,7 +125,7 @@ The purpose for this document is to build test plan for project Breaking Effect.
 This document is used as a guide that need to be followed exactly in test stage before release of this project. \\
 
 \subsection{Scope}
-This test plan covers verification and validation for the project Breaking Effect to make sure the program is implemented as requirement specifiction, including automated testing, system test and unit test. The project relies on Unity3D as platform and uses function provided by Unity3D for object cutting. So test for object cutting is not included in this test plan. This test plan is designed based on SRS so that it doesn't cover test cases for requirements not in SRS. 
+This test plan covers verification and validation for the project Breaking Effect to make sure the program is implemented as requirement specification, including automated testing, system test and unit test. The project relies on Unity3D as platform and uses function provided by Unity3D for object cutting. So test for object cutting is not included in this test plan. This test plan is designed based on SRS so that it doesn't cover test cases for requirements not in SRS. 
 
 \subsection{Overview of Document}
 
@@ -621,16 +621,17 @@ Unit tests for other modules will be designed after modules designing are finish
 
 \begin{enumerate}
 	
-	\item{unitTest1\\}
+	\item{UnitTestIS\\}
 	
 	Type: Functional, Dynamic, Automated
 	
 	Initial State: New session.
 	
-	Input: Edge cases: E=1, E=10.
-			Error cases: E=nil, E=-1, E=99
+	Input: All edge cases. Example: E=1, E=10.
+		Some error cases. Example: E=nil, E=-1, E=99
 	
-	Output: Initial speed $v_{0}$
+	Output: Initial speed $v_{0}$ when edge cases.
+			Error message when error cases.
 	
 	How test will be performed: Automated unit testing.
 	
@@ -640,14 +641,14 @@ Unit tests for other modules will be designed after modules designing are finish
 
 \begin{enumerate}
 	
-	\item{unitTest2\\}
+	\item{UnitTestGC\\}
 	
 	Type: Functional, Dynamic, Automated
 	
 	Initial State: New session.
 	
 	Input: location of target object $(X,Y,Z)$ and object cutting function provide by platform. 
-	\an{Object cutting function is input provided by developer that is only used for doing unit testing. So no such input in System test, where need input from user only.}
+	\an{Object cutting function is provided by developer that is only used for doing unit testing. Users don't need to input this when using the program. Also no such input in System test, that needs input from user only.}
 	
 	Output: $(x_{n},y{n},z_{n})$
 	
@@ -659,13 +660,13 @@ Unit tests for other modules will be designed after modules designing are finish
 
 \begin{enumerate}
 	
-	\item{unitTest3\\}
+	\item{UnitTestAC\\}
 	
 	Type: Functional, Dynamic, Automated
 	
 	Initial State: New session.
 	
-	Input: Edge cases for $(X,Y,Z)$, $(x_{n},y_{n},z_{n})$.
+	Input: Edge cases for $(X,Y,Z)$, $(x_{n},y_{n},z_{n})$. Example: (1000,1000,1000);(-1000,-1000,-1000)
 	
 	Output: $\theta_{1}$, $\theta_{2}$
 	
@@ -677,7 +678,7 @@ Unit tests for other modules will be designed after modules designing are finish
 
 \begin{enumerate}
 	
-	\item{unitTest4\\}
+	\item{UnitTestDC\\}
 	
 	Type: Functional, Dynamic, Automated
 	
@@ -685,7 +686,7 @@ Unit tests for other modules will be designed after modules designing are finish
 	
 	Input: Time $t$, $\theta_{1}$, $\theta_{2}$, $v_{0}$, $\mu_{k}$
 	
-	Output: $a = \mu_{k}g$, $S$ \an{Acceleration $a$ is a intermediate result that don't need a seperate module.}
+	Output: $a = \mu_{k}g$, $S$ \an{Acceleration $a$ is a intermediate result that doesn't need separate module and system test.}
 	
 	How test will be performed: Automated unit testing.
 	

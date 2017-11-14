@@ -112,6 +112,8 @@
 
 \listoffigures
 
+\wss{If you don't have a list of figures, you can remove this heading.}
+
 \newpage
 
 \pagenumbering{arabic}
@@ -120,12 +122,19 @@
 
 \subsection{Purpose}
 
-The purpose for this document is to build test plan for project Breaking Effect.Test cases in the document are designed based on SRS of the project and aim to cover both functional and non-functional requirements described in SRS.\\ 
+The purpose for this document is to build test plan for project Breaking
+Effect.Test cases in the document are designed based on SRS of the project and
+aim to cover both functional and non-functional requirements described in SRS.\\
+\wss{You don't need to end paragraphs with an explicit character.  This practice
+has the unfortunate consequence of sometimes leaving an extra blank line in the
+generated document.}
 
 This document is used as a guide that need to be followed exactly in test stage before release of this project. \\
 
 \subsection{Scope}
 This test plan covers verification and validation for the project Breaking Effect to make sure the program is implemented as requirement specification, including automated testing, system test and unit test. The project relies on Unity3D as platform and uses function provided by Unity3D for object cutting. So test for object cutting is not included in this test plan. This test plan is designed based on SRS so that it doesn't cover test cases for requirements not in SRS. 
+
+\wss{An explicit web-link to your GitHub repo would be nice.}
 
 \subsection{Overview of Document}
 
@@ -139,6 +148,9 @@ Breaking effect presents how the pieces of an object move after it separates int
 suddenness or violence.
 
 This project implements running time breaking effect in codes for 3-D models in unity3D without help from any similar plug-in. Including different shapes 3-D objects breaking based on physics and pieces interacting with the momentum provided by the breaking force. The breaking effect program simulates 3-D objects destruction process in vision by implementing scientific computing functions.
+
+\wss{The text is better for version control, and for reading in other editors,
+  if you use a hard-wrap at 80 characters}
 
 This project concentrates on calculation while
 HCI or GUI are not important parts. Applied force is decided in codes in advance as input
@@ -178,6 +190,8 @@ Code walkthrough will be done by developer and a peer reviewer to identify any d
 
 Section \ref{Sec_TestInput} focuses on verifying correctness of users inputs that covers \rref{R_Inputs} and \rref{R_VerifyOutput}. Testing cases in this section ensure Breaking Effect can handle both valid inputs and invalid inputs. Corresponding error messages for different situations of invalid inputs including incomplete inputs, inputs in incorrect data types and inputs do not satisfy data constraints.\\  
 Sections from \ref{Sec_testGravityCenter} focus on verifying outputs from intermediate steps and make sure all modules in program work correctly that cover other functional requirements including \rref{R_InitialSpeed}, \rref{R_Piece}, \rref{R_Calculate}, \rref{R_Output1}, \rref{R_Output2}. 
+
+\wss{Very nice to have explicit cross-references between documents.  To keep the information up to date, consider using make to build your documentation.}
 
 \subsection{Tests for Functional Requirements}
 

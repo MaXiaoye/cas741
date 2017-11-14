@@ -191,8 +191,8 @@
 			& Input Format Module\\
 			& Obtaining gravity center module\\
 			& Angle calculation module\\
-			& Displacement calculation module one\\
-			& Displacement calculation module two\\
+			& Displacement in the air calculation module\\
+			& Displacement on the ground calculation module\\
 			\midrule
 			
 			\multirow{3}{0.3\textwidth}{Software Decision Module} & Object cutting module\\
@@ -233,7 +233,7 @@
 	\begin{description}
 		\item[Secrets:]The data structure and algorithm used to implement the virtual
 		hardware.
-		\item[Services:]Serves as a virtual hardware used by the rest of the
+		\item[Services:]Serves as a hardware abstraction used by the rest of the
 		system. This module provides the interface between the hardware and the
 		software. So, the system can use it to display outputs or to accept inputs.
 		\item[Implemented By:] OS
@@ -263,8 +263,8 @@
 	\subsubsection{Obtaining gravity center module(\mref{mOGC})}
 	
 	\begin{description}
-		\item[Secrets:]How target object is cutting and how to obtain location of gravity centers; Structure of locations of each pieces.
-		\item[Services:]Call cutting function provided by unity to split target object then do a traversal to obtain location of gravity centers for all pieces.
+		\item[Secrets:]How target object is cutting and how to obtain location of gravity centers; structure of locations of each piece.
+		\item[Services:]Call cutting function provided by Unity3D to split target object then do a traversal to obtain location of gravity centers for all pieces.
 		\item[Implemented By:] Breaking Effect
 	\end{description}
 	
@@ -309,7 +309,7 @@
 	
 	\begin{description}
 		\item[Secrets:] How the target object is splitted into pieces.
-		\item[Services:] Split target object into pieces..
+		\item[Services:] Split target object into pieces.
 		% Changes in these modules are more likely to be motivated by a desire to
 		% improve performance than by externally imposed changes.
 		\item[Implemented By:] Unity3D

@@ -185,7 +185,20 @@ The project is implemented by C$\#$ programming language that is supported by pl
 % See Gantt Chart at the following url ...
 
 \subsection{Non-Testing Based Verification}
-Code walkthrough will be done by developer and a peer reviewer to identify any defects. They both review codes and do logic analysis to see if the program satisfies all requirements in SRS. The walkthrough should also find and fix possible bugs and peer reviewer is expected to provide any comment to help developer improve the program.
+Code walkthrough will be done by developer and a peer reviewer to identify any
+defects. They both review codes and do logic analysis to see if the program
+satisfies all requirements in SRS. The walkthrough should also find and fix
+possible bugs and peer reviewer is expected to provide any comment to help
+developer improve the program.
+
+\wss{Great to see a code walkthrough!  However, could you please give some more
+  detail on how the walkthrough will be done.  How many participants?  How will
+  they be recruited?  What documentation will they be given?  etc.  What
+  specific guidelines will there be for the meeting and the process?  If you
+  google "code walkthrough" you will find guidance on how to prepare for and
+  structure the meeting.  How will the results of the code walkthrough be
+  summarized?}
+
 \section{System Test Description}
 
 Section \ref{Sec_TestInput} focuses on verifying correctness of users inputs that covers \rref{R_Inputs} and \rref{R_VerifyOutput}. Testing cases in this section ensure Breaking Effect can handle both valid inputs and invalid inputs. Corresponding error messages for different situations of invalid inputs including incomplete inputs, inputs in incorrect data types and inputs do not satisfy data constraints.\\  
@@ -274,6 +287,10 @@ Initial State: New Session.
 Input: $E = a$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$  
 
 Output: Error message - Explosion level can only be a number from 1 to 10.
+\wss{You have a test where $E$ is not a number, but I don't see a test where $E$
+  is a number, but not in the correct range.  Okay, I found the test later in
+  the document.  These tests are so simple and repetitive, it would be better to
+  summarize them in a table, where each row corresponds to a different test.}
 
 How test will be performed: Automated unit test
 
@@ -433,6 +450,9 @@ How test will be performed: Manually input and check output by developer.
 
 \end{enumerate}
 
+\wss{You can be more specific here.  What is the shape.  What is the centre of
+  gravity?  Why isn't this test automated?}
+
 \subsubsection{Initial speed calculation of each piece}
 \label{Sec_TestForInitialSpeed}
 
@@ -448,7 +468,9 @@ Initial State: New Session.
 
 Input: $E = [1,10]$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$  
 
-Output: initial speed $v_{0} = 10 * E$
+Output: initial speed $v_{0} = 10 * E$  \wss{Why?  How was this derived?  The
+  reader should be able to verify the test cases and there isn't enough
+  information here to do the verification.}
 
 How test will be performed: Manually input and check output by developer.
 
@@ -472,6 +494,10 @@ Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$, $(x_{n},y_{n},z_{n})$ and
 Output: Pairs of $\theta_{1}$ and $\theta_{2}$. Where $\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{x_{n}^2+y_{n}^2}}$ and $\theta_{2}=arctan \frac{y_{n}}{x_{n}}$
 
 How test will be performed: Manually input and check output by developer. \an{Here we take $(X,Y,Z) = (0,0,0)$ as input case for System test. Test cases for different values will be covered in unit test part section \ref{Sec_UnitTest}}
+
+\wss{Rather than be general, you should give specific input values and specific
+  output values.  This comment applies elsewhere in this document as well.
+  Again, it isn't clear why this has to be a manual test.}
 
 \item{testAngles2\\}
 
@@ -595,6 +621,10 @@ How test will be performed: Adjust amount of pieces to see the performance that 
 
 \end{enumerate}
 
+\wss{Be more specific.  What will the range of the number of pieces be?  How
+  will you judge smoothness?  You might need to also summarize the target
+  hardware.  Can you summarize the total time of calculation and plot it?}
+
 \subsubsection{Comparison with professional plug-in}
 
 This test case is designed to compare Breaking Effect with existing plug-in in Unity3D. Visualization is the most important point of the project so this section aims to test if Breaking Effect simulates the explosion vividly. 
@@ -614,6 +644,8 @@ This test case is designed to compare Breaking Effect with existing plug-in in U
 	How test will be performed: Compare output with professional plug-ins. 
 	
 \end{enumerate}
+
+\wss{How will the comparison be assessed? quantified?}
 
 \subsection{Traceability Between Test Cases and Requirements}
 
@@ -712,6 +744,9 @@ Unit tests for other modules will be designed after modules designing are finish
 \end{enumerate}
 
 \subsection{Unit test for gravity center calculation}
+
+\wss{It is unclear how this test differs from the previous centre of gravity
+  test?}
 
 \begin{enumerate}
 	

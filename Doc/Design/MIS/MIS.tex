@@ -217,7 +217,7 @@ InputVerifiy & $\mathbb{R}$ & void & OutOfScope \\
 \begin{itemize}
 \item transition: N/A
 \item output: Exceptions or None.
-\item exception:\an{Different kinds of exceptions for different errors.}\\
+\item exception:\an{Different kinds of exceptions for different invalid inputs.}\\
 exc := ($\mu_{k}$ = null $\Rightarrow $ NoMuException)\\
 exc := (ExplosionLv = null $\Rightarrow $ NoELvException)\\
 exc := ($X,Y,Z \notin \mathbb{R} \vee (X,Y,Z \le -1000) \vee (X,Y,Z \ge 1000)$ $\Rightarrow $ InvalidCoorException)\\
@@ -227,7 +227,7 @@ exc := ($\mu_{k} \notin \mathbb{R} \vee (\mu_{k} \le 0) \vee (\mu_{k} \ge 1)$ $\
 
 \section{MIS of Obtaining gravity center module (\mref{mOGC})} 
 
-Call cutting function provided by Unity3D to split target object then do a traversal to obtain location of gravity centers for all pieces. \an{Each piece is an objects, gravity center is one attribute in PiecePbj}
+Call cutting function provided by Unity3D to split target object into pieces then do traversal to obtain gravity centers of all pieces. \an{Each piece is an object. Gravity center is a value in PieceObj}
 
 \subsection{Module}
 
@@ -265,7 +265,7 @@ Object cutting module(\mref{mOC})\\
 
 \noindent Traverse():
 \begin{itemize}
-	\item transition: PieceObj $\rightarrow$ List of PieceObj \an{data type transition?}
+	\item transition: PieceObj $\rightarrow$ List of PieceObj \an{data type change?}
 	\item output: List of PieceObj 
 	\item exception: None
 \end{itemize}
@@ -274,7 +274,7 @@ Object cutting module(\mref{mOC})\\
 Calculate the angle between initial speed $v_{0}$ and horizontal $\theta_{1}$. Calculate the angle between $x$ axiom and projection on horizontal of initial speed $\theta_{2}$. \an{$\theta_{1}$ and $\theta_{2}$ are values of each PieceObj}\\
 \an{Can I put equations in IM here?}\\
 $\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{(x_{n}-X)^2+(y_{n}-Y)^2}}$\\
-$\theta_{2}=arctan \frac{|y_{n}-Y|}{|x_{n}-X|}$\\
+$\theta_{2}=arctan \frac{|y_{n}-Y|}{|x_{n}-X|}$
 \subsection{Module}
 
 AngleCalModule

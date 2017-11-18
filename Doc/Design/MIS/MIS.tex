@@ -40,9 +40,9 @@ urlcolor=cyan          % color of external links
 
 \begin{document}
 
-\title{Module Interface Specification for ...}
+\title{Module Interface Specification for Breaking Effect}
 
-\author{Author Name}
+\author{Marshall Xiaoye Ma}
 
 \date{\today}
 
@@ -55,8 +55,7 @@ urlcolor=cyan          % color of external links
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+Date 2017-11-17 & 1.0 & New doc\\
 \bottomrule
 \end{tabularx}
 
@@ -64,7 +63,7 @@ Date 2 & 1.1 & Notes\\
 
 \section{Symbols, Abbreviations and Acronyms}
 
-See SRS Documentation at \wss{give url}
+See SRS Documentation at \url{https://github.com/MaXiaoye/cas741/blob/master/Doc/SRS/SRS.pdf}
 
 \wss{Also add any additional symbols, abbreviations or acronyms}
 
@@ -118,6 +117,8 @@ character & char & a single symbol or digit\\
 integer & $\mathbb{Z}$ & a number without a fractional component in (-$\infty$, $\infty$) \\
 natural number & $\mathbb{N}$ & a number without a fractional component in [1, $\infty$) \\
 real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
+instance of class TargetObject & TargetObj & An object instance of class TargetObject that extended from Object class provided by Unity3D\\
+instance of class PieceObject & PieceObj & An object instance of class PieceObject that extended from Object class provided by Unity3D\\
 \bottomrule
 \end{tabular} 
 \end{center}
@@ -145,6 +146,8 @@ The following table is taken directly from the Module Guide document for this pr
 		\midrule
 		
 		\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Module\\
+		& Target Object Module\\
+		& Piece Object Module\\
 		& Obtaining gravity center module\\
 		& Angle calculation module\\
 		& Displacement in the air calculation module\\
@@ -167,13 +170,11 @@ The following table is taken directly from the Module Guide document for this pr
 	\label{FigUH}
 \end{figure}
 
-\newpage
 ~\newpage
 
 \section{MIS of Input Module(\mref{mIF})} 
 
-This module collect input data to do verification and store in corresponding variables. Include position of target object, explosion level, coefficient of ground friction. \an{Time is input provided by Unity3D.}\\
-\an{Can I put description here?}
+This module collect input data to do verification and store in corresponding variables. Include position of target object, explosion level, coefficient of ground friction.
 
 \subsection{Module}
 
@@ -194,8 +195,10 @@ Hardware-Hiding Module (\mref{mHH})
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-GetInitPos & TargetObject & $\mathbb{R}$ & InvalidObject \\
-InputVerifiy & $\mathbb{R}$ & void & OutOfScope \\
+GetInitPos() & TargetObject & $\mathbb{R}^{3}$ & InvalidObject\\
+$\mu_{k}$ &  $\mathbb{R}$ & - & TypeError\\
+$E$ & $\mathbb{Z}$ & - & TypeError\\
+InputVerify() &  $\mathbb{R}^{5}$ & void & OutOfScope\\
 \hline
 \end{tabular}
 \end{center}
@@ -203,13 +206,13 @@ InputVerifiy & $\mathbb{R}$ & void & OutOfScope \\
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-\an{Input module may not have state variables. But it do return different result depends on input data ?}
+$(X,Y,Z):\mathbb{R}^{3}$
 \subsubsection{Access Routine Semantics}
 
 \noindent GetInitPos():
 \begin{itemize}
-	\item transition: \an{No transition}
-	\item output: $X = Object.X; Y = Object.Y; Z = Object.Z$. $(X,Y,Z):\mathbb{R}$ \an{No output but assignment}
+	\item transition: $X = Object.X; Y = Object.Y; Z = Object.Z$. \an{Values in other module (target object) are changed}
+	\item output:  None
 	\item exception: exc := (TargetObject = null $\Rightarrow $ NoObjectException)
 \end{itemize}
 
@@ -225,7 +228,86 @@ exc := ($E \notin \mathbb{R} \vee (E \leq 0) \vee (E \geq 10)$ $\Rightarrow $ In
 exc := ($\mu_{k} \notin \mathbb{R} \vee (\mu_{k} \le 0) \vee (\mu_{k} \ge 1)$ $\Rightarrow $ InvalidMuException)\\
 \end{itemize}
 
-\section{MIS of Obtaining gravity center module (\mref{mOGC})} 
+\section{MIS of target object module(\mref{mTO})}
+
+External function provided by platform
+
+\subsection{Module}
+
+TarObjModule
+
+\subsection{Uses}
+
+Input Module(\mref{mIF})
+
+\subsection{Syntax}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+	\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		$X$ & $\mathbb{R}$ & - & - \\
+		$Y$ & $\mathbb{R}$ & - & - \\
+		$Z$ & $\mathbb{R}$ & - & - \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+None
+
+\subsubsection{Access Routine Semantics}
+
+None
+
+\section{MIS of piece object module(\mref{mPO})}
+
+External function provided by platform
+
+\subsection{Module}
+
+ObjCutModule
+
+\subsection{Uses}
+
+Input Module(\mref{mIF})
+
+\subsection{Syntax}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+	\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		$x$ & $\mathbb{R}$ & - & - \\
+		$y$ & $\mathbb{R}$ & - & - \\
+		$z$ & $\mathbb{R}$ & - & - \\
+		onGround & Boolean & - & - \\
+		$\theta_{1}$ & $\mathbb{R}$ & - & - \\
+		$\theta_{2}$ & $\mathbb{R}$ & - & - \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+onGround: Boolean \an{It is a variable in each PieceObj. That means program checks this variable each frame to call different IM as well as using equations}
+
+\subsubsection{Access Routine Semantics}
+
+None
+
+\section{MIS of acquiring gravity center module (\mref{mOGC})} 
 
 Call cutting function provided by Unity3D to split target object into pieces then do traversal to obtain gravity centers of all pieces. \an{Each piece is an object. Gravity center is a value in PieceObj}
 
@@ -247,34 +329,28 @@ Object cutting module(\mref{mOC})\\
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		CuttingFun & TargetObject & PieceObj & ExternalException \\
-		Traverse & PieceObj;$\mathbb{R}$ & List of PieceObj & -\\
+		Traverse() & PieceObj;$\mathbb{R}$ & List of PieceObj & -\\
 		\hline
 		
 	\end{tabular}
 \end{center}
-\an{Put all functions in the table or in Access Routine Semantics part?}
 
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-\an{No state variables}
+None
 \subsubsection{Access Routine Semantics}
 
-\an{Do I need to put variables here?}
-
-\noindent Traverse():
+\noindent Traverse():\\
+This function do a tranersal to assign gravity center coordinates to all PieceObj, return a list of PieceObj.
 \begin{itemize}
-	\item transition: PieceObj $\rightarrow$ List of PieceObj \an{data type change?}
+	\item transition: None
 	\item output: List of PieceObj 
 	\item exception: None
 \end{itemize}
 
 \section{MIS of Angle calculation module(\mref{mAC})} 
-Calculate the angle between initial speed $v_{0}$ and horizontal $\theta_{1}$. Calculate the angle between $x$ axiom and projection on horizontal of initial speed $\theta_{2}$. \an{$\theta_{1}$ and $\theta_{2}$ are values of each PieceObj}\\
-\an{Can I put equations in IM here?}\\
-$\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{(x_{n}-X)^2+(y_{n}-Y)^2}}$\\
-$\theta_{2}=arctan \frac{|y_{n}-Y|}{|x_{n}-X|}$
+Calculate the angle between initial speed $v_{0}$ and horizontal $\theta_{1}$. Calculate the angle between $x$ axiom and projection on horizontal of initial speed $\theta_{2}$. \an{$\theta_{1}$ and $\theta_{2}$ are values of each PieceObj}
 \subsection{Module}
 
 AngleCalModule
@@ -307,16 +383,18 @@ None
 
 \subsubsection{Access Routine Semantics}
 
-\noindent AngleSH():
+\noindent AngleSH():\\
+Equation: $\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{(x_{n}-X)^2+(y_{n}-Y)^2}}$
 \begin{itemize}
-	\item transition: \an{No transition}   
+	\item transition: None   
 	\item output: $\theta_{1}: \mathbb{R}$
 	\item exception: None
 \end{itemize}
 
-\noindent AngleXV():
+\noindent AngleXV():\\
+Equation: $\theta_{2}=arctan \frac{|y_{n}-Y|}{|x_{n}-X|}$
 \begin{itemize}
-	\item transition: \an{No transition}  
+	\item transition: None  
 	\item output: $\theta_{2}: \mathbb{R}$
 	\item exception: None
 \end{itemize}
@@ -324,10 +402,7 @@ None
 \section{MIS of Displacement in the air calculation module(\mref{mDC1})}
 
 Calculate and output trace of motion for each piece in the air by using follow equations.\\
-$S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t$\\
-$S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t$,\\
-$S_{z}=v_{0}\cdot sin\theta _{1}\cdot t-\frac{1}{2}gt^{2}$
-\an{S is displacement in one frame, t is the gap between each frame($\delta t$).}
+
 \subsection{Module}
 
 DisAirCalModule
@@ -346,7 +421,9 @@ Angle calculation module(\mref{mAC})\\
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		DisAirCal & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
+		DisAirCalX & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
+		DisAirCalY & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
+		DisAirCalZ & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -355,21 +432,36 @@ Angle calculation module(\mref{mAC})\\
 
 \subsubsection{State Variables}
 
-onGround: Boolean \an{It is a variable in each PieceObj. That means program checks this variable each frame to call different IM as well as using equations}
+None
 
 \subsubsection{Access Routine Semantics}
 
-\noindent DisAirCal():
+\noindent DisAirCalX():\\
+Equation: $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t$
 \begin{itemize}
 	\item transition: None
-	\item output: $S_{x},S_{y},S_{z}: \mathbb{R}$ 
+	\item output: $S_{x}: \mathbb{R}$ 
+	\item exception: None
+\end{itemize}
+
+\noindent DisAirCalY():\\
+Equation: $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t$
+\begin{itemize}
+	\item transition: None
+	\item output: $S_{y}: \mathbb{R}$ 
+	\item exception: None
+\end{itemize}
+
+\noindent DisAirCalX():\\
+Equation: $S_{z}=v_{0}\cdot sin\theta _{1}\cdot t-\frac{1}{2}gt^{2}$
+\begin{itemize}
+	\item transition: None
+	\item output: $S_{z}: \mathbb{R}$ 
 	\item exception: None
 \end{itemize}
 
 \section{MIS of Displacement on the ground calculation module(\mref{mDC2})}
-Calculate and output trace of motion for each piece on the ground by using follow equations.\\
-$S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t-\frac{1}{2}at^{2}$\\
-$S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t-\frac{1}{2}at^{2}$
+Calculate and output trace of motion for each piece on the ground by using follow equations.
 \subsection{Module}
 
 DisGroCalModule
@@ -388,7 +480,8 @@ Angle calculation module(\mref{mAC})
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		DisGroCal & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
+		DisGroCalX & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
+		DisGroCalY & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -397,20 +490,29 @@ Angle calculation module(\mref{mAC})
 
 \subsubsection{State Variables}
 
-onGround: Boolean
+None
 
 \subsubsection{Access Routine Semantics}
 
-\noindent DisGroCal():
+\noindent DisGroCalX():\\
+Euqation: $a=\mu_{k}g$; $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t-\frac{1}{2}at^{2}$
 \begin{itemize}
-	\item transition: $a=\mu_{k}g$ \an{$a$ is intermediate result.}
+	\item transition: None
+	\item output: $S_{x},S_{y},S_{z}: \mathbb{R}$ 
+	\item exception: None 
+\end{itemize}
+
+\noindent DisGroCalY():\\
+Euqation: $a=\mu_{k}g$; $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t-\frac{1}{2}at^{2}$
+\begin{itemize}
+	\item transition: None
 	\item output: $S_{x},S_{y},S_{z}: \mathbb{R}$ 
 	\item exception: None 
 \end{itemize}
 
 \section{MIS of Object cutting Module(\mref{mOC})} \label{mOC}
 
-External function provided by platform
+External function provided by platform. Split target object to pieces.
 
 \subsection{Module}
 
@@ -444,18 +546,18 @@ None
 
 \noindent cut():
 \begin{itemize}
-	\item transition:  TargetObj $\rightarrow$ PieceObj
+	\item transition: None
 	\item output: PieceObj 
 	\item exception: None 
 \end{itemize}
 
 \section{MIS of Output Module(\mref{mOM})}
 
-\an{Unity3D interface with codes by calling function update() each frame. Unity3D convert data into visualization.}
+Unity3D interface with codes by calling function update() each frame. Unity3D convert data into visualization.
 
 \subsection{Module}
 
-Output Module
+OutputModule
 
 \subsection{Uses}
 
@@ -471,22 +573,31 @@ Displacement on the ground calculation module(\mref{mDC2})\\
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		update() & - & Visualization & - \\
+		update() & codes to be run each frame & Visualization & - \\
 		traverseDis() & List of PieceObj & - & - \\
-		translate() & $\mathbb{R}$ & Visualization & - \\
+		translate() & $S_{x}, S_{y}, S_{z}: \mathbb{R}^{3}$ & PieceObj.position & - \\
 		\hline
 	\end{tabular}
 \end{center}
-\an{Call translate() function for all PieceObj each frame}
+
 \subsection{Semantics}
 
 \subsubsection{State Variables}
 
+Screen;\\
+PieceObj
 \subsubsection{Access Routine Semantics}
 
 \noindent update():
 \begin{itemize}
-	\item transition: $\mathbb{R} \rightarrow$ Visualization 
+	\item transition: $\mathbb{R}^{3} \rightarrow$ Visualization 
+	\item output: None 
+	\item exception: None  
+\end{itemize}
+
+\noindent translate():
+\begin{itemize}
+	\item transition: PieceObj.position
 	\item output: None 
 	\item exception: None  
 \end{itemize}

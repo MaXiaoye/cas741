@@ -167,12 +167,14 @@
 		\item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
 		\item [\refstepcounter{mnum} \mthemnum \label{mBH}:] Behaviour-Hiding Module
 		\item [\refstepcounter{mnum} \mthemnum \label{mIF}:] Input Module
-		\item [\refstepcounter{mnum} \mthemnum \label{mOGC}:] Obtaining gravity center module
-		\item [\refstepcounter{mnum} \mthemnum \label{mAC}:] Angle calculation module
-		\item [\refstepcounter{mnum} \mthemnum \label{mDC1}:] Displacement in the air calculation module
-		\item [\refstepcounter{mnum} \mthemnum \label{mDC2}:] Displacement on the ground calculation module
+		\item [\refstepcounter{mnum} \mthemnum \label{mTO}:] Target Object Module
+		\item [\refstepcounter{mnum} \mthemnum \label{mPO}:] Piece Object Module
+		\item [\refstepcounter{mnum} \mthemnum \label{mOGC}:] Acquiring gravity center Module
+		\item [\refstepcounter{mnum} \mthemnum \label{mAC}:] Angle calculation Module
+		\item [\refstepcounter{mnum} \mthemnum \label{mDC1}:] Displacement in the air calculation Module
+		\item [\refstepcounter{mnum} \mthemnum \label{mDC2}:] Displacement on the ground calculation Module
 		\item [\refstepcounter{mnum} \mthemnum \label{mSD}:] Software Decision Module
-		\item [\refstepcounter{mnum} \mthemnum \label{mOC}:] Object cutting module
+		\item [\refstepcounter{mnum} \mthemnum \label{mOC}:] Object cutting Module
 		\item [\refstepcounter{mnum} \mthemnum \label{mOM}:] Output Module
 	\end{description}
 	
@@ -187,9 +189,10 @@
 			{Hardware-Hiding Module} & ~ \\
 			\midrule
 			
-			\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input verification Module\\
-			& Input Format Module\\
-			& Obtaining gravity center module\\
+			\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Module\\
+			& Target Object Module\\
+			& Piece Object Module\\
+			& Acquiring gravity center module\\
 			& Angle calculation module\\
 			& Displacement in the air calculation module\\
 			& Displacement on the ground calculation module\\
@@ -260,7 +263,23 @@
 		\item[Implemented By:] Breaking Effect
 	\end{description}
 	
-	\subsubsection{Obtaining gravity center module(\mref{mOGC})}
+	\subsubsection{Target Object Module (\mref{mPO})}
+	
+	\begin{description}
+		\item[Secrets:]Definition of class for target object.
+		\item[Services:]Extend existing object class provided by platform to implement object class for target object. 
+		\item[Implemented By:] Breaking Effect
+	\end{description}
+	
+	\subsubsection{Piece Object Module (\mref{mPO})}
+	
+	\begin{description}
+		\item[Secrets:]Definition of class for piece object.
+		\item[Services:]Extend existing object class provided by platform to implement object class for piece object. 
+		\item[Implemented By:] Breaking Effect
+	\end{description}
+	
+	\subsubsection{Acquiring gravity center module(\mref{mOGC})}
 	
 	\begin{description}
 		\item[Secrets:]How target object is cutting and how to obtain location of gravity centers; structure of locations of each piece.

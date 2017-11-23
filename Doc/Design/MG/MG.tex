@@ -136,9 +136,13 @@
 		hardware on which the software is running.
 		\item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the
 		initial input data.
-		\item[\refstepcounter{acnum} \actheacnum \label{acCF}:] The cutting function provided by Unity3D. 
+		\item[\refstepcounter{acnum} \actheacnum \label{acCF}:] The
+                  cutting function provided by Unity3D.
 	\end{description}
 	
+\wss{There should be more than 3 anticipated changes.  Each of the leaf modules
+  should map to an anticipated change.}
+
 	\subsection{Unlikely Changes} \label{SecUchange}
 	
 	The module design should be as general as possible. However, a general system is
@@ -153,8 +157,15 @@
 		(Input: Keyboard, Output: Screen).
 		\item[\refstepcounter{ucnum} \uctheucnum \label{ucInput}:] There will always be
 		a source of input data external to the software.
-		\item[\refstepcounter{ucnum} \uctheucnum \label{ucFri}:] Input more than one coefficient of friction on the ground.
+              \item[\refstepcounter{ucnum} \uctheucnum \label{ucFri}:] Input
+                more than one coefficient of friction on the ground.
 	\end{description}
+
+\wss{Is Unity an unlikely change?  I cannot remember whether this was a
+  constraint in your SRS.  A more generic design is better, where the physics
+  engine is a likely change and the design is done to support this change.  In
+  this case there should be an anticipated change related to the change in
+  physics engine.}
 	
 	\section{Module Hierarchy} \label{SecMH}
 	
@@ -207,6 +218,11 @@
 		\label{TblMH}
 	\end{table}
 	
+\wss{I would think that your physics engine would be within the software
+  decision hiding modules.  You might be splitting the physics module up into
+  multiple modules.  If that is the case, shouldn't there be more modules?
+  Aren't there other services from Unity that you need?}
+
 	\section{Connection Between Requirements and Design} \label{SecConnection}
 	
 	The design of the system is intended to satisfy the requirements developed in
@@ -259,7 +275,8 @@
 	\begin{description}
 		\item[Secrets:]The format, structure verification of the input data.
 		\item[Services:]Converts the valid input data into the data structure used by the
-		input parameters module. 
+		input parameters module. \wss{You don't have an input parameters
+                  module.  What module will actually have its state changed?}
 		\item[Implemented By:] Breaking Effect
 	\end{description}
 	
@@ -275,11 +292,14 @@
 	
 	\begin{description}
 		\item[Secrets:]Definition of class for piece object.
-		\item[Services:]Extend existing object class provided by platform to implement object class for piece object. 
+		\item[Services:]Extend existing object class provided by
+                  platform to implement object class for piece object.  \wss{The
+                    difference between target and piece objects is not clear.}
 		\item[Implemented By:] Breaking Effect
 	\end{description}
 	
 	\subsubsection{Acquiring gravity center module(\mref{mOGC})}
+        \wss{sometimes you forget to add a space before your bracket (}
 	
 	\begin{description}
 		\item[Secrets:]How target object is cutting and how to obtain location of gravity centers; structure of locations of each piece.
@@ -306,7 +326,8 @@
 	\subsubsection{Displacement calculation on the ground module(\mref{mDC2})}
 	
 	\begin{description}
-		\item[Secrets:]How the displacement are calculated.
+		\item[Secrets:]How the displacement are calculated. \wss{You
+                    cannot have the same secret in two different module.}
 		\item[Services:]Calculate and output trace of motion for each piece on the ground.
 		\item[Implemented By:] Breaking Effect
 	\end{description}
@@ -404,9 +425,17 @@
 		\caption{Use hierarchy among modules}
 		\label{FigUH}
 	\end{figure}
-	
+
+\wss{Was there any thought to having a separate module for coordinating the
+  output?  Your gui module is responsible for producing output and coordinating
+  the calculations.  Shouldn't there be a graphics driver module in the design
+  that is provided by Unity?}
 	%\section*{References}
-	
+
+\wss{Good start for the design.  Remember that you may have to modify the design
+  as you work through the MIS and gain a deeper understanding of how your
+  modules interact.}
+
 	\bibliographystyle {plainnat}
 	\bibliography {MG}
 	

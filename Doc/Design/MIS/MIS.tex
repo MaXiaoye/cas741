@@ -94,9 +94,6 @@ found at \url{https://github.com/MaXiaoye/cas741}.
 
 \section{Notation}
 
-\wss{You should describe your notation.  You can use what is below as
-  a starting point.}
-
 The structure of the MIS for modules comes from \citet{HoffmanAndStrooper1995},
 with the addition that template modules have been adapted from
 \cite{GhezziEtAl2003}.  The mathematical notation comes from Chapter 3 of
@@ -113,12 +110,11 @@ The following table summarizes the primitive data types used by \progname.
 \toprule 
 \textbf{Data Type} & \textbf{Notation} & \textbf{Description}\\ 
 \midrule
-character & char & a single symbol or digit\\
-integer & $\mathbb{Z}$ & a number without a fractional component in (-$\infty$, $\infty$) \\
 natural number & $\mathbb{N}$ & a number without a fractional component in [1, $\infty$) \\
 real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
-instance of class TargetObject & TargetObj & An object instance of class TargetObject that extended from Object class provided by Unity3D\\
-instance of class PieceObject & PieceObj & An object instance of class PieceObject that extended from Object class provided by Unity3D\\
+String & String & represents sequences of characters.\\
+Object & Object & A data structure to store attributes of input target object that provided by Unity3D.\\
+PieceObject & PieceObj & A data structure to store attributes of pieces that generated as intermediate steps.\\
 \bottomrule
 \end{tabular} 
 \end{center}
@@ -146,7 +142,6 @@ The following table is taken directly from the Module Guide document for this pr
 		\midrule
 		
 		\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Module\\
-		& Target Object Module\\
 		& Piece Object Module\\
 		& Obtaining gravity center module\\
 		& Angle calculation module\\
@@ -154,7 +149,8 @@ The following table is taken directly from the Module Guide document for this pr
 		& Displacement on the ground calculation module\\
 		\midrule
 		
-		\multirow{3}{0.3\textwidth}{Software Decision Module} & Object cutting module\\
+		\multirow{3}{0.3\textwidth}{Software Decision Module} & Target Object Module\\
+		& Object cutting module\\
 		& Output Module\\
 		\bottomrule
 		
@@ -174,7 +170,7 @@ The following table is taken directly from the Module Guide document for this pr
 
 \section{MIS of Input Module(\mref{mIF})} 
 
-This module collect input data to do verification and store in corresponding variables. Include position of target object, explosion level, coefficient of ground friction.
+This module collect verifies input from user and store in corresponding variables. Include position of target object, explosion level, coefficient of ground friction.
 
 \subsection{Module}
 
@@ -195,26 +191,19 @@ Hardware-Hiding Module (\mref{mHH})
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-GetInitPos() & TargetObject & $\mathbb{R}^{3}$ & InvalidObject\\
-$\mu_{k}$ &  $\mathbb{R}$ & - & TypeError\\
-$E$ & $\mathbb{Z}$ & - & TypeError\\
-InputVerify() &  $\mathbb{R}^{5}$ & void & OutOfScope\\
+$\mu_{k}$ &  $\mathbb{R}$ & - & InvalidInput\\
+$E$ & $\mathbb{R}$ & - & InvalidInput\\
+$TargetObj$ & $Object$ & - & InvalidInput\\
+InputVerify() &  $\mathbb{R}^{2}; TargetObj$ & void & InvalidInput\\
 \hline
 \end{tabular}
 \end{center}
-
+\an{Object is a 3D model in Unity3D, which contains its position $(X,Y,Z)$. User needs provide a 3D model and attach the program to it.} 
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-$(X,Y,Z):\mathbb{R}^{3}$
+None
 \subsubsection{Access Routine Semantics}
-
-\noindent GetInitPos():
-\begin{itemize}
-	\item transition: $X = Object.X; Y = Object.Y; Z = Object.Z$. \an{Values in other module (target object) are changed}
-	\item output:  None
-	\item exception: exc := (TargetObject = null $\Rightarrow $ NoObjectException)
-\end{itemize}
 
 \noindent InputVerifiy():
 \begin{itemize}
@@ -230,7 +219,7 @@ exc := ($\mu_{k} \notin \mathbb{R} \vee (\mu_{k} \le 0) \vee (\mu_{k} \ge 1)$ $\
 
 \section{MIS of target object module(\mref{mTO})}
 
-External function provided by platform
+Object class provided by platform
 
 \subsection{Module}
 
@@ -252,23 +241,32 @@ Input Module(\mref{mIF})
 		$X$ & $\mathbb{R}$ & - & - \\
 		$Y$ & $\mathbb{R}$ & - & - \\
 		$Z$ & $\mathbb{R}$ & - & - \\
-		\hline
+		position & $\mathbb{R}^{3}$ & - & - \\
+		destory() & - & - & - \\
+		\hline		
 	\end{tabular}
 \end{center}
-
+$X,Y,Z$ are coordinates of object. position is 3D vector that contains $X,Y,Z$ while it is also considered as gravity center location of the object, destroy() function removes the object.
 \subsection{Semantics}
 
 \subsubsection{State Variables}
 
-None
+KeyCode.Space: Boolean.
+This bool value indicates if key space is pressed on keyboard.
 
 \subsubsection{Access Routine Semantics}
 
-None
+\noindent destroy():\\
+\an{We assume the explosion happens when "space" is pressed. The target object is removed from scene at the same time.}
+\begin{itemize}
+	\item transition: target object $\rightarrow$ null
+	\item output: None
+	\item exception: None
+\end{itemize}
 
 \section{MIS of piece object module(\mref{mPO})}
 
-External function provided by platform
+Customize class for pieces that extend object class provided by platform. Pieces are generated after explosion happens to replace original target object from input.
 
 \subsection{Module}
 
@@ -287,29 +285,58 @@ Input Module(\mref{mIF})
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
+		Tag & String & - & - \\
 		$x$ & $\mathbb{R}$ & - & - \\
 		$y$ & $\mathbb{R}$ & - & - \\
 		$z$ & $\mathbb{R}$ & - & - \\
+		position & $\mathbb{R}^{3}$ & - & - \\
 		onGround & Boolean & - & - \\
 		$\theta_{1}$ & $\mathbb{R}$ & - & - \\
 		$\theta_{2}$ & $\mathbb{R}$ & - & - \\
+		Move() & Boolean & - & - \\
+		Translate() & $\mathbb{R}^{3}$ & Visualization & - \\
 		\hline
 	\end{tabular}
 \end{center}
+
+\noindent Assumptions:\\
+Tag, $x,y,z$ and position, Translate() are inheritated from parent class\\
+\begin{itemize}
+	\item Tag is string "piece" that indicates the object is an instance piece object.
+	\item $x,y,z$ are coordinates of object.
+	\item position is 3D vector that contains $x,y,z$.
+	\item Translate() controls motion of the object.
+	\item onGround indicates if the object is on the ground.
+	\item $\theta_{1}, \theta_{2}$ are calculated and described in \mref{mAC}.
+	\item  Move() controls motion of the object by calling Translate(). It check onGround firstly to make sure the object is in the air or on the ground. Based on value of bool variable onGround, that call and provide corresponding destination as input to Translate(). Destination to Translate() is calculated by \mref{mDC1} and \mref{mDC2}. \\
+	\an{The definition of this class doesn't use \mref{mDC1} and \mref{mDC2} while result from \mref{mDC1} and \mref{mDC2} are only passed to function Move() that is called in \mref{mOM}. So I don't put \mref{mDC1} and \mref{mDC2} in Uses part.}
+\end{itemize}
 
 \subsection{Semantics}
 
 \subsubsection{State Variables}
 
-onGround: Boolean \an{It is a variable in each PieceObj. That means program checks this variable each frame to call different IM as well as using equations}
+None
 
 \subsubsection{Access Routine Semantics}
 
-None
+\noindent Move():
+\begin{itemize}
+	\item transition: None
+	\item output: None
+	\item exception: None
+\end{itemize}
 
-\section{MIS of acquiring gravity center module (\mref{mOGC})} 
+\noindent Translate():
+\begin{itemize}
+	\item transition: None
+	\item output: Visualization
+	\item exception: None
+\end{itemize}
 
-Call cutting function provided by Unity3D to split target object into pieces then do traversal to obtain gravity centers of all pieces. \an{Each piece is an object. Gravity center is a value in PieceObj}
+\section{MIS of acquiring pieces module (\mref{mOGC})} 
+
+Call cutting function provided by Unity3D to split target object into pieces then do traversal to acquire all pieces. \an{Each piece is stored as an instance of class piece object defined in \mref{mPO}. Gravity center is position value in PieceObj}
 
 \subsection{Module}
 
@@ -342,7 +369,7 @@ None
 \subsubsection{Access Routine Semantics}
 
 \noindent Traverse():\\
-This function do a tranersal to assign gravity center coordinates to all PieceObj, return a list of PieceObj.
+This function do a Traverse to store all piece objects into a list by filtering tags with "piece". Piece objects are initialed after target object is cutted. \an{tags for piece objects are defined in \mref{mPO}}
 \begin{itemize}
 	\item transition: None
 	\item output: List of PieceObj 
@@ -369,8 +396,8 @@ Obtaining gravity center module (\mref{mOGC})
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		AngleSH & $\mathbb{R}$;PieceObj & $\mathbb{R}$ & - \\
-		AngleXV & $\mathbb{R}$;PieceObj & $\mathbb{R}$ & - \\
+		AngleSH() & $\mathbb{R}$;PieceObj & $\mathbb{R}$ & - \\
+		AngleXV() & $\mathbb{R}$;PieceObj & $\mathbb{R}$ & - \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -437,7 +464,7 @@ None
 \subsubsection{Access Routine Semantics}
 
 \noindent DisAirCalX():\\
-Equation: $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t$
+Equation: $v_{0}=10*E ,S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t$ \an{Based on assumption8 in SRS that value of initial velocity given by explosion is ten times input $E$ unit length in unity per second.}
 \begin{itemize}
 	\item transition: None
 	\item output: $S_{x}: \mathbb{R}$ 
@@ -574,8 +601,7 @@ Displacement on the ground calculation module(\mref{mDC2})\\
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
 		update() & codes to be run each frame & Visualization & - \\
-		traverseDis() & List of PieceObj & - & - \\
-		translate() & $S_{x}, S_{y}, S_{z}: \mathbb{R}^{3}$ & PieceObj.position & - \\
+		start() & - & - & - \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -588,16 +614,18 @@ Screen;\\
 PieceObj
 \subsubsection{Access Routine Semantics}
 
-\noindent update():
+\noindent start():\\
+Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
 \begin{itemize}
-	\item transition: $\mathbb{R}^{3} \rightarrow$ Visualization 
+	\item transition: null $\rightarrow$ target object \an{target object is initialized in scene}
 	\item output: None 
 	\item exception: None  
 \end{itemize}
 
-\noindent translate():
+\noindent update():\\
+Update is called every frame. In update(), we listen if space is pressed as start point of the explosion. It also keeps updating status of all objects in the scene to convert location of objects to visualization that can be seen on the screen.
 \begin{itemize}
-	\item transition: PieceObj.position
+	\item transition: Piece objects $\rightarrow$ Visualization 
 	\item output: None 
 	\item exception: None  
 \end{itemize}
@@ -610,7 +638,5 @@ PieceObj
 \newpage
 
 \section{Appendix} \label{Appendix}
-
-\wss{Extra information if required}
 
 \end{document}

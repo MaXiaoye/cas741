@@ -65,8 +65,6 @@ Date 2017-11-17 & 1.0 & New doc\\
 
 See SRS Documentation at \url{https://github.com/MaXiaoye/cas741/blob/master/Doc/SRS/SRS.pdf}
 
-\wss{Also add any additional symbols, abbreviations or acronyms}
-
 \newpage
 
 \tableofcontents
@@ -411,7 +409,9 @@ None
 \subsubsection{Access Routine Semantics}
 
 \noindent AngleSH():\\
-Equation: $\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{(x_{n}-X)^2+(y_{n}-Y)^2}}$
+Equation: $\theta_{1}=arctan \frac{y_{n}}{\sqrt{(x_{n}-X)^2+(z_{n}-Y)^2}}$\\
+Convert equation to codes:\\
+Mathf.Atan(PieceObj.y / Mathf.Sqrt(Mathf.Pow(PieceObj.x - TargetObj.x,2) + Mathf.Pow(PieceObj.z - TargetObj.z,2)));
 \begin{itemize}
 	\item transition: None   
 	\item output: $\theta_{1}: \mathbb{R}$
@@ -419,7 +419,9 @@ Equation: $\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{(x_{n}-X)^2+(y_{n}-Y)^2}}$
 \end{itemize}
 
 \noindent AngleXV():\\
-Equation: $\theta_{2}=arctan \frac{|y_{n}-Y|}{|x_{n}-X|}$
+Equation: $\theta_{2}=arctan \frac{x_{n}-X}{z_{n}-Z}$\\
+Convert equation to codes:\\
+Mathf.Atan2(PieceObj.x - TargetObj.x, PieceObj.z - TargetObj.z)
 \begin{itemize}
 	\item transition: None  
 	\item output: $\theta_{2}: \mathbb{R}$
@@ -464,7 +466,9 @@ None
 \subsubsection{Access Routine Semantics}
 
 \noindent DisAirCalX():\\
-Equation: $v_{0}=10*E ,S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t$ \an{Based on assumption8 in SRS that value of initial velocity given by explosion is ten times input $E$ unit length in unity per second.}
+Equation: $v_{0}=10*E ,S_{x}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot \Delta t$ \an{Based on \rref{A_velocity} in SRS that value of initial velocity given by explosion is ten times input $E$ unit length in unity per second. $\Delta t$ is the gap between each frame that input from unity3D}\\
+Convert equation to codes:\\
+initSpeed * Mathf.Cos(PieceObj.theta1) * Mathf.Sin(PieceObj.theta2) * Time.deltaTime
 \begin{itemize}
 	\item transition: None
 	\item output: $S_{x}: \mathbb{R}$ 
@@ -472,15 +476,20 @@ Equation: $v_{0}=10*E ,S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot 
 \end{itemize}
 
 \noindent DisAirCalY():\\
-Equation: $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t$
+Equation: $S_{y}=(v_{0}\cdot sin\theta _{1} - g \cdot t)\cdot \Delta t-\frac{1}{2}g \cdot \Delta t^{2}$
+\an{t is real time since the explosion happens. So that $v_{0}\cdot sin\theta _{1} - g \cdot t$ means the initial speed on vertical direction at the beginning of each frame}\\
+Convert equation to codes:\\
+(initSpeed * Mathf.Sin(PieceObj.theta1) + g * Time.realtimeSinceStartup) * Time.deltaTime + 1 / 2 * g * Time.deltaTime * Time.deltaTime
 \begin{itemize}
 	\item transition: None
 	\item output: $S_{y}: \mathbb{R}$ 
 	\item exception: None
 \end{itemize}
 
-\noindent DisAirCalX():\\
-Equation: $S_{z}=v_{0}\cdot sin\theta _{1}\cdot t-\frac{1}{2}gt^{2}$
+\noindent DisAirCalZ():\\
+Equation:$S_{z}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot \Delta t$\\
+Convert equation to codes:\\
+initSpeed * Mathf.Cos(PieceObj.theta1) * Mathf.Cos(PieceObj.theta2) * Time.deltaTime)
 \begin{itemize}
 	\item transition: None
 	\item output: $S_{z}: \mathbb{R}$ 
@@ -508,7 +517,7 @@ Angle calculation module(\mref{mAC})
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
 		DisGroCalX & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
-		DisGroCalY & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
+		DisGroCalZ & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -522,22 +531,26 @@ None
 \subsubsection{Access Routine Semantics}
 
 \noindent DisGroCalX():\\
-Euqation: $a=\mu_{k}g$; $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t-\frac{1}{2}at^{2}$
+Euqation: $a=\mu_{k}g$; $S_{x}=(v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2} - at)\cdot \Delta t-\frac{1}{2}a \cdot \Delta t^{2}$\\
+Convert equation to codes:\\
+(initSpeed * Mathf.Sin(PieceObj.theta2) * Mathf.Cos(PieceObj.theta1) - a * Time.realtimeSinceStartup) * Time.deltaTime - 1 / 2 * a * Time.deltaTime * Time.deltaTime
 \begin{itemize}
 	\item transition: None
-	\item output: $S_{x},S_{y},S_{z}: \mathbb{R}$ 
+	\item output: $S_{x}: \mathbb{R}$ 
 	\item exception: None 
 \end{itemize}
 
-\noindent DisGroCalY():\\
-Euqation: $a=\mu_{k}g$; $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t-\frac{1}{2}at^{2}$
+\noindent DisGroCalZ():\\
+Euqation: $a=\mu_{k}g$; $S_{z}=(v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2} - at)\cdot \Delta t-\frac{1}{2}a \cdot \Delta t^{2}$\\
+Convert equation to codes:\\
+(initSpeed * Mathf.Cos(PieceObj.theta2) * Mathf.Cos(PieceObj.theta1) - a * Time.realtimeSinceStartup) * Time.deltaTime - 1 / 2 * a * Time.deltaTime * Time.deltaTime
 \begin{itemize}
 	\item transition: None
-	\item output: $S_{x},S_{y},S_{z}: \mathbb{R}$ 
+	\item output: $S_{z}: \mathbb{R}$ 
 	\item exception: None 
 \end{itemize}
 
-\section{MIS of Object cutting Module(\mref{mOC})} \label{mOC}
+\section{MIS of Object cutting Module(\mref{mOC})}
 
 External function provided by platform. Split target object to pieces.
 
@@ -559,6 +572,7 @@ Input Module(\mref{mIF})
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
 		cut() & TargetObj & PieceObj & - \\
+		Instantiate() & - & - & - \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -575,6 +589,13 @@ None
 \begin{itemize}
 	\item transition: None
 	\item output: PieceObj 
+	\item exception: None 
+\end{itemize}
+
+\noindent Instantiate():
+\begin{itemize}
+	\item transition: None
+	\item output: visualization \an{draw piece objects in the scene} 
 	\item exception: None 
 \end{itemize}
 

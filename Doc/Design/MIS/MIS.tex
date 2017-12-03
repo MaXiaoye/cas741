@@ -210,7 +210,9 @@ None
 \item exception:\an{Different kinds of exceptions for different invalid inputs.}\\
 exc := ($\mu_{k}$ = null $\Rightarrow $ NoMuException)\\
 exc := (E = null $\Rightarrow $ NoELvException)\\
-exc := ($X,Y,Z \notin \mathbb{R} \vee (X,Y,Z \le -1000) \vee (X,Y,Z \ge 1000)$ $\Rightarrow $ InvalidCoorException)\\
+exc := ($X \notin \mathbb{R} \vee (X \le -1000) \vee (X \ge 1000)$ $\Rightarrow $ InvalidCoorException)\\
+exc := ($Z \notin \mathbb{R} \vee (Z \le -1000) \vee (Z \ge 1000)$ $\Rightarrow $ InvalidCoorException)\\
+exc := ($Y != 0$ $\Rightarrow $ InvalidCoorException)\\
 exc := ($E \notin \mathbb{R} \vee (E \leq 0) \vee (E \geq 10)$ $\Rightarrow $ InvalidELvException)\\
 exc := ($\mu_{k} \notin \mathbb{R} \vee (\mu_{k} \le 0) \vee (\mu_{k} \ge 1)$ $\Rightarrow $ InvalidMuException)\\
 \end{itemize}

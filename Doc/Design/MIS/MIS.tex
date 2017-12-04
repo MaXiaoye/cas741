@@ -141,8 +141,7 @@ The following table is taken directly from the Module Guide document for this pr
 		
 		\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Module\\
 		& Piece Object Module\\
-		& Obtaining gravity center module\\
-		& Angle calculation module\\
+		& Pieces initialization module\\
 		& Displacement in the air calculation module\\
 		& Displacement on the ground calculation module\\
 		\midrule
@@ -217,56 +216,9 @@ exc := ($E \notin \mathbb{R} \vee (E \leq 0) \vee (E \geq 10)$ $\Rightarrow $ In
 exc := ($\mu_{k} \notin \mathbb{R} \vee (\mu_{k} \le 0) \vee (\mu_{k} \ge 1)$ $\Rightarrow $ InvalidMuException)\\
 \end{itemize}
 
-\section{MIS of target object module(\mref{mTO})}
-
-Object class provided by platform
-
-\subsection{Module}
-
-TarObjModule
-
-\subsection{Uses}
-
-Input Module(\mref{mIF})
-
-\subsection{Syntax}
-
-\subsubsection{Exported Access Programs}
-
-\begin{center}
-	\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
-		\hline
-		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-		\hline
-		$X$ & $\mathbb{R}$ & - & - \\
-		$Y$ & $\mathbb{R}$ & - & - \\
-		$Z$ & $\mathbb{R}$ & - & - \\
-		position & $\mathbb{R}^{3}$ & - & - \\
-		destory() & - & - & - \\
-		\hline		
-	\end{tabular}
-\end{center}
-$X,Y,Z$ are coordinates of object. position is 3D vector that contains $X,Y,Z$ while it is also considered as gravity center location of the object, destroy() function removes the object.
-\subsection{Semantics}
-
-\subsubsection{State Variables}
-
-KeyCode.Space: Boolean.
-This bool value indicates if key space is pressed on keyboard.
-
-\subsubsection{Access Routine Semantics}
-
-\noindent destroy():\\
-\an{We assume the explosion happens when "space" is pressed. The target object is removed from scene at the same time.}
-\begin{itemize}
-	\item transition: target object $\rightarrow$ null
-	\item output: None
-	\item exception: None
-\end{itemize}
-
 \section{MIS of piece object module(\mref{mPO})}
 
-Customize class for pieces that extend object class provided by platform. Pieces are generated after explosion happens to replace original target object from input.
+Customize class for pieces. Pieces are generated after explosion happens to replace original target object from input.
 
 \subsection{Module}
 
@@ -274,42 +226,53 @@ ObjCutModule
 
 \subsection{Uses}
 
-Input Module(\mref{mIF})
+Input Module(\mref{mIF})\\
+Angle calculation Module(\mref{mAC})\\
+Displacement in the air calculation Module(\mref{mDC1})\\
+Displacement on the ground calculation Module(\mref{mDC2})\\
 
 \subsection{Syntax}
 
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-	\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+	\begin{tabular}{p{4cm} p{4cm} p{4cm} p{2cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-		\hline
-		Tag & String & - & - \\
+		\hline		
+		obj & Object & - & - \\
 		$x$ & $\mathbb{R}$ & - & - \\
 		$y$ & $\mathbb{R}$ & - & - \\
 		$z$ & $\mathbb{R}$ & - & - \\
-		position & $\mathbb{R}^{3}$ & - & - \\
 		onGround & Boolean & - & - \\
+		stop & Boolean & - & - \\
 		$\theta_{1}$ & $\mathbb{R}$ & - & - \\
 		$\theta_{2}$ & $\mathbb{R}$ & - & - \\
-		Move() & Boolean & - & - \\
-		Translate() & $\mathbb{R}^{3}$ & Visualization & - \\
+		initSpeed & $\mathbb{R}$ & - & - \\
+		speedThisFrameX & $\mathbb{R}$ & - & - \\
+		speedLastFrameX & $\mathbb{R}$ & - & - \\
+		speedThisFrameZ & $\mathbb{R}$ & - & - \\
+		speedLastFrameZ & $\mathbb{R}$ & - & - \\
+		PieceObj() & $\mathbb{R}^{2};Object$ & - & - \\
+		MoveInAir() & - & - & - \\
+		MoveOnGround() & - & - & - \\
+		Translate() & $\mathbb{R}^{3}$ & - & - \\
 		\hline
 	\end{tabular}
 \end{center}
 
-\noindent Assumptions:\\
-Tag, $x,y,z$ and position, Translate() are inheritated from parent class\\
+\noindent
 \begin{itemize}
-	\item Tag is string "piece" that indicates the object is an instance piece object.
-	\item $x,y,z$ are coordinates of object.
-	\item position is 3D vector that contains $x,y,z$.
-	\item Translate() controls motion of the object.
+	\item obj is the 3D model of PieceObj in scene. 	
+	\item $x,y,z$ are coordinates of object.	
 	\item onGround indicates if the object is on the ground.
-	\item $\theta_{1}, \theta_{2}$ are calculated and described in \mref{mAC}.
-	\item  Move() controls motion of the object by calling Translate(). It check onGround firstly to make sure the object is in the air or on the ground. Based on value of bool variable onGround, that call and provide corresponding destination as input to Translate(). Destination to Translate() is calculated by \mref{mDC1} and \mref{mDC2}. \\
-	\an{The definition of this class doesn't use \mref{mDC1} and \mref{mDC2} while result from \mref{mDC1} and \mref{mDC2} are only passed to function Move() that is called in \mref{mOM}. So I don't put \mref{mDC1} and \mref{mDC2} in Uses part.}
+	\item stop indicates if the speed of object already equals to 0. 
+	\item $\theta_{1}$ is the angle between initial speed $v_{0}$ and horizontal.
+	\item $\theta_{2}$ is the angle between $x$ axiom and projection on horizontal of initial speed
+	\item initSpeed is the initial speed the object has when explosion happens.
+	\item PieceObj() is constructor
+	\item Translate() controls motion of the object.
+	\item  MoveInAir() and MoveOnGround() controls motion of the object by calling Translate(). It check onGround firstly to make sure the object is in the air or on the ground. Based on value of bool variable onGround, that call and provide corresponding destination as input to Translate(). Destination to Translate() is calculated by \mref{mDC1} and \mref{mDC2}. \\
 \end{itemize}
 
 \subsection{Semantics}
@@ -320,115 +283,96 @@ None
 
 \subsubsection{Access Routine Semantics}
 
-\noindent Move():
+\noindent PieceObj(): \an{use \mref{mIF} here}
 \begin{itemize}
-	\item transition: None
+	\item transition: Initialize PieceObj
 	\item output: None
 	\item exception: None
 \end{itemize}
 
-\noindent Translate():
-\begin{itemize}
-	\item transition: None
-	\item output: Visualization
-	\item exception: None
-\end{itemize}
-
-\section{MIS of acquiring pieces module (\mref{mOGC})} 
-
-Call cutting function provided by Unity3D to split target object into pieces then do traversal to acquire all pieces. \an{Each piece is stored as an instance of class piece object defined in \mref{mPO}. Gravity center is position value in PieceObj}
-
-\subsection{Module}
-
-ObtainGCModule
-
-\subsection{Uses}
-
-Input Module(\mref{mIF})\\
-Object cutting module(\mref{mOC})\\
-
-\subsection{Syntax}
-
-\subsubsection{Exported Access Programs}
-
-\begin{center}
-	\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
-		\hline
-		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-		\hline
-		Traverse() & PieceObj;$\mathbb{R}$ & List of PieceObj & -\\
-		\hline
-		
-	\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-
-\subsubsection{State Variables}
-None
-\subsubsection{Access Routine Semantics}
-
-\noindent Traverse():\\
-This function do a Traverse to store all piece objects into a list by filtering tags with "piece". Piece objects are initialed after target object is cutted. \an{tags for piece objects are defined in \mref{mPO}}
-\begin{itemize}
-	\item transition: None
-	\item output: List of PieceObj 
-	\item exception: None
-\end{itemize}
-
-\section{MIS of Angle calculation module(\mref{mAC})} 
-Calculate the angle between initial speed $v_{0}$ and horizontal $\theta_{1}$. Calculate the angle between $x$ axiom and projection on horizontal of initial speed $\theta_{2}$. \an{$\theta_{1}$ and $\theta_{2}$ are values of each PieceObj}
-\subsection{Module}
-
-AngleCalModule
-
-\subsection{Uses}
-
-Input Module(\mref{mIF})\\
-Obtaining gravity center module (\mref{mOGC})
-
-\subsection{Syntax}
-
-\subsubsection{Exported Access Programs}
-
-\begin{center}
-	\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
-		\hline
-		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-		\hline
-		AngleSH() & $\mathbb{R}$;PieceObj & $\mathbb{R}$ & - \\
-		AngleXV() & $\mathbb{R}$;PieceObj & $\mathbb{R}$ & - \\
-		\hline
-	\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-
-\subsubsection{State Variables}
-
-None
-
-\subsubsection{Access Routine Semantics}
-
-\noindent AngleSH():\\
+\noindent thetaOneCalc():\\
+Calculate the angle between initial speed $v_{0}$ and horizontal $\theta_{1}$. \an{$\theta_{1}$ and $\theta_{2}$ are values of each PieceObj}\\
 Equation: $\theta_{1}=arctan \frac{y_{n}}{\sqrt{(x_{n}-X)^2+(z_{n}-Y)^2}}$\\
 Convert equation to codes:\\
 Mathf.Atan(PieceObj.y / Mathf.Sqrt(Mathf.Pow(PieceObj.x - TargetObj.x,2) + Mathf.Pow(PieceObj.z - TargetObj.z,2)));
 \begin{itemize}
-	\item transition: None   
-	\item output: $\theta_{1}: \mathbb{R}$
+	\item transition: $\theta_{1}: null \to \mathbb{R}$   
+	\item output: None
 	\item exception: None
 \end{itemize}
 
-\noindent AngleXV():\\
+\noindent thetaTwoCalc():\\
+Calculate the angle between $x$ axiom and projection on horizontal of initial speed $\theta_{2}$.\\
 Equation: $\theta_{2}=arctan \frac{x_{n}-X}{z_{n}-Z}$\\
 Convert equation to codes:\\
 Mathf.Atan2(PieceObj.x - TargetObj.x, PieceObj.z - TargetObj.z)
 \begin{itemize}
-	\item transition: None  
-	\item output: $\theta_{2}: \mathbb{R}$
+	\item transition: $\theta_{2}: null \to \mathbb{R}$  
+	\item output: None
 	\item exception: None
 \end{itemize}
+
+\noindent MoveInAir(): \an{use \mref{mDC1} here}
+\begin{itemize}
+	\item transition: Move PieceObj in the air by updating $x,y,z$
+	\item output: None
+	\item exception: None
+\end{itemize}
+
+\noindent MoveOnGround(): \an{use \mref{mDC2} here}
+\begin{itemize}
+	\item transition: Move PieceObj on the ground by updating $x,y,z$
+	\item output: None
+	\item exception: None
+\end{itemize}
+
+\section{MIS of pieces initialization module (\mref{mOGC})} 
+
+\subsection{Module}
+
+PieceInitModule
+
+\subsection{Uses}
+
+Input Module(\mref{mIF})\\
+target object module(\mref{mTO})\\
+
+\subsection{Syntax}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+	\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		targetObj & - & - & -\\
+		subObj[] & - & - & -\\
+		pieceObj[] & - & - & -\\
+		PieceObj() & $\mathbb{R}^{2};Object$ & PieceObj & -\\
+		\hline		
+	\end{tabular}
+\end{center}
+
+\noindent
+\begin{itemize}
+	\item targetObj is the 3D model of target object in scene.
+	\item subObj[ ] is a list of sub objects under target Object \an{Since all pieces make up the whole target object, all pieces object are considered as sub objects of the target object in Unity3D. We need to get all sub objects firstly and then use these sub objects to construct piece objects defined by myself.} 
+	\item pieceObj[ ] is a list of piece objects defined by myself.
+	\item PieceObj() is constructor of piece object that defined in \mref{mPO}. \an{use \mref{mPO} here.}
+\end{itemize}
+
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+None
+\subsubsection{Access Routine Semantics}
+
+Do traversal to initialize all pieces. \an{Each piece is stored as an instance of class PieceObj defined in \mref{mPO}. Gravity center is position value in PieceObj}\\
+targetObj = GameObject.Find("targetObj");\\
+subObj = targetObj.GetComponentsInChildren<Transform>();\\
+pieceObj = new PieceObj[targetObj.transform.childCount];\\
+for (int i = 1; i < subObj.Length; i++) pieceObj[i - 1] = new PieceObj(subObj[i].gameObject, initSpeed, g);\\
 
 \section{MIS of Displacement in the air calculation module(\mref{mDC1})}
 
@@ -551,6 +495,54 @@ Convert equation to codes:\\
 	\item output: $S_{z}: \mathbb{R}$ 
 	\item exception: None 
 \end{itemize}
+
+\section{MIS of target object module(\mref{mTO})}
+
+Object class provided by platform
+
+\subsection{Module}
+
+TarObjModule
+
+\subsection{Uses}
+
+Input Module(\mref{mIF})
+
+\subsection{Syntax}
+
+\subsubsection{Exported Access Programs}
+
+\begin{center}
+	\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
+		\hline
+		$X$ & $\mathbb{R}$ & - & - \\
+		$Y$ & $\mathbb{R}$ & - & - \\
+		$Z$ & $\mathbb{R}$ & - & - \\
+		position & $\mathbb{R}^{3}$ & - & - \\
+		destory() & - & - & - \\
+		\hline		
+	\end{tabular}
+\end{center}
+$X,Y,Z$ are coordinates of object. position is 3D vector that contains $X,Y,Z$ while it is also considered as gravity center location of the object, destroy() function removes the object.
+\subsection{Semantics}
+
+\subsubsection{State Variables}
+
+KeyCode.Space: Boolean.
+This bool value indicates if key space is pressed on keyboard.
+
+\subsubsection{Access Routine Semantics}
+
+\noindent destroy():\\
+\an{We assume the explosion happens when "space" is pressed. The target object is removed from scene at the same time.}
+\begin{itemize}
+	\item transition: target object $\rightarrow$ null
+	\item output: None
+	\item exception: None
+\end{itemize}
+
 
 \section{MIS of Object cutting Module(\mref{mOC})}
 

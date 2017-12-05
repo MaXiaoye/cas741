@@ -34,6 +34,7 @@ urlcolor=cyan          % color of external links
 \newcommand{\rref}[1]{R\ref{#1}}
 \newcommand{\ddref}[1]{DD\ref{#1}}
 \newcommand{\mref}[1]{M\ref{#1}}
+\newcommand{\aref}[1]{A\ref{#1}}
 \input{../../Comments}
 
 \newcommand{\progname}{Program Name}
@@ -412,7 +413,7 @@ None
 \subsubsection{Access Routine Semantics}
 
 \noindent DisAirCalX():\\
-Equation: $v_{0}=10*E ,S_{x}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot \Delta t$ \an{Based on \rref{A_velocity} in SRS that value of initial velocity given by explosion is ten times input $E$ unit length in unity per second. $\Delta t$ is the gap between each frame that input from unity3D}\\
+Equation: $v_{0}=10*E ,S_{x}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot \Delta t$ \an{Based on \aref{A_velocity} in SRS that value of initial velocity given by explosion is ten times input $E$ unit length in unity per second. $\Delta t$ is the gap between each frame that input from unity3D}\\
 Convert equation to codes:\\
 initSpeed * Mathf.Cos(PieceObj.theta1) * Mathf.Sin(PieceObj.theta2) * Time.deltaTime
 \begin{itemize}

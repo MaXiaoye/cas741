@@ -142,12 +142,11 @@ The following table is taken directly from the Module Guide document for this pr
 		\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Module\\
 		& Piece Object Module\\
 		& Pieces initialization module\\
-		& Displacement in the air calculation module\\
-		& Displacement on the ground calculation module\\
+		& Displacement calculation module\\
 		\midrule
 		
 		\multirow{3}{0.3\textwidth}{Software Decision Module} & Target Object Module\\
-		& Object cutting module\\
+		& Collision with ground detection Module\\
 		& Output Module\\
 		\bottomrule
 		
@@ -318,7 +317,7 @@ Mathf.Atan2(PieceObj.x - TargetObj.x, PieceObj.z - TargetObj.z)
 	\item exception: None
 \end{itemize}
 
-\noindent MoveOnGround(): \an{use \mref{mDC2} here}
+\noindent MoveOnGround(): \an{use \mref{mDC1} here}
 \begin{itemize}
 	\item transition: Move PieceObj on the ground by updating $x,y,z$
 	\item output: None
@@ -334,7 +333,7 @@ PieceInitModule
 \subsection{Uses}
 
 Input Module(\mref{mIF})\\
-Piece Object Module(\mref{mOM})\\
+Piece Object Module(\mref{mPO})\\
 target object module(\mref{mTO})\\
 
 \subsection{Syntax}
@@ -374,7 +373,7 @@ subObj = targetObj.GetComponentsInChildren<Transform>();\\
 pieceObj = new PieceObj[targetObj.transform.childCount];\\
 for (int i = 1; i < subObj.Length; i++) pieceObj[i - 1] = new PieceObj(subObj[i].gameObject, initSpeed, g);\\
 
-\section{MIS of Displacement in the air calculation module(\mref{mDC1})}
+\section{MIS of Displacement calculation module(\mref{mDC1})}
 
 Calculate and output trace of motion for each piece in the air by using follow equations.\\
 
@@ -385,7 +384,6 @@ DisAirCalModule
 \subsection{Uses}
 
 Input Module(\mref{mIF})\\
-Angle calculation module(\mref{mAC})\\
 
 \subsection{Syntax}
 
@@ -399,6 +397,8 @@ Angle calculation module(\mref{mAC})\\
 		DisAirCalX & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
 		DisAirCalY & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
 		DisAirCalZ & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
+		DisGroCalX & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
+		DisGroCalZ & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -441,40 +441,6 @@ initSpeed * Mathf.Cos(PieceObj.theta1) * Mathf.Cos(PieceObj.theta2) * Time.delta
 	\item output: $S_{z}: \mathbb{R}$ 
 	\item exception: None
 \end{itemize}
-
-\section{MIS of Displacement on the ground calculation module(\mref{mDC2})}
-Calculate and output trace of motion for each piece on the ground by using follow equations.
-\subsection{Module}
-
-DisGroCalModule
-
-\subsection{Uses}
-
-Input Module(\mref{mIF})
-Angle calculation module(\mref{mAC})
-
-\subsection{Syntax}
-
-\subsubsection{Exported Access Programs}
-
-\begin{center}
-	\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
-		\hline
-		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-		\hline
-		DisGroCalX & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
-		DisGroCalZ & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
-		\hline
-	\end{tabular}
-\end{center}
-
-\subsection{Semantics}
-
-\subsubsection{State Variables}
-
-None
-
-\subsubsection{Access Routine Semantics}
 
 \noindent DisGroCalX():\\
 Euqation: $a=\mu_{k}g$; $S_{x}=(v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2} - at)\cdot \Delta t-\frac{1}{2}a \cdot \Delta t^{2}$\\
@@ -544,13 +510,14 @@ This bool value indicates if key space is pressed on keyboard.
 \end{itemize}
 
 
-\section{MIS of Object cutting Module(\mref{mOC})}
+\section{MIS of Collision with ground detection Module (\mref{mOC})}
 
-External function provided by platform. Split target object to pieces.
+Detect if there is a collision between a piece and the ground. If so, set onGround
+value to true.
 
 \subsection{Module}
 
-ObjCutModule
+ColDetectModule
 
 \subsection{Uses}
 
@@ -561,12 +528,11 @@ Input Module(\mref{mIF})
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-	\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+	\begin{tabular}{p{4cm} p{4cm} p{4cm} p{2cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		cut() & TargetObj & PieceObj & - \\
-		Instantiate() & - & - & - \\
+		OnTriggerEnter() & - & - & - \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -575,27 +541,20 @@ Input Module(\mref{mIF})
 
 \subsubsection{State Variables}
 
-None
+onGround
 
 \subsubsection{Access Routine Semantics}
 
-\noindent cut():
+\noindent OnTriggerEnter():
 \begin{itemize}
-	\item transition: None
-	\item output: PieceObj 
-	\item exception: None 
-\end{itemize}
-
-\noindent Instantiate():
-\begin{itemize}
-	\item transition: None
-	\item output: visualization \an{draw piece objects in the scene} 
+	\item transition: pieceObj.onGround: false $\to$ true;
+	\item output: None 
 	\item exception: None 
 \end{itemize}
 
 \section{MIS of Output Module(\mref{mOM})}
 
-Unity3D interface with codes by calling function update() each frame. Unity3D convert data into visualization.
+Unity3D interface with codes by calling function update() each frame. Unity3D convert data into visualization. Provide free camera for people to control view.
 
 \subsection{Module}
 
@@ -603,20 +562,20 @@ OutputModule
 
 \subsection{Uses}
 
-Displacement in the air calculation module(\mref{mDC1})\\
-Displacement on the ground calculation module(\mref{mDC2})\\
+Displacement calculation module(\mref{mDC1})
 
 \subsection{Syntax}
 
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-	\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+	\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
 		update() & codes to be run each frame & Visualization & - \\
 		start() & - & - & - \\
+		CameraControl & - & - & - \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -625,20 +584,19 @@ Displacement on the ground calculation module(\mref{mDC2})\\
 
 \subsubsection{State Variables}
 
-Screen;\\
-PieceObj
+Scene;\\
 \subsubsection{Access Routine Semantics}
 
 \noindent start():\\
 Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
 \begin{itemize}
-	\item transition: null $\rightarrow$ target object \an{target object is initialized in scene}
+	\item transition: Initialization of scene.
 	\item output: None 
 	\item exception: None  
 \end{itemize}
 
-\noindent update():\\
-Update is called every frame. In update(), we listen if space is pressed as start point of the explosion. It also keeps updating status of all objects in the scene to convert location of objects to visualization that can be seen on the screen.
+\noindent Fixedupdate():\\
+Fixedupdate is called every frame. In Fixedupdate(), we listen if space is pressed as start point of the explosion. It also keeps updating status of all objects in the scene to convert location of objects to visualization that can be seen on the screen.
 \begin{itemize}
 	\item transition: Piece objects $\rightarrow$ Visualization 
 	\item output: None 

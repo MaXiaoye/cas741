@@ -77,6 +77,7 @@
 	solution space is explored.  
 	
 	Our design follows the rules layed out by \citet{ParnasEtAl1984}, as follows:
+	
 	\begin{itemize}
 		\item System details that are likely to change independently should be the
 		secrets of separate modules.
@@ -136,13 +137,18 @@
 		hardware on which the software is running.
 		\item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the
 		initial input data.
-		\item[\refstepcounter{acnum} \actheacnum \label{acCF}:] The
-                  cutting function provided by Unity3D.
+		\item[\refstepcounter{acnum} \actheacnum \label{acPO}:] If all pieces have the same initial speed after explosion.
+		\item[\refstepcounter{acnum} \actheacnum \label{acPI}:] Initial component on each piece when it is generated. \an{such as texture and script.}
+		\item[\refstepcounter{acnum} \actheacnum
+		\label{acMove}:] The method to check if a piece is stopped. \an{In unity, negative speed means having speed towards opposite direction that is not equivalent with stop.}
+		\item[\refstepcounter{acnum} \actheacnum \label{acTO}:] Different types of target object. 
+		\item[\refstepcounter{acnum} \actheacnum \label{acCD}:] Method to detect if a piece is on the ground.
+		\item[\refstepcounter{acnum} \actheacnum \label{acCC}:] Method to control camera.
 	\end{description}
 	
-\wss{There should be more than 3 anticipated changes.  Each of the leaf modules
-  should map to an anticipated change.}
-
+	\wss{There should be more than 3 anticipated changes.  Each of the leaf modules
+		should map to an anticipated change.}
+	\an{Add necessary anticipated changes for each leaf modules}
 	\subsection{Unlikely Changes} \label{SecUchange}
 	
 	The module design should be as general as possible. However, a general system is
@@ -157,16 +163,16 @@
 		(Input: Keyboard, Output: Screen).
 		\item[\refstepcounter{ucnum} \uctheucnum \label{ucInput}:] There will always be
 		a source of input data external to the software.
-              \item[\refstepcounter{ucnum} \uctheucnum \label{ucFri}:] Input
-                more than one coefficient of friction on the ground.
+		\item[\refstepcounter{ucnum} \uctheucnum \label{ucFri}:] Input more than one coefficient of friction on the ground.
+		\item[\refstepcounter{ucnum} \uctheucnum \label{ucU}:] Run this program on other platform that is different from Unity3D.
 	\end{description}
-
-\wss{Is Unity an unlikely change?  I cannot remember whether this was a
-  constraint in your SRS.  A more generic design is better, where the physics
-  engine is a likely change and the design is done to support this change.  In
-  this case there should be an anticipated change related to the change in
-  physics engine.}
 	
+	\wss{Is Unity an unlikely change?  I cannot remember whether this was a
+		constraint in your SRS.  A more generic design is better, where the physics
+		engine is a likely change and the design is done to support this change.  In
+		this case there should be an anticipated change related to the change in
+		physics engine.}\\
+	\an{Actually on platform Unity3D is a system constraint in SRS. Add an unlikely change for this. However I believe the method I calculate displacement as well as some algorithms can be implemented on some other platforms as well.}
 	\section{Module Hierarchy} \label{SecMH}
 	
 	This section provides an overview of the module design. Modules are summarized
@@ -178,14 +184,12 @@
 		\item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
 		\item [\refstepcounter{mnum} \mthemnum \label{mBH}:] Behaviour-Hiding Module
 		\item [\refstepcounter{mnum} \mthemnum \label{mIF}:] Input Module
-		\item [\refstepcounter{mnum} \mthemnum \label{mTO}:] Target Object Module
 		\item [\refstepcounter{mnum} \mthemnum \label{mPO}:] Piece Object Module
-		\item [\refstepcounter{mnum} \mthemnum \label{mOGC}:] Acquiring gravity center Module
-		\item [\refstepcounter{mnum} \mthemnum \label{mAC}:] Angle calculation Module
-		\item [\refstepcounter{mnum} \mthemnum \label{mDC1}:] Displacement in the air calculation Module
-		\item [\refstepcounter{mnum} \mthemnum \label{mDC2}:] Displacement on the ground calculation Module
+		\item [\refstepcounter{mnum} \mthemnum \label{mOGC}:] Pieces initialization module
+		\item [\refstepcounter{mnum} \mthemnum \label{mDC1}:] Displacement calculation Module
 		\item [\refstepcounter{mnum} \mthemnum \label{mSD}:] Software Decision Module
-		\item [\refstepcounter{mnum} \mthemnum \label{mOC}:] Object cutting Module
+		\item [\refstepcounter{mnum} \mthemnum \label{mTO}:] Target Object Module
+		\item [\refstepcounter{mnum} \mthemnum \label{mOC}:] Collision with ground detection Module
 		\item [\refstepcounter{mnum} \mthemnum \label{mOM}:] Output Module
 	\end{description}
 	
@@ -200,16 +204,14 @@
 			{Hardware-Hiding Module} & ~ \\
 			\midrule
 			
-			\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Module\\
-			& Target Object Module\\
+			\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Module\\			
 			& Piece Object Module\\
-			& Acquiring gravity center module\\
-			& Angle calculation module\\
-			& Displacement in the air calculation module\\
-			& Displacement on the ground calculation module\\
+			& Pieces initialization module\\
+			& Displacement calculation module\\
 			\midrule
 			
-			\multirow{3}{0.3\textwidth}{Software Decision Module} & Object cutting module\\
+			\multirow{3}{0.3\textwidth}{Software Decision Module} & Target Object Module\\
+			& Collision with ground detection Module\\
 			& Output Module\\
 			\bottomrule
 			
@@ -218,11 +220,11 @@
 		\label{TblMH}
 	\end{table}
 	
-\wss{I would think that your physics engine would be within the software
-  decision hiding modules.  You might be splitting the physics module up into
-  multiple modules.  If that is the case, shouldn't there be more modules?
-  Aren't there other services from Unity that you need?}
-
+	\wss{I would think that your physics engine would be within the software
+		decision hiding modules.  You might be splitting the physics module up into
+		multiple modules.  If that is the case, shouldn't there be more modules?
+		Aren't there other services from Unity that you need?}\\
+	\an{I only needs collision detection of unity's physics engine. In addition it is only for collision between piece and ground because collision between pieces is ignored. Other functions from unity's physics engine are turned off.}
 	\section{Connection Between Requirements and Design} \label{SecConnection}
 	
 	The design of the system is intended to satisfy the requirements developed in
@@ -273,62 +275,39 @@
 	\subsubsection{Input Module (\mref{mIF})}
 	
 	\begin{description}
-		\item[Secrets:]The format, structure verification of the input data.
-		\item[Services:]Converts the valid input data into the data structure used by the
-		input parameters module. \wss{You don't have an input parameters
-                  module.  What module will actually have its state changed?}
-		\item[Implemented By:] Breaking Effect
-	\end{description}
-	
-	\subsubsection{Target Object Module (\mref{mPO})}
-	
-	\begin{description}
-		\item[Secrets:]Definition of class for target object.
-		\item[Services:]Extend existing object class provided by platform to implement object class for target object. 
-		\item[Implemented By:] Breaking Effect
+		\item[Secrets:]The format, verification of input data.
+		\item[Services:]Converts the valid input data into the data structure used by other modules. \wss{You don't have an input parameters
+			module.  What module will actually have its state changed?}\\
+		\an{Yes I merge 2 modules for input into one module.}
+		\item[Implemented By:] Breaking Effect and Unity3d. \an{GUI for input is provided by Unity3d.}
 	\end{description}
 	
 	\subsubsection{Piece Object Module (\mref{mPO})}
 	
 	\begin{description}
 		\item[Secrets:]Definition of class for piece object.
-		\item[Services:]Extend existing object class provided by
-                  platform to implement object class for piece object.  \wss{The
-                    difference between target and piece objects is not clear.}
+		\item[Services:]Define a custom class to store piece object that has much more properties and functions than game object class provided by platform. \wss{The
+			difference between target and piece objects is not clear.}\\
+		\an{Modify description. And I put target object module under software decision module part. Because target object is an instance of game object class provied by Unity3d while piece object is a custom class defined by myself.}
 		\item[Implemented By:] Breaking Effect
 	\end{description}
 	
-	\subsubsection{Acquiring gravity center module(\mref{mOGC})}
-        \wss{sometimes you forget to add a space before your bracket (}
-	
+	\subsubsection{Pieces initialization module (\mref{mOGC})}
+	\wss{sometimes you forget to add a space before your bracket (}\\ 
+	\an{Fixed. Thank you for this remind !}
 	\begin{description}
-		\item[Secrets:]How target object is cutting and how to obtain location of gravity centers; structure of locations of each piece.
-		\item[Services:]Call cutting function provided by Unity3D to split target object then do a traversal to obtain location of gravity centers for all pieces.
-		\item[Implemented By:] Breaking Effect
-	\end{description}
-	
-	\subsubsection{Angle calculation module(\mref{mAC})}
-	
-	\begin{description}
-		\item[Secrets:]How the angles are calculated.
-		\item[Services:]Calculate the angle between initial speed $v_{0}$ and horizontal $\theta_{1}$. Calculate the angle between $x$ axiom and projection on horizontal of initial speed $\theta_{2}$.
+		\item[Secrets:]Preparation before explosion happens that how to generate pieces object in program.
+		\item[Services:]Do traversal to initialize all pieces.
 		\item[Implemented By:] Breaking Effect
 	\end{description}
 
-	\subsubsection{Displacement in the air calculation module(\mref{mDC1})}
+	\subsubsection{Displacement calculation module (\mref{mDC1})}
 	
 	\begin{description}
-		\item[Secrets:]How the displacement are calculated.
-		\item[Services:]Calculate and output trace of motion for each piece in the air.
-		\item[Implemented By:] Breaking Effect
-	\end{description}
-	
-	\subsubsection{Displacement calculation on the ground module(\mref{mDC2})}
-	
-	\begin{description}
-		\item[Secrets:]How the displacement are calculated. \wss{You
-                    cannot have the same secret in two different module.}
-		\item[Services:]Calculate and output trace of motion for each piece on the ground.
+		\item[Secrets:]How the displacement are calculated.\wss{You
+			cannot have the same secret in two different module.}\\
+		\an{Now I consider it is unnecessary to keep two modules for displacement calculation so I merge them into one.}
+		\item[Services:]Calculate trace of motion for each piece.
 		\item[Implemented By:] Breaking Effect
 	\end{description}
 	
@@ -345,21 +324,29 @@
 		\item[Implemented By:] Breaking Effect
 	\end{description}
 	
-	\subsubsection{Object cutting Module(\mref{mOC})}
+	\subsubsection{Target Object Module (\mref{mTO})}
 	
 	\begin{description}
-		\item[Secrets:] How the target object is splitted into pieces.
-		\item[Services:] Split target object into pieces.
+		\item[Secrets:]Definition of class for target object.
+		\item[Services:]It is an existing object class provided by platform for target object. 
+		\item[Implemented By:] Unity3D
+	\end{description}
+	
+	\subsubsection{Collision with ground detection Module (\mref{mOC})}
+	
+	\begin{description}
+		\item[Secrets:] How to judge if a piece object already reaches the ground.
+		\item[Services:] Detect if there is a collision between one piece and the ground. If so, set onGround value to true. 
 		% Changes in these modules are more likely to be motivated by a desire to
 		% improve performance than by externally imposed changes.
 		\item[Implemented By:] Unity3D
 	\end{description}
 	
-	\subsubsection{Output Module(\mref{mOM})}
+	\subsubsection{Output Module (\mref{mOM})}
 	
 	\begin{description}
 		\item[Secrets:] Interact with platform to convert data into visualization.
-		\item[Services:] Display motion of pieces in vision.
+		\item[Services:] Display motion of pieces in vision. Provide free camera for people to control view.
 		% Changes in these modules are more likely to be motivated by a desire to
 		% improve performance than by externally imposed changes.
 		\item[Implemented By:] Unity3D
@@ -425,17 +412,19 @@
 		\caption{Use hierarchy among modules}
 		\label{FigUH}
 	\end{figure}
-
-\wss{Was there any thought to having a separate module for coordinating the
-  output?  Your gui module is responsible for producing output and coordinating
-  the calculations.  Shouldn't there be a graphics driver module in the design
-  that is provided by Unity?}
+	
+	\wss{Was there any thought to having a separate module for coordinating the
+		output?  Your gui module is responsible for producing output and coordinating
+		the calculations.  Shouldn't there be a graphics driver module in the design
+		that is provided by Unity?}\\
+	\an{Actually I can but not really for now .. because I don't have separate codes fot a separate graphics driver module. I assume the output module handles the graphics part. I don't have any standard output in console. Only error messages will be shown through console.}
 	%\section*{References}
-
-\wss{Good start for the design.  Remember that you may have to modify the design
-  as you work through the MIS and gain a deeper understanding of how your
-  modules interact.}
-
+	
+	\wss{Good start for the design.  Remember that you may have to modify the design
+		as you work through the MIS and gain a deeper understanding of how your
+		modules interact.}\\
+	\an{Thank you very much for the review and great comments ! And yes I modify the design after work through the MIS.}
+	
 	\bibliographystyle {plainnat}
 	\bibliography {MG}
 	

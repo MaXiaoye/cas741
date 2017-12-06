@@ -244,19 +244,6 @@ Displacement in the air calculation Module(\mref{mDC1})\\
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline		
-		obj & Object & - & - \\
-		$x$ & $\mathbb{R}$ & - & - \\
-		$y$ & $\mathbb{R}$ & - & - \\
-		$z$ & $\mathbb{R}$ & - & - \\
-		onGround & Boolean & - & - \\
-		stop & Boolean & - & - \\
-		$\theta_{1}$ & $\mathbb{R}$ & - & - \\
-		$\theta_{2}$ & $\mathbb{R}$ & - & - \\
-		initSpeed & $\mathbb{R}$ & - & - \\
-		speedThisFrameX & $\mathbb{R}$ & - & - \\
-		speedLastFrameX & $\mathbb{R}$ & - & - \\
-		speedThisFrameZ & $\mathbb{R}$ & - & - \\
-		speedLastFrameZ & $\mathbb{R}$ & - & - \\
 		PieceObj() & $\mathbb{R}^{2};Object$ & - & - \\
 		MoveInAir() & - & - & - \\
 		MoveOnGround() & - & - & - \\
@@ -264,6 +251,28 @@ Displacement in the air calculation Module(\mref{mDC1})\\
 		\hline
 	\end{tabular}
 \end{center}
+
+\subsection{Semantics}
+
+\subsubsection{Environment Variables}
+
+obj: Object\\
+$x: \mathbb{R}$\\
+$y: \mathbb{R}$\\
+$z: \mathbb{R}$\\
+onGround: Boolean\\
+stop: Boolean\\
+$\theta_{1}: \mathbb{R}$\\
+$\theta_{2}: \mathbb{R}$\\
+initSpeed: $\mathbb{R}$\\
+speedThisFrameX: $\mathbb{R}$\\
+speedLastFrameX: $\mathbb{R}$\\
+speedThisFrameZ: $\mathbb{R}$\\
+speedLastFrameZ: $\mathbb{R}$
+
+\subsubsection{State Variables}
+None
+\subsubsection{Assumptions}
 
 \noindent
 \begin{itemize}
@@ -278,12 +287,6 @@ Displacement in the air calculation Module(\mref{mDC1})\\
 	\item Translate() controls motion of the object.
 	\item  MoveInAir() and MoveOnGround() controls motion of the object by calling Translate(). It check onGround firstly to make sure the object is in the air or on the ground. Based on value of bool variable onGround, that call and provide corresponding destination as input to Translate(). Destination to Translate() is calculated by \mref{mDC1} and \mref{mDC2}. \\
 \end{itemize}
-
-\subsection{Semantics}
-
-\subsubsection{State Variables}
-
-None
 
 \subsubsection{Access Routine Semantics}
 
@@ -359,18 +362,26 @@ target object module(\mref{mTO})\\
 	\end{tabular}
 \end{center}
 
-\noindent
-\begin{itemize}
-	\item targetObj is the 3D model of target object in scene.
-	\item subObj[ ] is a list of sub objects under target Object \an{Since all pieces make up the whole target object, all pieces object are considered as sub objects of the target object in Unity3D. We need to get all sub objects firstly and then use these sub objects to construct piece objects defined by myself.} 
-	\item pieceObj[ ] is a list of piece objects defined by myself.
-	\item PieceObj() is constructor of piece object that defined in \mref{mPO}. \an{use \mref{mPO} here.}
-\end{itemize}
-
 \subsection{Semantics}
+
+\subsubsection{Environment Variables}
+
+targetObj: Object\\
+subObj[]: list of Object\\
+pieceObj[]: list of Piece Object\\
 
 \subsubsection{State Variables}
 None
+\subsubsection{Assumptions}
+
+\noindent
+\begin{itemize}
+	\item targetObj is the 3D model of target object in scene.
+	\item subObj[] is a list of sub objects under target Object. Since all pieces make up the whole target object, all pieces object are considered as sub objects of the target object in Unity3D. We need to get all sub objects firstly and then use these sub objects to construct piece objects defined by myself.
+	\item pieceObj[] is a list of piece objects defined by myself.
+	\item PieceObj() is constructor of piece object that defined in \mref{mPO}. \an{use \mref{mPO} here.}
+\end{itemize}
+
 \subsubsection{Access Routine Semantics}
 
 Do traversal to initialize all pieces. \an{Each piece is stored as an instance of class PieceObj defined in \mref{mPO}. Gravity center is position value in PieceObj}\\
@@ -381,16 +392,14 @@ for (int i = 1; i < subObj.Length; i++) pieceObj[i - 1] = new PieceObj(subObj[i]
 
 \section{MIS of Displacement calculation module(\mref{mDC1})}
 
-Calculate and output trace of motion for each piece in the air by using follow equations.\\
-
+Calculate and output trace of motion for each piece in the air by using follow equations.
 \subsection{Module}
 
 DisAirCalModule
 
 \subsection{Uses}
 
-Input Module(\mref{mIF})\\
-
+Input Module(\mref{mIF})
 \subsection{Syntax}
 
 \subsubsection{Exported Access Programs}
@@ -400,11 +409,11 @@ Input Module(\mref{mIF})\\
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		DisAirCalX & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
-		DisAirCalY & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
-		DisAirCalZ & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
-		DisGroCalX & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
-		DisGroCalZ & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
+		DisAirCalX() & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
+		DisAirCalY() & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
+		DisAirCalZ() & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
+		DisGroCalX() & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
+		DisGroCalZ() & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -497,20 +506,31 @@ Input Module(\mref{mIF})
 		\hline		
 	\end{tabular}
 \end{center}
-$X,Y,Z$ are coordinates of object. position is 3D vector that contains $X,Y,Z$ while it is also considered as gravity center location of the object, destroy() function removes the object.
+
 \subsection{Semantics}
 
+\subsubsection{Environment Variables}
+$X: \mathbb{R}$\\
+$Y: \mathbb{R}$\\
+$Z: \mathbb{R}$\\
+position: $\mathbb{R}^{3}$
 \subsubsection{State Variables}
 
 KeyCode.Space: Boolean.
 This bool value indicates if key space is pressed on keyboard.
 
+\subsubsection{Assumptions}
+
+\noindent
+\begin{itemize}
+	\item $X,Y,Z$ are coordinates of object. position is 3D vector that contains $X,Y,Z$ while it is also considered as gravity center location of the object
+\end{itemize}
+
 \subsubsection{Access Routine Semantics}
 
-\noindent destroy():\\
-\an{We assume the explosion happens when "space" is pressed. The target object is removed from scene at the same time.}
+\noindent Find():
 \begin{itemize}
-	\item transition: target object $\rightarrow$ null
+	\item transition: Initialize an instance of target object by searching name.
 	\item output: None
 	\item exception: None
 \end{itemize}
@@ -589,20 +609,26 @@ Displacement calculation module(\mref{mDC1})
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-
 Scene;\\
+
+\subsubsection{Assumptions}
+
+\noindent
+\begin{itemize}
+	\item Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
+	\item Fixedupdate is called every frame. In Fixedupdate(), we listen if space is pressed as start point of the explosion. It also keeps updating status of all objects in the scene to convert location of objects to visualization that can be seen on the screen.
+\end{itemize}
+
 \subsubsection{Access Routine Semantics}
 
-\noindent start():\\
-Start is called on the frame when a script is enabled just before any of the Update methods is called the first time.
+\noindent start():
 \begin{itemize}
 	\item transition: Initialization of scene.
 	\item output: None 
 	\item exception: None  
 \end{itemize}
 
-\noindent Fixedupdate():\\
-Fixedupdate is called every frame. In Fixedupdate(), we listen if space is pressed as start point of the explosion. It also keeps updating status of all objects in the scene to convert location of objects to visualization that can be seen on the screen.
+\noindent Fixedupdate():
 \begin{itemize}
 	\item transition: Piece objects $\rightarrow$ Visualization 
 	\item output: None 

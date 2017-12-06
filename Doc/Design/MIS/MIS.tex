@@ -182,7 +182,7 @@ Hardware-Hiding Module (\mref{mHH})
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
@@ -208,16 +208,16 @@ None
 \end{itemize}
 \subsubsection{Access Routine Semantics}
 
-\noindent InputVerifiy():
+\noindent InputVerifiy($\mu_{k}$, E, $TargetObj$):
 \begin{itemize}
 \item transition: N/A
 \item output: Exceptions or None.
 \item exception:\\
 exc := ($\mu_{k}$ = null $\Rightarrow $ NoMuException)\\
 exc := (E = null $\Rightarrow $ NoELvException)\\
-exc := ($X \notin \mathbb{R} \vee (X \le -1000) \vee (X \ge 1000)$ $\Rightarrow $ InvalidCoorException)\\
-exc := ($Z \notin \mathbb{R} \vee (Z \le -1000) \vee (Z \ge 1000)$ $\Rightarrow $ InvalidCoorException)\\
-exc := ($Y != 0$ $\Rightarrow $ InvalidCoorException)\\
+exc := ($X \notin \mathbb{R} \vee (X \le -1000) \vee (X \ge 1000)$ $\Rightarrow $ InvalidCoorXException)\\
+exc := ($Z \notin \mathbb{R} \vee (Z \le -1000) \vee (Z \ge 1000)$ $\Rightarrow $ InvalidCoorZException)\\
+exc := ($Y != 0$ $\Rightarrow $ InvalidCoorYException)\\
 exc := ($E \notin \mathbb{R} \vee (E \leq 0) \vee (E \geq 10)$ $\Rightarrow $ InvalidELvException)\\
 exc := ($\mu_{k} \notin \mathbb{R} \vee (\mu_{k} \le 0) \vee (\mu_{k} \ge 1)$ $\Rightarrow $ InvalidMuException)\\
 \end{itemize}
@@ -256,19 +256,19 @@ Displacement in the air calculation Module(\mref{mDC1})\\
 
 \subsubsection{Environment Variables}
 
-obj: Object\\
-$x: \mathbb{R}$\\
-$y: \mathbb{R}$\\
-$z: \mathbb{R}$\\
-onGround: Boolean\\
-stop: Boolean\\
-$\theta_{1}: \mathbb{R}$\\
-$\theta_{2}: \mathbb{R}$\\
-initSpeed: $\mathbb{R}$\\
-speedThisFrameX: $\mathbb{R}$\\
-speedLastFrameX: $\mathbb{R}$\\
-speedThisFrameZ: $\mathbb{R}$\\
-speedLastFrameZ: $\mathbb{R}$
+$PieceObj.obj: Object$\\
+$PieceObj.obj.transform.x: \mathbb{R}$\\
+$PieceObj.obj.transform.y: \mathbb{R}$\\
+$PieceObj.obj.transform.z: \mathbb{R}$\\
+$PieceObj.onGround: Boolean$\\
+$PieceObj.stop: Boolean$\\
+$PieceObj.\theta_{1}: \mathbb{R}$\\
+$PieceObj.\theta_{2}: \mathbb{R}$\\
+$PieceObj.initSpeed: \mathbb{R}$\\
+$PieceObj.speedThisFrameX: \mathbb{R}$\\
+$PieceObj.speedLastFrameX: \mathbb{R}$\\
+$PieceObj.speedThisFrameZ: \mathbb{R}$\\
+$PieceObj.speedLastFrameZ: \mathbb{R}$
 
 \subsubsection{State Variables}
 None
@@ -405,7 +405,7 @@ Input Module(\mref{mIF})
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-	\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+	\begin{tabular}{p{3cm} p{6cm} p{4cm} p{2cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
@@ -498,11 +498,7 @@ Input Module(\mref{mIF})
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		$X$ & $\mathbb{R}$ & - & - \\
-		$Y$ & $\mathbb{R}$ & - & - \\
-		$Z$ & $\mathbb{R}$ & - & - \\
-		position & $\mathbb{R}^{3}$ & - & - \\
-		destory() & - & - & - \\
+		Find() & $String$ & Object & - \\
 		\hline		
 	\end{tabular}
 \end{center}
@@ -510,9 +506,9 @@ Input Module(\mref{mIF})
 \subsection{Semantics}
 
 \subsubsection{Environment Variables}
-$X: \mathbb{R}$\\
-$Y: \mathbb{R}$\\
-$Z: \mathbb{R}$\\
+$TargetObj.transform.X: \mathbb{R}$\\
+$TargetObj.transform.Y: \mathbb{R}$\\
+$TargetObj.transform.Z: \mathbb{R}$\\
 position: $\mathbb{R}^{3}$
 \subsubsection{State Variables}
 
@@ -528,7 +524,7 @@ This bool value indicates if key space is pressed on keyboard.
 
 \subsubsection{Access Routine Semantics}
 
-\noindent Find():
+\noindent Find($name: String$):
 \begin{itemize}
 	\item transition: Initialize an instance of target object by searching name.
 	\item output: None
@@ -595,7 +591,7 @@ Displacement calculation module(\mref{mDC1})
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-	\begin{tabular}{p{3cm} p{4cm} p{4cm} p{2cm}}
+	\begin{tabular}{p{3cm} p{5cm} p{4cm} p{2cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline

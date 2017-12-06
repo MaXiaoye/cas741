@@ -37,7 +37,7 @@ urlcolor=cyan          % color of external links
 \newcommand{\aref}[1]{A\ref{#1}}
 \input{../../Comments}
 
-\newcommand{\progname}{Program Name}
+\newcommand{\progname}{Breaking Effect}
 
 \begin{document}
 
@@ -149,6 +149,7 @@ The following table is taken directly from the Module Guide document for this pr
 		\multirow{3}{0.3\textwidth}{Software Decision Module} & Target Object Module\\
 		& Collision with ground detection Module\\
 		& Output Module\\
+		& Camera controlling Module\\
 		\bottomrule
 		
 	\end{tabular}
@@ -176,10 +177,7 @@ InputModule
 \subsection{Uses}
 
 Hardware-Hiding Module (\mref{mHH})
-
 \subsection{Syntax}
-
-
 
 \subsubsection{Exported Access Programs}
 
@@ -188,25 +186,33 @@ Hardware-Hiding Module (\mref{mHH})
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-$\mu_{k}$ &  $\mathbb{R}$ & - & InvalidInput\\
-$E$ & $\mathbb{R}$ & - & InvalidInput\\
-$TargetObj$ & $Object$ & - & InvalidInput\\
-InputVerify() &  $\mathbb{R}^{2}; TargetObj$ & void & InvalidInput\\
+InputVerify() &  $\mathbb{R}^{2}; TargetObj$ & - & InvalidInput\\
 \hline
 \end{tabular}
 \end{center}
-\an{Object is a 3D model in Unity3D, which contains its position $(X,Y,Z)$. User needs provide a 3D model and attach the program to it.} 
+
 \subsection{Semantics}
 
+\subsubsection{Environment Variables}
+
+$\mu_{k}: \mathbb{R}$\\
+$E: \mathbb{R}$\\
+$TargetObj: Object$
 \subsubsection{State Variables}
 None
+\subsubsection{Assumptions}
+
+\begin{itemize}
+	\item Object is a 3D model in Unity3D, which contains its position $(X,Y,Z)$
+	\item User needs provide a 3D model and attach the program to it.
+\end{itemize}
 \subsubsection{Access Routine Semantics}
 
 \noindent InputVerifiy():
 \begin{itemize}
 \item transition: N/A
 \item output: Exceptions or None.
-\item exception:\an{Different kinds of exceptions for different invalid inputs.}\\
+\item exception:\\
 exc := ($\mu_{k}$ = null $\Rightarrow $ NoMuException)\\
 exc := (E = null $\Rightarrow $ NoELvException)\\
 exc := ($X \notin \mathbb{R} \vee (X \le -1000) \vee (X \ge 1000)$ $\Rightarrow $ InvalidCoorException)\\
@@ -228,7 +234,6 @@ ObjCutModule
 
 Input Module(\mref{mIF})\\
 Displacement in the air calculation Module(\mref{mDC1})\\
-Displacement on the ground calculation Module(\mref{mDC2})\\
 
 \subsection{Syntax}
 
@@ -269,7 +274,7 @@ Displacement on the ground calculation Module(\mref{mDC2})\\
 	\item $\theta_{1}$ is the angle between initial speed $v_{0}$ and horizontal.
 	\item $\theta_{2}$ is the angle between $x$ axiom and projection on horizontal of initial speed
 	\item initSpeed is the initial speed the object has when explosion happens.
-	\item PieceObj() is constructor
+	\item PieceObj() is constructor that use input from \mref{mIF}.
 	\item Translate() controls motion of the object.
 	\item  MoveInAir() and MoveOnGround() controls motion of the object by calling Translate(). It check onGround firstly to make sure the object is in the air or on the ground. Based on value of bool variable onGround, that call and provide corresponding destination as input to Translate(). Destination to Translate() is calculated by \mref{mDC1} and \mref{mDC2}. \\
 \end{itemize}
@@ -282,7 +287,7 @@ None
 
 \subsubsection{Access Routine Semantics}
 
-\noindent PieceObj(): \an{use \mref{mIF} here}
+\noindent PieceObj():
 \begin{itemize}
 	\item transition: Initialize PieceObj
 	\item output: None

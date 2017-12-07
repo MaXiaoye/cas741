@@ -76,7 +76,8 @@ See SRS Documentation at \url{https://github.com/MaXiaoye/cas741/blob/master/Doc
 
 \section{Introduction}
 
-The following document details the Module Interface Specifications for Breaking Effect.
+The following document details the Module Interface Specifications for Breaking
+Effect.  \wss{It is usually a good idea to avoid one sentence paragraphs.}
  
 Breaking effect presents how the pieces of an object move after it separates into parts with
 suddenness or violence.
@@ -117,6 +118,13 @@ PieceObject & PieceObj & A data structure to store attributes of pieces that gen
 \bottomrule
 \end{tabular} 
 \end{center}
+
+\wss{As far as I can tell, you don't actually define Object or PieceObj
+  anywhere.  You probably haven't done this because they are implemented
+  elsewhere.  (I'm assuming they are implemented in Unit.)  However, you still
+  need a spec of Object and PieceObj for your MIS to make sense.  You should
+  create a simplified interface for these two ADTs.  You only need to document
+  those parts that you actually need for your specification.}
 
 \noindent
 The specification of \progname \ uses some derived data types: sequences, strings, and
@@ -164,6 +172,9 @@ The following table is taken directly from the Module Guide document for this pr
 	\label{FigUH}
 \end{figure}
 
+\wss{This figure is difficult to read.  You could make it bigger, or save it as
+  a pdf, which avoids the rasterization of png.}
+
 ~\newpage
 
 \section{MIS of Input Module(\mref{mIF})} 
@@ -198,17 +209,31 @@ InputVerify() &  $\mathbb{R}^{2}; TargetObj$ & - & InvalidInput\\
 $\mu_{k}: \mathbb{R}$\\
 $E: \mathbb{R}$\\
 $TargetObj: Object$
+
+\wss{This isn't how environment variables are used.  For a project like yours
+  the only environment variables that would apply are external files and the
+  screen.}
+\wss{Why do you have TargetObj as both an environment variable and an input.  If
+  it is an input, it isn't going to also appear as a state (or environment)
+  variable.}
+
 \subsubsection{State Variables}
 None
 \subsubsection{Assumptions}
 
 \begin{itemize}
 	\item Object is a 3D model in Unity3D, which contains its position $(X,Y,Z)$
-	\item User needs provide a 3D model and attach the program to it.
+	\item User needs provide a 3D model and attach the program to
+          it. \wss{What does this mean?  If this is a Unity step, you should
+            provide a pointer to an external resource that describes what this means.}
 \end{itemize}
 \subsubsection{Access Routine Semantics}
 
-\noindent InputVerifiy($\mu_{k}$, E, $TargetObj$):
+\noindent InputVerifiy($\mu_{k}$, E, $TargetObj$): \wss{The type in the syntax
+  section does not match what is written here?  $\mathbb{R}^2$ means a sequence
+  of two reals.  That means your syntax calls for two inputs, but you have 3.
+  On the next page $\mu_k$ could be null.  null is not a float.}
+
 \begin{itemize}
 \item transition: N/A
 \item output: Exceptions or None.
@@ -233,7 +258,8 @@ ObjCutModule
 \subsection{Uses}
 
 Input Module(\mref{mIF})\\
-Displacement in the air calculation Module(\mref{mDC1})\\
+Displacement in the air calculation Module(\mref{mDC1})\\ \wss{This reference
+  did not work when I clicked on it.}
 
 \subsection{Syntax}
 
@@ -252,6 +278,10 @@ Displacement in the air calculation Module(\mref{mDC1})\\
 	\end{tabular}
 \end{center}
 
+\wss{These don't look like access programs.  Isn't PieceObj a type?  If it is a
+  constructor for PieceObj, then  you should document this in the MIS for the
+  PieceObj ADT.}
+
 \subsection{Semantics}
 
 \subsubsection{Environment Variables}
@@ -269,6 +299,8 @@ $PieceObj.speedThisFrameX: \mathbb{R}$\\
 $PieceObj.speedLastFrameX: \mathbb{R}$\\
 $PieceObj.speedThisFrameZ: \mathbb{R}$\\
 $PieceObj.speedLastFrameZ: \mathbb{R}$
+
+\wss{Please review what environment variables are used for.}
 
 \subsubsection{State Variables}
 None
@@ -297,11 +329,17 @@ None
 	\item exception: None
 \end{itemize}
 
-\noindent thetaOneCalc():\\
+\noindent thetaOneCalc(): \wss{This (and other access programs) do not appear in
+  the syntax section.}\\
 Calculate the angle between initial speed $v_{0}$ and horizontal $\theta_{1}$. \an{$\theta_{1}$ and $\theta_{2}$ are values of each PieceObj}\\
 Equation: $\theta_{1}=arctan \frac{y_{n}}{\sqrt{(x_{n}-X)^2+(z_{n}-Y)^2}}$\\
 Convert equation to codes:\\
-Mathf.Atan(PieceObj.y / Mathf.Sqrt(Mathf.Pow(PieceObj.x - TargetObj.x,2) + Mathf.Pow(PieceObj.z - TargetObj.z,2)));
+Mathf.Atan(PieceObj.y / Mathf.Sqrt(Mathf.Pow(PieceObj.x - TargetObj.x,2) +
+Mathf.Pow(PieceObj.z - TargetObj.z,2))); \wss{Redefining the equation in code
+  isn't usually done in the MIS.  If you instead defined a local function with
+  parameters, and then in your spec called the local function with the
+  parameters set to the code object variables, that would help explain how the
+  parts of your implementation are connected.}
 \begin{itemize}
 	\item transition: $\theta_{1}: null \to \mathbb{R}$   
 	\item output: None
@@ -427,9 +465,14 @@ None
 \subsubsection{Access Routine Semantics}
 
 \noindent DisAirCalX():\\
-Equation: $v_{0}=10*E ,S_{x}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot \Delta t$ \an{Based on \aref{A_velocity} in SRS that value of initial velocity given by explosion is ten times input $E$ unit length in unity per second. $\Delta t$ is the gap between each frame that input from unity3D}\\
+Equation:
+$v_{0}=10*E ,S_{x}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot \Delta t$
+\wss{Rather than hard code in the value 10, you should use a symbolic constant.}
+\an{Based on \aref{A_velocity} \wss{This cross-reference didn't seem
+    to work} in SRS that value of initial velocity given by explosion is ten times input $E$ unit length in unity per second. $\Delta t$ is the gap between each frame that input from unity3D}\\
 Convert equation to codes:\\
-initSpeed * Mathf.Cos(PieceObj.theta1) * Mathf.Sin(PieceObj.theta2) * Time.deltaTime
+initSpeed * Mathf.Cos(PieceObj.theta1) * Mathf.Sin(PieceObj.theta2) *
+Time.deltaTime
 \begin{itemize}
 	\item transition: None
 	\item output: $S_{x}: \mathbb{R}$ 
@@ -631,6 +674,11 @@ Scene;\\
 	\item exception: None  
 \end{itemize}
 
+\wss{You seem to be on the right track, but not following the MIS template makes
+  the design difficult to review.  Please clarify your access programs, their
+  input types, output types, your state variables, and your environment
+  variables.}
+
 \newpage
 
 \bibliographystyle {plainnat}
@@ -639,5 +687,7 @@ Scene;\\
 \newpage
 
 \section{Appendix} \label{Appendix}
+
+\wss{If you don't use this section, you can remove it.}
 
 \end{document}

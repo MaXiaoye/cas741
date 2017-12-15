@@ -76,12 +76,11 @@ See SRS Documentation at \url{https://github.com/MaXiaoye/cas741/blob/master/Doc
 
 \section{Introduction}
 
-The following document details the Module Interface Specifications for Breaking
-Effect.  \wss{It is usually a good idea to avoid one sentence paragraphs.}
- 
+The following document details the Module Interface Specifications for Breaking Effect. 
 Breaking effect presents how the pieces of an object move after it separates into parts with
 suddenness or violence.
-
+\wss{It is usually a good idea to avoid one sentence paragraphs.}
+\an{Merge the sentence into paragraph}
 This project implements running time breaking effect in codes for 3-D models in unity3D without help from any similar plug-in. Including different shapes 3-D objects breaking based on physics and pieces interacting with the momentum provided by the breaking force. The breaking effect program simulates 3-D objects destruction process in vision by implementing scientific computing functions.
 
 This project concentrates on calculation while
@@ -113,18 +112,14 @@ The following table summarizes the primitive data types used by \progname.
 natural number & $\mathbb{N}$ & a number without a fractional component in [1, $\infty$) \\
 real & $\mathbb{R}$ & any number in (-$\infty$, $\infty$)\\
 String & String & represents sequences of characters.\\
-Object & Object & A data structure to store attributes of input target object that provided by Unity3D.\\
-PieceObject & PieceObj & A data structure to store attributes of pieces that generated as intermediate steps.\\
+Object & Object & A data structure to store attributes of input target object that provided by Unity3D. Defined in \mref{mTO}\\
+PieceObject & PieceObj & A data structure to store attributes of pieces that generated as intermediate steps. It is defined in \mref{mPO}\\
 \bottomrule
 \end{tabular} 
 \end{center}
 
-\wss{As far as I can tell, you don't actually define Object or PieceObj
-  anywhere.  You probably haven't done this because they are implemented
-  elsewhere.  (I'm assuming they are implemented in Unit.)  However, you still
-  need a spec of Object and PieceObj for your MIS to make sense.  You should
-  create a simplified interface for these two ADTs.  You only need to document
-  those parts that you actually need for your specification.}
+\wss{As far as I can tell, you don't actually define Object or PieceObj anywhere.  You probably haven't done this because they are implemented elsewhere.  (I'm assuming they are implemented in Unit.)  However, you still need a spec of Object and PieceObj for your MIS to make sense.  You should create a simplified interface for these two ADTs.  You only need to document those parts that you actually need for your specification.}
+\an{Sorry about the confusion ! Actually I define them in 2 modules. I add reference here.}
 
 \noindent
 The specification of \progname \ uses some derived data types: sequences, strings, and
@@ -148,16 +143,16 @@ The following table is taken directly from the Module Guide document for this pr
 		{Hardware-Hiding Module} & ~ \\
 		\midrule
 		
-		\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Module\\
-		& Piece Object Module\\
-		& Pieces initialization module\\
+		\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input module\\
+		& Piece object module\\
+		& Acquire pieces module\\
 		& Displacement calculation module\\
 		\midrule
 		
-		\multirow{3}{0.3\textwidth}{Software Decision Module} & Target Object Module\\
-		& Collision with ground detection Module\\
-		& Output Module\\
-		& Camera controlling Module\\
+		\multirow{3}{0.3\textwidth}{Software Decision Module} & Target object module\\
+		& Collision with ground detection module\\
+		& Output module\\
+		& Camera controlling module\\
 		\bottomrule
 		
 	\end{tabular}
@@ -167,14 +162,14 @@ The following table is taken directly from the Module Guide document for this pr
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\textwidth]{./Figure1.png}
+	\includegraphics[width=1.1\textwidth]{./Figure1.png}
 	\caption{Use hierarchy among modules}
 	\label{FigUH}
 \end{figure}
 
 \wss{This figure is difficult to read.  You could make it bigger, or save it as
-  a pdf, which avoids the rasterization of png.}
-
+	+  a pdf, which avoids the rasterization of png.}
+\an{Adjust size of figure}
 ~\newpage
 
 \section{MIS of Input Module(\mref{mIF})} 
@@ -197,7 +192,7 @@ Hardware-Hiding Module (\mref{mHH})
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-InputVerify() &  $\mathbb{R}^{2}; TargetObj$ & - & InvalidInput\\
+InputVerify() &  $\mathbb{R}; \mathbb{R}; TargetObj$ & - & InvalidInput\\
 \hline
 \end{tabular}
 \end{center}
@@ -206,34 +201,22 @@ InputVerify() &  $\mathbb{R}^{2}; TargetObj$ & - & InvalidInput\\
 
 \subsubsection{Environment Variables}
 
-$\mu_{k}: \mathbb{R}$\\
-$E: \mathbb{R}$\\
-$TargetObj: Object$
-
-\wss{This isn't how environment variables are used.  For a project like yours
-  the only environment variables that would apply are external files and the
-  screen.}
-\wss{Why do you have TargetObj as both an environment variable and an input.  If
-  it is an input, it isn't going to also appear as a state (or environment)
-  variable.}
-
+\wss{This isn't how environment variables are used.  For a project like yours the only environment variables that would apply are external files and the screen.}
+\wss{Why do you have TargetObj as both an environment variable and an input.  Ifit is an input, it isn't going to also appear as a state (or environment) variable.}
+\an{I am wrong about how environment variables are used. I should not put variable in my class in environment part.}
 \subsubsection{State Variables}
+
 None
+
 \subsubsection{Assumptions}
 
 \begin{itemize}
 	\item Object is a 3D model in Unity3D, which contains its position $(X,Y,Z)$
-	\item User needs provide a 3D model and attach the program to
-          it. \wss{What does this mean?  If this is a Unity step, you should
-            provide a pointer to an external resource that describes what this means.}
+	\item The input target object must be splitted by external function that consists of sub-objects. Each sub-object will be considered and converted to a piece object in Breaking Effect. \wss{What does this mean?  If this is a Unity step, you should provide a pointer to an external resource that describes what this means.} \an{I change the description. Hope this makes it more clear.}
 \end{itemize}
 \subsubsection{Access Routine Semantics}
 
-\noindent InputVerifiy($\mu_{k}$, E, $TargetObj$): \wss{The type in the syntax
-  section does not match what is written here?  $\mathbb{R}^2$ means a sequence
-  of two reals.  That means your syntax calls for two inputs, but you have 3.
-  On the next page $\mu_k$ could be null.  null is not a float.}
-
+\noindent InputVerifiy($\mu_{k}$, E, $TargetObj$): \wss{The type in the syntax section does not match what is written here?  $\mathbb{R}^2$ means a sequence of two reals.  That means your syntax calls for two inputs, but you have 3. On the next page $\mu_k$ could be null.  null is not a float.} \an{Yeah $\mu_{k}$ and E don't form a sequence. I change the type in syntax section.}
 \begin{itemize}
 \item transition: N/A
 \item output: Exceptions or None.
@@ -258,8 +241,7 @@ ObjCutModule
 \subsection{Uses}
 
 Input Module(\mref{mIF})\\
-Displacement in the air calculation Module(\mref{mDC1})\\ \wss{This reference
-  did not work when I clicked on it.}
+Displacement in the air calculation Module(\mref{mDC1})\\ \wss{This reference did not work when I clicked on it.}
 
 \subsection{Syntax}
 
@@ -270,21 +252,24 @@ Displacement in the air calculation Module(\mref{mDC1})\\ \wss{This reference
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline		
-		PieceObj() & $\mathbb{R}^{2};Object$ & - & - \\
+		PieceObj() & $\mathbb{R}; \mathbb{R};Object$ & - & - \\
 		MoveInAir() & - & - & - \\
 		MoveOnGround() & - & - & - \\
-		Translate() & $\mathbb{R}^{3}$ & - & - \\
+		thetaOneCalc() & - & - & - \\
+		thetaTwoCalc() & - & - & - \\
+		Translate() & $\mathbb{R};\mathbb{R};\mathbb{R}$ & - & - \\
 		\hline
 	\end{tabular}
 \end{center}
 
-\wss{These don't look like access programs.  Isn't PieceObj a type?  If it is a
-  constructor for PieceObj, then  you should document this in the MIS for the
-  PieceObj ADT.}
-
+\wss{These don't look like access programs.  Isn't PieceObj a type?  If it is a constructor for PieceObj, then  you should document this in the MIS for the PieceObj ADT.} \an{PieceObj() is not a type but a constructor for PieceObj.}
 \subsection{Semantics}
 
 \subsubsection{Environment Variables}
+
+\wss{Please review what environment variables are used for.}
+\an{I put variable in my class in state variable section}
+\subsubsection{State Variables}
 
 $PieceObj.obj: Object$\\
 $PieceObj.obj.transform.x: \mathbb{R}$\\
@@ -300,24 +285,22 @@ $PieceObj.speedLastFrameX: \mathbb{R}$\\
 $PieceObj.speedThisFrameZ: \mathbb{R}$\\
 $PieceObj.speedLastFrameZ: \mathbb{R}$
 
-\wss{Please review what environment variables are used for.}
-
-\subsubsection{State Variables}
-None
 \subsubsection{Assumptions}
 
 \noindent
 \begin{itemize}
 	\item obj is the 3D model of PieceObj in scene. 	
 	\item $x,y,z$ are coordinates of object.	
-	\item onGround indicates if the object is on the ground.
-	\item stop indicates if the speed of object already equals to 0. 
+	\item onGround indicates if the object is on the ground.	 
 	\item $\theta_{1}$ is the angle between initial speed $v_{0}$ and horizontal.
 	\item $\theta_{2}$ is the angle between $x$ axiom and projection on horizontal of initial speed
 	\item initSpeed is the initial speed the object has when explosion happens.
 	\item PieceObj() is constructor that use input from \mref{mIF}.
 	\item Translate() controls motion of the object.
-	\item  MoveInAir() and MoveOnGround() controls motion of the object by calling Translate(). It check onGround firstly to make sure the object is in the air or on the ground. Based on value of bool variable onGround, that call and provide corresponding destination as input to Translate(). Destination to Translate() is calculated by \mref{mDC1} and \mref{mDC2}. \\
+	\item  MoveInAir() and MoveOnGround() controls motion of the object by calling Translate(). It check onGround firstly to make sure the object is in the air or on the ground. Based on value of bool variable onGround, that call and provide corresponding destination as input to Translate(). Destination to Translate() is calculated by \mref{mDC1}.
+	\item Speed*Frame* values are used when calculate displacement on the ground for each piece. speedLastFrameX and speedLastFrameZ is the speed on X or Z direction at the beginning of last frame.
+	speedThisFrameX and speedThisFrameZ is the speed on X or Z direction at the beginning of this frame. Unity considers negative speed as speed on opposite direction. So these 2 value are used to detect if speed of a piece reaches 0 by check if speedThisFrameX * speedLastFrameX $\leq$ 0. Then set stop to true.
+	\item stop indicates if the speed of object already equals to 0.
 \end{itemize}
 
 \subsubsection{Access Routine Semantics}
@@ -325,34 +308,6 @@ None
 \noindent PieceObj():
 \begin{itemize}
 	\item transition: Initialize PieceObj
-	\item output: None
-	\item exception: None
-\end{itemize}
-
-\noindent thetaOneCalc(): \wss{This (and other access programs) do not appear in
-  the syntax section.}\\
-Calculate the angle between initial speed $v_{0}$ and horizontal $\theta_{1}$. \an{$\theta_{1}$ and $\theta_{2}$ are values of each PieceObj}\\
-Equation: $\theta_{1}=arctan \frac{y_{n}}{\sqrt{(x_{n}-X)^2+(z_{n}-Y)^2}}$\\
-Convert equation to codes:\\
-Mathf.Atan(PieceObj.y / Mathf.Sqrt(Mathf.Pow(PieceObj.x - TargetObj.x,2) +
-Mathf.Pow(PieceObj.z - TargetObj.z,2))); \wss{Redefining the equation in code
-  isn't usually done in the MIS.  If you instead defined a local function with
-  parameters, and then in your spec called the local function with the
-  parameters set to the code object variables, that would help explain how the
-  parts of your implementation are connected.}
-\begin{itemize}
-	\item transition: $\theta_{1}: null \to \mathbb{R}$   
-	\item output: None
-	\item exception: None
-\end{itemize}
-
-\noindent thetaTwoCalc():\\
-Calculate the angle between $x$ axiom and projection on horizontal of initial speed $\theta_{2}$.\\
-Equation: $\theta_{2}=arctan \frac{x_{n}-X}{z_{n}-Z}$\\
-Convert equation to codes:\\
-Mathf.Atan2(PieceObj.x - TargetObj.x, PieceObj.z - TargetObj.z)
-\begin{itemize}
-	\item transition: $\theta_{2}: null \to \mathbb{R}$  
 	\item output: None
 	\item exception: None
 \end{itemize}
@@ -371,7 +326,30 @@ Mathf.Atan2(PieceObj.x - TargetObj.x, PieceObj.z - TargetObj.z)
 	\item exception: None
 \end{itemize}
 
-\section{MIS of pieces initialization module (\mref{mOGC})} 
+\subsubsection{Local functions}
+
+\noindent thetaOneCalc(): \wss{This (and other access programs) do not appear in the syntax section.}\\ \an{Put thetaOneCalc() and thetaTwoCalc() to local function section}
+Calculate the angle between initial speed $v_{0}$ and horizontal $\theta_{1}$. \an{$\theta_{1}$ and $\theta_{2}$ are values of each PieceObj}\\
+Equation: $\theta_{1}=arctan \frac{y_{n} - Y}{\sqrt{(x_{n}-X)^2+(z_{n}-Z)^2}}$\\
+%Convert equation to codes:Mathf.Atan(PieceObj.y / Mathf.Sqrt(Mathf.Pow(PieceObj.x - TargetObj.x,2) + Mathf.Pow(PieceObj.z - TargetObj.z,2))); 
+\wss{Redefining the equation in code isn't usually done in the MIS.  If you instead defined a local function with parameters, and then in your spec called the local function with the parameters set to the code object variables, that would help explain how the parts of your implementation are connected.} \an{Yes ! follow the advice ! These 2 functions take no parameters because it can access its own variable inside object(by using pointer this.) and static variable.}
+\begin{itemize}
+	\item transition: $\theta_{1}: null \to \mathbb{R}$   
+	\item output: None
+	\item exception: None
+\end{itemize}
+
+\noindent thetaTwoCalc():\\
+Calculate the angle between $x$ axiom and projection on horizontal of initial speed $\theta_{2}$.\\
+Equation: $\theta_{2}=arctan \frac{x_{n}-X}{z_{n}-Z}$\\
+%Convert equation to codes:Mathf.Atan2(PieceObj.x - TargetObj.x, PieceObj.z - TargetObj.z)
+\begin{itemize}
+	\item transition: $\theta_{2}: null \to \mathbb{R}$  
+	\item output: None
+	\item exception: None
+\end{itemize}
+
+\section{MIS of acquire pieces module (\mref{mOGC})} 
 
 \subsection{Module}
 
@@ -392,10 +370,9 @@ target object module(\mref{mTO})\\
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		targetObj & - & - & -\\
-		subObj[] & - & - & -\\
-		pieceObj[] & - & - & -\\
-		PieceObj() & $\mathbb{R}^{2};Object$ & PieceObj & -\\
+		Start() & - & - & -\\
+		GetExplosionPoint() & - & $\mathbb{R}^{3}$ & -\\
+		PieceObj() & $\mathbb{R};\mathbb{R};Object$ & PieceObj & -\\
 		\hline		
 	\end{tabular}
 \end{center}
@@ -404,12 +381,14 @@ target object module(\mref{mTO})\\
 
 \subsubsection{Environment Variables}
 
+None
+
+\subsubsection{State Variables}
+
 targetObj: Object\\
 subObj[]: list of Object\\
 pieceObj[]: list of Piece Object\\
 
-\subsubsection{State Variables}
-None
 \subsubsection{Assumptions}
 
 \noindent
@@ -421,6 +400,14 @@ None
 \end{itemize}
 
 \subsubsection{Access Routine Semantics}
+
+\noindent GetExplosionPoint():
+Calculate position of explosionPoint that is bottom center of target object
+\begin{itemize}
+	\item transition: None
+	\item output: $\mathbb{R}^{3}$
+	\item exception: None
+\end{itemize}
 
 Do traversal to initialize all pieces. \an{Each piece is stored as an instance of class PieceObj defined in \mref{mPO}. Gravity center is position value in PieceObj}\\
 targetObj = GameObject.Find("targetObj");\\
@@ -447,11 +434,11 @@ Input Module(\mref{mIF})
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 		\hline
-		DisAirCalX() & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
-		DisAirCalY() & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
-		DisAirCalZ() & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
-		DisGroCalX() & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
-		DisGroCalZ() & $\mathbb{R}$; PieceObj; TargetObject & $\mathbb{R}$ & - \\
+		DisAirCalX() & - & $\mathbb{R}$ & - \\
+		DisAirCalY() & - & $\mathbb{R}$ & - \\
+		DisAirCalZ() & - & $\mathbb{R}$ & - \\
+		DisGroCalX() & - & $\mathbb{R}$ & - \\
+		DisGroCalZ() & - & $\mathbb{R}$ & - \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -462,17 +449,16 @@ Input Module(\mref{mIF})
 
 None
 
+\subsubsection{Local constants}
+
+FACTOR\_OF\_E: $\mathbb{R}$
+
 \subsubsection{Access Routine Semantics}
 
 \noindent DisAirCalX():\\
-Equation:
-$v_{0}=10*E ,S_{x}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot \Delta t$
-\wss{Rather than hard code in the value 10, you should use a symbolic constant.}
-\an{Based on \aref{A_velocity} \wss{This cross-reference didn't seem
-    to work} in SRS that value of initial velocity given by explosion is ten times input $E$ unit length in unity per second. $\Delta t$ is the gap between each frame that input from unity3D}\\
+Equation: $v_{0}=$FACTOR\_OF\_E$*E ,S_{x}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot \Delta t$ \wss{Rather than hard code in the value 10, you should use a symbolic constant.}\an{Add it into local constants} \an{Based on \aref{A_velocity} \wss{This cross-reference didn't seem to work} in SRS that value of initial velocity given by explosion is ten times input $E$ unit length in unity per second. $\Delta t$ is the gap between each frame that input from unity3D} \an{Fixed!}\\
 Convert equation to codes:\\
-initSpeed * Mathf.Cos(PieceObj.theta1) * Mathf.Sin(PieceObj.theta2) *
-Time.deltaTime
+initSpeed * Mathf.Cos(PieceObj.theta1) * Mathf.Sin(PieceObj.theta2) * Time.deltaTime
 \begin{itemize}
 	\item transition: None
 	\item output: $S_{x}: \mathbb{R}$ 
@@ -549,14 +535,14 @@ Input Module(\mref{mIF})
 \subsection{Semantics}
 
 \subsubsection{Environment Variables}
-$TargetObj.transform.X: \mathbb{R}$\\
-$TargetObj.transform.Y: \mathbb{R}$\\
-$TargetObj.transform.Z: \mathbb{R}$\\
-position: $\mathbb{R}^{3}$
+None
 \subsubsection{State Variables}
 
 KeyCode.Space: Boolean.
-This bool value indicates if key space is pressed on keyboard.
+This bool value indicates if key space is pressed on keyboard.\\
+$TargetObj.transform.X: \mathbb{R}$\\
+$TargetObj.transform.Y: \mathbb{R}$\\
+$TargetObj.transform.Z: \mathbb{R}$
 
 \subsubsection{Assumptions}
 
@@ -567,7 +553,7 @@ This bool value indicates if key space is pressed on keyboard.
 
 \subsubsection{Access Routine Semantics}
 
-\noindent Find($name: String$):
+\noindent static Find($name: String$):
 \begin{itemize}
 	\item transition: Initialize an instance of target object by searching name.
 	\item output: None
@@ -604,6 +590,8 @@ Input Module(\mref{mIF})
 
 \subsection{Semantics}
 
+\subsubsection{Environment Variables}
+None
 \subsubsection{State Variables}
 
 onGround
@@ -648,8 +636,7 @@ Displacement calculation module(\mref{mDC1})
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-Scene;\\
-
+Scene
 \subsubsection{Assumptions}
 
 \noindent
@@ -674,10 +661,7 @@ Scene;\\
 	\item exception: None  
 \end{itemize}
 
-\wss{You seem to be on the right track, but not following the MIS template makes
-  the design difficult to review.  Please clarify your access programs, their
-  input types, output types, your state variables, and your environment
-  variables.}
+\wss{You seem to be on the right track, but not following the MIS template makes the design difficult to review.  Please clarify your access programs, their input types, output types, your state variables, and your environment variables.}
 
 \newpage
 
@@ -685,9 +669,5 @@ Scene;\\
 \bibliography {../../../ReferenceMaterial/References}
 
 \newpage
-
-\section{Appendix} \label{Appendix}
-
-\wss{If you don't use this section, you can remove it.}
 
 \end{document}

@@ -299,7 +299,7 @@
 	
 	\subsection{System Constraints}
 	
-	This project is implemented in Unity3D because it relies on 3D models and existing function for object cutting. Users have to use Break effect in Unity3D project. The algorithm can be implemented in other physics engines but for practical reasons they will not be considered in this project.  \wss{I think you have to include Unity as a
+	This project is implemented in Unity3D because it relies on 3D models with child objects in Unity3D. Users have to use Break effect in Unity3D project. The algorithm can be implemented in other physics engines but for practical reasons they will not be considered in this project.  \wss{I think you have to include Unity as a
 		system constraint, or remove the mention of it elsewhere in the document.  You
 		have obviously (for practical reasons) decided that you are going to use
 		Unity.  You should explicitly inform the user of this.  I also suggest that
@@ -383,7 +383,7 @@
 		\wss{missing period.} \wss{What makes a piece powder?  How is powder defined?}\an{Add explanation for powder and airborne dust.}
 		
 		\item[A\refstepcounter{assumpnum}\theassumpnum \label{A_initialPE}:]
-	Before explosion, the kinetic energy is zero. potential energy of target object can't be negative. An initial momentum will be assigned to each piece after explosion happens. \wss{You
+	Before explosion, the kinetic energy is zero. Potential energy of target object can't be negative. An initial momentum will be assigned to each piece after explosion happens. Explosion point is bottom center (The projection point of physical center on bottom flat) by default. \wss{You
 			say in your goal statement that there is an initial momentum.  If the kinetic
 			energy is zero, then the momentum will always be }\an{There is some misunderstanding in this assumption. The initial energy here represents the energy before explosion. And initial momentum in GS refers to the energy after explosion happens. So they are totally different status because of different periods. I modify the expression to make it clearer. Sorry for the confusion !}
 		
@@ -391,7 +391,7 @@
 		The same coefficient of friction everywhere on flat ground.​
 		
 		\item[A\refstepcounter{assumpnum}\theassumpnum \label{A_piece}:]
-		Target object must be splitted by external function by user before it is passed to Breaking Effect. 
+		Target object must be an object consists of several child objects. BreakingEffect considers all sub objects as pieces.
 		
 		\item[A\refstepcounter{assumpnum}\theassumpnum \label{A_collision}:]
 		Collision between pieces will not be considered. 
@@ -462,7 +462,7 @@
 			\hline
 			
 			Description & 
-			Kinetic energy loses due to kinetic energy. $W_{f}$ is work done by kinetic friction. As a result, kinetic energy transform to internal energy.When piece move on the ground, they do constant decelerated motion and acceleration is constant and negative because of constant kinetic friction on the ground.\\
+			Kinetic energy loses due to kinetic energy. $W_{f}$ is work done by kinetic friction. As a result, kinetic energy transform to internal energy.When pieces move on the ground, they do constant decelerated motion and acceleration is constant and negative because of constant kinetic friction on the ground.\\
 			\hline
 			Source &
 			\url{http://teacher.pas.rochester.edu/phy121/lecturenotes/Chapter07/Chapter7.html}\\
@@ -731,11 +731,11 @@
 		instance, you will learn about the problems with applying DD1 - your particles
 		would never stop, they would just keep accelerating.  For your project faking
 		a rational design process should be very helpful.}
-	\an{Sorry for the confusion here ! Actually when pieces move on the ground, the acceleration $a$ in DD1 is a negative number because I do consider friction on the ground. So that particles do constant decelerated motion and will actually stop eventually. In fact, after explosion happens, pieces do parabolic movement on vertical direction in which acceleration is always $g$, and do uniform motion on horizontal direction in the air. When piece move on the ground, they do constant decelerated motion and acceleration is constant and negative because of constant kinetic friction on the ground. I add more expression in my TM to make my models clearer.}
+	\an{Sorry for the confusion here ! Actually when pieces move on the ground, the acceleration $a$ in DD1 is a negative number because I do consider friction on the ground. So that particles do constant decelerated motion and will actually stop eventually. In fact, after explosion happens, pieces do parabolic movement on vertical direction in which acceleration is always $g$, and do uniform motion on horizontal direction in the air. When pieces move on the ground, they do constant decelerated motion and acceleration is constant and negative because of constant kinetic friction on the ground. I add more expression in my TM to make my models clearer.}
 	\wss{You don't say how the object will be broken into pieces.  You have this
 		goal, but as far as I can tell, you never return to it.  You should add goals
 		to your traceability matrix, so that you would see this omission.}
-	\an{I prefer to use existing function provided by Unity3D because how to split the object into pieces is not emphasis. I can specify this in system constrain and delete object cutting in GS1.}
+	\an{I prefer to use existing function provided by Unity3D because how to split the object into pieces is not emphasis. However there is no open source plug-in on unity3d that can split an object into pieces at run time. BreakingEffect considers all sub objects as pieces. For example, the "targetObj" consists of 32 small cubes that will be considered as 32 pieces in BreakingEffect. So the target object provided by user should also consists of some child objects. So the target I specify this in system constrain and delete object cutting in GS1.}
 	\subsubsection{Data Constraints} \label{sec_DataConstraints}    
 	
 	Tables~\ref{TblInputVar} and \ref{TblOutputVar} show the data constraints on the

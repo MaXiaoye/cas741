@@ -1,251 +1,630 @@
 \documentclass[12pt, titlepage]{article}
 
+\usepackage{amsmath, mathtools}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
+\usepackage{xr}
+\externaldocument{../SRS/SRS}
+\externaldocument{../Design/MG/MG} 
 \hypersetup{
-    colorlinks,
-    citecolor=black,
-    filecolor=black,
-    linkcolor=red,
-    urlcolor=blue
+	colorlinks,
+	citecolor=black,
+	filecolor=black,
+	linkcolor=red,
+	urlcolor=blue
 }
 \usepackage[round]{natbib}
-
-\title{SE 3XA3: Test Plan\\Title of Project}
-
-\author{Team \#, Team Name
-		\\ Student 1 name and macid
-		\\ Student 2 name and macid
-		\\ Student 3 name and macid
-}
-
-\date{\today}
-
+\newcommand{\rref}[1]{R\ref{#1}}
+\newcommand{\ddref}[1]{DD\ref{#1}}
+\newcommand{\mref}[1]{M\ref{#1}}
+\newcommand{\aref}[1]{A\ref{#1}}
 \input{../Comments}
-
 \begin{document}
-
-\maketitle
-
-\pagenumbering{roman}
-\tableofcontents
-\listoftables
-\listoffigures
-
-\begin{table}[bp]
-\caption{\bf Revision History}
-\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
-\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
-\midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
-\bottomrule
-\end{tabularx}
-\end{table}
-
-\newpage
-
-\pagenumbering{arabic}
-
-This document ...
-
-\section{General Information}
-
-\subsection{Purpose}
-
-\subsection{Scope}
-
-\subsection{Acronyms, Abbreviations, and Symbols}
 	
-\begin{table}[hbp]
-\caption{\textbf{Table of Abbreviations}} \label{Table}
-
-\begin{tabularx}{\textwidth}{p{3cm}X}
-\toprule
-\textbf{Abbreviation} & \textbf{Definition} \\
-\midrule
-Abbreviation1 & Definition1\\
-Abbreviation2 & Definition2\\
-\bottomrule
-\end{tabularx}
-
-\end{table}
-
-\begin{table}[!htbp]
-\caption{\textbf{Table of Definitions}} \label{Table}
-
-\begin{tabularx}{\textwidth}{p{3cm}X}
-\toprule
-\textbf{Term} & \textbf{Definition}\\
-\midrule
-Term1 & Definition1\\
-Term2 & Definition2\\
-\bottomrule
-\end{tabularx}
-
-\end{table}	
-
-\subsection{Overview of Document}
-
-\section{Plan}
+	\title{Test Plan for Breaking Effect (BE)} 
+	\author{Marshall Xiaoye Ma}
+	\date{\today}
 	
-\subsection{Software Description}
-
-\subsection{Test Team}
-
-\subsection{Automated Testing Approach}
-
-\subsection{Testing Tools}
-
-\subsection{Testing Schedule}
-		
-See Gantt Chart at the following url ...
-
-\section{System Test Description}
+	\maketitle
 	
-\subsection{Tests for Functional Requirements}
-
-\subsubsection{Area of Testing1}
-		
-\paragraph{Title for Test}
-
-\begin{enumerate}
-
-\item{test-id1\\}
-
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
-					
-\item{test-id2\\}
-
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
-
-\end{enumerate}
-
-\subsubsection{Area of Testing2}
-
-...
-
-\subsection{Tests for Nonfunctional Requirements}
-
-\subsubsection{Area of Testing1}
-		
-\paragraph{Title for Test}
-
-\begin{enumerate}
-
-\item{test-id1\\}
-
-Type: 
-					
-Initial State: 
-					
-Input/Condition: 
-					
-Output/Result: 
-					
-How test will be performed: 
-					
-\item{test-id2\\}
-
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
-
-\end{enumerate}
-
-\subsubsection{Area of Testing2}
-
-...
-
-\subsection{Traceability Between Test Cases and Requirements}
-
-\section{Tests for Proof of Concept}
-
-\subsection{Area of Testing1}
-		
-\paragraph{Title for Test}
-
-\begin{enumerate}
-
-\item{test-id1\\}
-
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
-					
-\item{test-id2\\}
-
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
-
-\end{enumerate}
-
-\subsection{Area of Testing2}
-
-...
-
+	\pagenumbering{roman}
 	
-\section{Comparison to Existing Implementation}	
+	\section{Revision History}
+	
+	\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+		\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+		\midrule
+		2017-10-21 & 1.0 & New Document\\
+		\bottomrule
+	\end{tabularx}
+	
+	~\newpage
+	
+	\section{Symbols, Abbreviations and Acronyms}
+	
+	\renewcommand{\arraystretch}{1.2}
+	%\begin{table}[ht]
+	\noindent \begin{tabular}{l l l} 
+		\toprule		
+		\textbf{symbol} & \textbf{unit} & \textbf{description}\\
+		\midrule 
+		$S$ & unit of length & displacement
+		\\
+		$t$ & $s$ & the time in seconds since the start of the game
+		\\  
+		$v_{0}$ & $m/s$ & initial speed
+		\\ 
+		$a$ & $m/s^2$ & acceleration
+		\\
+		$g$ & $m/s^2$ & gravity acceleration
+		\\
+		$\Delta E_{k}$ & J & variation of kinetic energy
+		\\
+		$\Delta E_{p}$ & J & variation of potential energy
+		\\
+		$W_{f}$ & $J$ & work done by kinetic friction
+		\\
+		$x_{n}$ & $m$ & x coordinates of gravity center of piece $n$, $n \in N$
+		\\
+		$y_{n}$ & $m$ & y coordinates of gravity center of piece $n$
+		\\
+		$z_{n}$ & $m$ & z coordinates of gravity center of piece $n$
+		\\
+		$\theta_{1}$ & degree & angle between initial speed and horizontal
+		\\
+		$\theta_{2}$ & degree & angle between
+		x axiom and projection on horizontal of initial speed
+		\\
+		$S_{x}$ & m & displacement on direction of x axiom
+		\\
+		$S_{y}$ & m & displacement on direction of y axiom
+		\\
+		$S_{z}$ & m & displacement on direction of z axiom
+		\\
+		$\mu_k$ &  & coefficient of friction
+		\\
+		\bottomrule
+	\end{tabular}
+	
+	\renewcommand{\arraystretch}{1.2}
+	\begin{tabular}{l l} 
+		\toprule		
+		\textbf{symbol} & \textbf{description}\\
+		\midrule 
+		A & Assumption\\
+		DD & Data Definition\\
+		GD & General Definition\\
+		GS & Goal Statement\\
+		IM & Instance Model\\
+		LC & Likely Change\\
+		PS & Physical System Description\\
+		R & Requirement\\
+		SRS & Software Requirements Specification\\
+		BE & Breaking Effect\\
+		T & Theoretical Model\\
+		\bottomrule
+	\end{tabular}\\
+	
+	
+	\newpage
+	
+	\tableofcontents
+	
+	\listoftables
+	
+	\wss{If you don't have a list of figures, you can remove this heading.}
+	\an{Removed !}
+	
+	\newpage
+	
+	\pagenumbering{arabic}
+	
+	\section{General Information}
+	
+	\subsection{Purpose}
+	
+	The purpose for this document is to build test plan for project Breaking
+	Effect.Test cases in the document are designed based on SRS of the project and
+	aim to cover both functional and non-functional requirements described in SRS.
+	\wss{You don't need to end paragraphs with an explicit character.  This practice
+		has the unfortunate consequence of sometimes leaving an extra blank line in the
+		generated document.}
+	\an{Thank you professor for this advice !}
+	This document is used as a guide that need to be followed exactly in test stage before release of this project. 
+	
+	\subsection{Scope}
+	This test plan covers verification and validation for the project Breaking Effect to make sure the program is implemented as requirement specification, including automated testing, system test and unit test. The project relies on Unity3D as platform and uses function provided by Unity3D for object cutting. So test for object cutting is not included in this test plan. This test plan is designed based on SRS so that it doesn't cover test cases for requirements not in SRS. SRS and other documents for this project can be found on \url{https://github.com/MaXiaoye/cas741}
+	
+	\wss{An explicit web-link to your GitHub repo would be nice.}
+	\an{url added !}
+	\subsection{Overview of Document}
+	
+	This test plan firstly describes environment and platform for Breaking Effect. Purpose and scope of outlined the document generally in previous sections. Detailed test plan and test cases are covered in following sections including test team, automated testing approach, verification tools and test cases for both functional requirements and non-functional requirements.
+	
+	\section{Plan}
+	
+	\subsection{Software Description}
+	
+	Breaking effect presents how the pieces of an object move after it separates into parts with
+	suddenness or violence.
+	
+	This project implements running time breaking effect in codes for 3-D models in unity3D without help from any similar plug-in. Including different shapes 3-D objects breaking based on physics and pieces interacting with the momentum provided by the breaking force. The breaking effect program simulates 3-D objects destruction process in vision by implementing scientific computing functions.
+	
+	\wss{The text is better for version control, and for reading in other editors,
+		if you use a hard-wrap at 80 characters}
+	
+	This project concentrates on calculation while
+	HCI or GUI are not important parts. Applied force is decided in codes in advance as input
+	and trace of motion is the output after calculation.
+	
+	\subsection{Test Team}
+	The team that is responsible for all tests is Xiaoye Ma.
+	\subsection{Automated Testing Approach}
+	
+	Most testing work for Breaking Effect does not rely on automated testing. Because the final output is visualization and experience from users. Verification of inputs will be done automatically through help from Unit Test Generator provided by IDE Visual Studio 2017. Test cases are covered in following sections. Verification of correctness and output from intermediate steps will be tested manually.  
+	
+	Automated testing also helps check correctness of C$\#$ codes including bugs and syntax errors detecting.
+	
+	\subsection{Verification Tools}
+	
+	The project is implemented by C$\#$ programming language that is supported by platform Unity3D. The program is written through IDE Visual Studio 2017 which supports following tools:
+	
+	\begin{itemize}
+		\item Unit Test Generator\\
+		
+		Unit Test Generator will be used to decrease workload involved in creating new unit tests. It helps the routine test creation tasks. It also provides the ability to generate and configure test project and test class. 
+		
+	\end{itemize}
+	
+	\begin{itemize}
+		\item Automatic code checking\\
+		
+		Visual Studio automatically help check code error when developer is programming to pick out errors including syntax error, grammar error. 	
+	\end{itemize}
+	% \subsection{Testing Schedule}
+	
+	% See Gantt Chart at the following url ...
+	
+	\subsection{Non-Testing Based Verification}
+	Code walkthrough will be done by developer and a peer reviewer to identify any
+	defects. They both review codes and do logic analysis to see if the program
+	satisfies all requirements in SRS. The walkthrough should also find and fix
+	possible bugs and peer reviewer is expected to provide any comment to help
+	developer improve the program.
+	
+	\wss{Great to see a code walkthrough!  However, could you please give some more
+		detail on how the walkthrough will be done.  How many participants?  How will
+		they be recruited?  What documentation will they be given?  etc.  What
+		specific guidelines will there be for the meeting and the process?  If you
+		google "code walkthrough" you will find guidance on how to prepare for and
+		structure the meeting.  How will the results of the code walkthrough be
+		summarized?}
+	\an{Actually development team only has one member Marshall $:)$. I assume to ask a classmate to help review my code and make comments about possible errors. Perhaps I should call this peer review because my program doesn't have so many lines of code.}
+	\section{System Test Description}
+	
+	Section \ref{Sec_TestInput} focuses on verifying correctness of users inputs that covers \rref{R_Inputs} and \rref{R_VerifyOutput}. Testing cases in this section ensure Breaking Effect can handle both valid inputs and invalid inputs. Corresponding error messages for different situations of invalid inputs including incomplete inputs, inputs in incorrect data types and inputs do not satisfy data constraints.\\  
+	Sections from \ref{Sec_testGravityCenter} focus on verifying outputs from intermediate steps and make sure all modules in program work correctly that cover other functional requirements including \rref{R_ClassPiece}, \rref{R_Piece}, \rref{R_Output1}. 
+	
+	\wss{Very nice to have explicit cross-references between documents.  To keep the information up to date, consider using make to build your documentation.}
+	
+	\subsection{Tests for Functional Requirements}
+	
+	\paragraph{Assumption}
+	\begin{itemize}
+		\item In all test cases, $(X,Y,Z) = (a,b,c)$ means a target object with with explosion point $(a,b,c)$. The target object for all test cases named "targetObj" consists of 32 cubes with size 1 x 1 x 1. It locates under projectDir/Assets/prefab/targetObj.prefab. The script with codes are attached on the prefab already with $E = 5$ and $\mu_{k} = 0.2$ 
+		
+		\item $\approx$ consider equal with a delta of 0.01
+	\end{itemize}
+
+	\subsubsection{Getting input from user}
+	\label{Sec_TestInput}
+	
+	This test suite is designed to ensure the program can handle both valid and invalid inputs from user that cover \rref{R_Inputs} and \rref{R_VerifyOutput}. Inputs provided by user include target object, explosion level (also known as initial momentum after explosion) and coefficient of friction on the ground. 
+	
+	\begin{enumerate}
+		
+		\item{testInput}
+		
+		Type: Functional, Dynamic, Automated
+		
+		Initial State: New session
+		
+		Input: Please refer to table below
+		
+		Output: Please refer to table below.
+		
+		How test will be performed: Automated unit test
+		
+	\end{enumerate}
+	
+	\begin{center}
+		\begin{tabular}{p{2cm} p{5cm} p{4cm} p{4cm}}
+			\hline
+			\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Performed by} \\
+			\hline
+			CorrectIn &$E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ &"Input verified"&Automated unit test\\
+			NoMu & $E = 5$, $(X,Y,Z) = (0,0,0)$  & InvalidMuException & Automated unit test\\
+			NoObj & $E = 5$, $\mu_{k} = 0.2$ & NoObjException & Automated unit test\\
+			NoExpLv & $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ & NoELvException & Automated unit test\\
+			NonNumE & $E = a$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ & InvalidELvException & Automated unit test\\
+			NonNumMu & $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = a$ & InvalidMuException & Automated unit test\\
+			OutScoE & $E = -1$ or $E = 11$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$  & InvalidELvException & Automated unit test\\
+			OutScoC & $E = 5$, $(X,Y,Z) = (0,99999,0)$, $\mu_{k} = 0.2$ & InvalidCoorYException & Automated unit test\\
+			OutScoM & $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 99$ &InvalidMuException & Automated unit test\\
+			\hline		
+		\end{tabular}
+	\end{center}
+	
+	\subsubsection{Acquire pieces}
+	\label{Sec_testGravityCenter}
+	
+	This section covers \rref{R_ClassPiece}, \rref{R_Piece} in SRS that class PieceObj is defined as required. Instance of PieceObj can be created by acquiring each piece in the scene correctly.There is an assumption for this section that all tests in \ref{Sec_TestInput} are passed.
+	
+	\paragraph{Acquire all pieces}
+	\begin{enumerate}
+		
+		\item{pieceInit}
+		
+		Type: Functional, Dynamic, Automated
+		
+		Initial State: New Session.
+		
+		Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$  
+		
+		Output: A list of piece objects: pieceObj that pieceObj.length = 32. Piece shape is random that is decided by cutting method.
+		
+		How test will be performed: Automated unit test.	
+	
+	\wss{You can be more specific here.  What is the shape.  What is the centre of
+		gravity?  Why isn't this test automated?}
+	\an{Actually shape is decided by cutting method. Now I use external software to cut the object. Each piece is also considered as an object in Unity.}
+	
+	\end{enumerate}
+	
+	\paragraph{Calculation of angle between initial speed and horizontal($\theta _{1}$) as well as the angle between x axiom and projection on horizontal of initial speed($\theta _{2}$)}
+	\begin{enumerate}
+		\item{testAngles1\\}
+		
+		Type: Functional, Dynamic, Automated
+		
+		Initial State: New Session.
+		
+		Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$, $(x_{n},y_{n},z_{n}) = (1.5, 2.0, 0.5)$; targetObj.transform.childCount = 32 
+		
+		Output: $pieceObj[0].\theta_{1}=arctan \frac{y_{n} - Y}{\sqrt{(z_{n}-Z)^2+(x_{n}-X)^2}} \approx 0.90$ and $pieceObj[0].\theta_{2}=arctan \frac{x_{n}-X}{z_{n}-Z} \approx 1.25$
+		
+		How test will be performed: Automated unit test. \an{Here we take $(X,Y,Z) = (0,0,0)$ as input case for System test. Test cases for different values will be covered in unit test part section \ref{Sec_UnitTest}}
+		
+		\wss{Rather than be general, you should give specific input values and specific
+			output values.  This comment applies elsewhere in this document as well.
+			Again, it isn't clear why this has to be a manual test.Include this test in automated test cases}
+		\an{Give specific input and output. It is able to do the test automatically}
+		
+		\item{testAngles2}
 				
-\section{Unit Testing Plan}
+		Type: Functional, Dynamic, Automated
 		
-\subsection{Unit testing of internal functions}
+		Initial State: New Session.
 		
-\subsection{Unit testing of output files}		
+		Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$, $(1.5, 2.0, 1.5)$  
+		
+		Output: $\theta_{1}\approx 0.76$ and $\theta_{2}\approx 0.79$
+		
+		How test will be performed: Automated unit test.
+		
+		\item{testAngles3}
+		
+		This test case is designed to make sure thwe workaround for "divide by 0" case.\\
+		Type: Functional, Dynamic, Automated
+		
+		Initial State: New Session.
+		
+		Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$, $(0,y_{n},0)$ and $0y_{n}$ can't be zero  
+		
+		Output: $\theta_{1}=90^{\circ} \approx 1.57$ and $\theta_{2}=90^{\circ} \approx 1.57$
+		
+		How test will be performed: Automated unit test.
+		
+	\end{enumerate}
+	
+	\subsubsection{Calculation of displacement for each piece}
+	\label{Sec_TestMotionAir}
+	
+	This section covers \rref{R_Output1} that displacement of each piece in the air should be calculated correctly. Testing for edge cases and error handling will be covered in Section \ref{Sec_UnitTest}.\\ 
+	There is an assumption for this section that all tests in \ref{Sec_TestInput}, \ref{Sec_testGravityCenter} are passed.
+	\begin{enumerate}
+		
+		\item{testMotionAir\\}
+		
+		Type: Functional, Dynamic, Automated
+		
+		Initial State: New Session.
+		
+		Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$, $\Delta t = 0.02$, $t = 2.86$
+		
+		Output: $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot \Delta t \approx 0.59$, $S_{z}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot \Delta t \approx 0.20$ and $S_{y}=(v_{0}\cdot sin\theta _{1} - gt)\cdot \Delta t-\frac{1}{2}g \cdot \Delta t^{2} \approx 0.40$. Above output should be shown both in text in console and in vision on the screen. 
+		
+		How test will be performed: Automated unit test.
+		
+		\item{testMotionGround\\}
+		
+		Type: Functional, Dynamic, Automated
+		
+		Initial State: New Session.
+		
+		Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$, $\Delta t = 0.02$, $t = 2.86$
+		
+		Output: $a=\mu_{k}g$, $v_{x} = v_{x}^{'} + a\Delta t$, $v_{z} = v_{z}^{'} + a\Delta t$, $S_{x}=v_{x}\cdot \Delta t-\frac{1}{2}a\Delta t^{2} \approx 0.58$, $S_{z}=v_{z}\cdot \Delta t-\frac{1}{2}a\Delta t^{2} \approx 0.19$ 
+		
+		How test will be performed: Automated unit test.
+		
+	\end{enumerate}
+	
+	\subsection{Tests for Nonfunctional Requirements}
+	
+	\subsubsection{Usability}
+	
+	Installation of Unity3D is not in the scope of Breaking Effect's usability test.
+	
+	\begin{enumerate}
+		
+		\item{Participants\\}
+		Classmate: Jason (RenJie)\\
+		Other participants: My 2 roommates. \an{Hope it is acceptable$:)$}
+		
+		\item{Document given\\}
+		Readme.doc under project folder.
+		
+		\item{Task for participants\\}
+		Run test case successfully by reading Readme.doc individually . Without help from
+		others.
+		
+		\item{How test will be measured and performed\\}
+		According to content of Readme.doc and complexity of the program. If all participants can run test case successfully by only reading Readme.doc individually, then Usability of the program is good.
+		
+	\end{enumerate}
+	
+	\subsubsection{Performance test}
+	
+	\begin{enumerate}
+		
+		\item{testPerformance\\}
+		
+		Type: Nonfunctional,Dynamic, Manual
+		
+		Initial State: New session
+		
+		Input/Condition: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ The range of the number of pieces is 4 - 64.
+		
+		Output/Result: Motion of each piece.
+		
+		How test will be performed: Adjust amount of pieces to see the performance that if program can run smoothly in huge amount of pieces.
+		
+	\end{enumerate}
+	
+	\wss{Be more specific.  What will the range of the number of pieces be?  How
+		will you judge smoothness?  You might need to also summarize the target
+		hardware.  Can you summarize the total time of calculation and plot it?}
+	\an{The range will be 4-64. Will judge smoothness by number of frame per second.}
+	
+	\subsubsection{Maintainability}
+	
+	\begin{enumerate}
+		
+		\item{testMaintain}
+		
+		Type: Nonfunctional,Dynamic, Manual
+		
+		Initial State: New session
+		
+		How test will be performed: Extend the program with additional physics effect rebound (not perfectly).
+		
+	\end{enumerate}
+	
+	\subsubsection{Reusability}
+	
+	\begin{enumerate}
+		
+		\item{testReuse}
+		
+		Type: Nonfunctional,Dynamic, Manual
+		
+		Initial State: New session
+		
+		How test will be performed: Combine Breaking Effect with existing Unity3D project.
+		
+	\end{enumerate}
+	
+	\subsection{Traceability Between Test Cases and Requirements}
+	
+	\begin{table}[h!]
+		\centering
+		\begin{tabular}{|c|c|c|c|c|c|}
+			\hline
+			& \rref{R_Inputs} & \rref{R_VerifyOutput} & \rref{R_ClassPiece}& \rref{R_Piece} &\rref{R_Output1}\\
+			\hline
+			\ref{Sec_TestInput}&X &X & & & \\ \hline
+			\ref{Sec_testGravityCenter} & & &X &X &\\ \hline
+			\ref{Sec_TestMotionAir} & & & & &X\\ \hline
+		\end{tabular}
+		\caption{Traceability Matrix Showing the Connections Between Test Cases and Requirements}
+		\label{Table:inputTest2}
+	\end{table}
+	
+	\newpage
+	% \section{Tests for Proof of Concept}
+	
+	% \subsection{Area of Testing1}
+	
+	% \paragraph{Title for Test}
+	
+	% \begin{enumerate}
+	
+	% \item{test-id1\\}
+	
+	% Type: Functional, Dynamic, Manual, Static etc.
+	
+	% Initial State: 
+	
+	% Input: 
+	
+	% Output: 
+	
+	% How test will be performed: 
+	
+	% \item{test-id2\\}
+	
+	% Type: Functional, Dynamic, Manual, Static etc.
+	
+	% Initial State: 
+	
+	% Input: 
+	
+	% Output: 
+	
+	% How test will be performed: 
+	
+	% \end{enumerate}
+	
+	% \subsection{Area of Testing2}
+	
+	% ...
+	
+	\section{Unit Testing Plan}
+	\label{Sec_UnitTest}
+	Unit Test Generator provided by Visual Studio 2017 will be used to implement automated unit testing for this project.\\
+	For each function, a test class will be created through Unit Test Generator. Developer provides inputs, runs automated test to see if it is passed.\\
+	Inputs will be provided by different target objects, initial locations, initial momentum, coefficient of friction. \\
+	Unit tests for this project focuses on edge cases checking and error handling. Unit tests for input handling module \mref{mIF} are covered in \ref{Sec_TestInput}.Unit tests for Acquire Pieces module \mref{mOGC} are covered in \ref{Sec_testGravityCenter}. Unit tests for Displacement calculation Module \mref{mDC1} are covered in \ref{Sec_TestMotionAir}.Test cases related to functional requirements covered in previous sections will not be included in this section.\\ 
+	
+	\subsection{Unit test for Piece Object Module (\mref{mPO})}
+	
+	\begin{enumerate}	
+		\item{ConstructorPieceObj}
+		
+		Type: Functional, Dynamic, Automated
+		
+		Initial State: New session.
+		
+		Input: Refer to table below
+		
+		Output: Refer to table below
+		
+		How test will be performed: Automated unit testing.
+	\end{enumerate}
 
-\bibliographystyle{plainnat}
+	\begin{center}
+		\begin{tabular}{p{2.5cm} p{4cm} p{6cm} p{4cm}}
+			\hline
+			\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exception} \\
+			\hline
+			UTPieceClass1 &$E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ &pieceObj[0].obj.name="Cube1"&-\\
+			UTPieceClass2 &$E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ &pieceObj[0].onGround = false&-\\
+			UTPieceClass3 &$E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ &pieceObj[0].initSpeed = 50&-\\
+			UTPieceClass4 &$E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ &pieceObj[0].gravity = -9.8&-\\
+			UTPieceClass5 &$E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ &pieceObj[0].stop = false&-\\
+			UTPieceClass6 &$E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ &pieceObj[0].speedLastFrameX = 1&-\\
+			UTPieceClass7 &$E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ &pieceObj[0].speedLastFrameZ = 1&-\\
+			\hline		
+		\end{tabular}
+	\end{center}
 
-\bibliography{SRS}
-
-\newpage
-
-\section{Appendix}
-
-This is where you can place additional information.
-
-\subsection{Symbolic Parameters}
-
-The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
-Their values are defined in this section for easy maintenance.
-
-\subsection{Usability Survey Questions?}
-
-This is a section that would be appropriate for some teams.
-
+	\subsection{Unit test for Target Object Module (\mref{mTO})}
+	
+	\begin{enumerate}
+		
+		\item{UTTarObj1\\}
+		
+		Type: Functional, Dynamic, Automated
+		
+		Initial State: New session.
+		
+		Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$
+		
+		Output: targetObj.transform.childCount = 32
+		
+		How test will be performed: Automated unit testing.
+		
+	\end{enumerate}
+	
+	\subsection{Unit test for Collision with ground detection Module (\mref{mOC})}
+	
+	\begin{enumerate}
+		
+		\item{UTCollision1\\}
+		
+		Type: Functional, Dynamic, Manually
+		
+		Initial State: New session.
+		
+		Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$;
+		
+		Output: It is clear to see that pieces drop on the ground.(Don't go through the ground). pieceObj[1].onGround = true
+		
+		How test will be performed: Manually test by developer
+		
+	\end{enumerate}
+	
+	\subsection{Unit test for Output Module (\mref{mOM})}
+	
+	\begin{enumerate}
+		
+		\item{UTOutput1\\}
+		
+		Type: Functional, Dynamic, Manually
+		
+		Initial State: New session.
+		
+		Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$
+		
+		Output: Visualization on screen works well.
+		
+		How test will be performed: Manually test by developer
+		
+	\end{enumerate}
+	
+	\subsection{Unit test for Camera controlling Module (\mref{mCC})}
+	
+	\begin{enumerate}
+		
+		\item{UTOutput1\\}
+		
+		Type: Functional, Dynamic, Automated
+		
+		Initial State: New session.
+		
+		Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$
+		
+		Output: User can control camera moving by keyboard and mouse. 
+		
+		How test will be performed: Manually test by developer
+		
+	\end{enumerate}
+	
+	\bibliographystyle{plainnat}
+	
+	\bibliography{SRS}
+	
+	\newpage
+	
+	\section{Appendix}
+	
+	\subsection{Symbolic Parameters}
+	
+	The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
+	Their values are defined in this section for easy maintenance.
+	
+	\begin{tabular}{l l l} 
+		\toprule		
+		\textbf{symbol} & \textbf{value} & \textbf{description}\\
+		\midrule 
+		$g$ & $9.8 m/s^{2}$ & gravity acceleration\\	
+		\bottomrule
+	\end{tabular}\\
+	
+	\subsection{Usability Survey Questions?}
+	
+	Usability survey will not be done for this project.
+	
 \end{document}

@@ -173,6 +173,7 @@ The following table is taken directly from the Module Guide document for this pr
 ~\newpage
 
 \section{MIS of Input Module(\mref{mIF})} 
+\label{Sec_MIM}
 
 This module collect verifies input from user and store in corresponding variables. Include position of target object, explosion level, coefficient of ground friction.
 
@@ -182,7 +183,9 @@ InputModule
 
 \subsection{Uses}
 
-Hardware-Hiding Module (\mref{mHH})
+Hardware-Hiding Module(\mref{mHH})\\
+Target Object Module(\mref{mTO})(Section\ref{Sec_TOM})
+
 \subsection{Syntax}
 
 \subsubsection{Exported Access Programs}
@@ -231,7 +234,7 @@ exc := ($\mu_{k} \notin \mathbb{R} \vee (\mu_{k} \le 0) \vee (\mu_{k} \ge 1)$ $\
 \end{itemize}
 
 \section{MIS of piece object module(\mref{mPO})}
-
+\label{Sec_POM}
 Customize class for pieces. Pieces are generated after explosion happens to replace original target object from input.
 
 \subsection{Module}
@@ -240,8 +243,8 @@ ObjCutModule
 
 \subsection{Uses}
 
-Input Module(\mref{mIF})\\
-Displacement in the air calculation Module(\mref{mDC1})\\ \wss{This reference did not work when I clicked on it.}
+Input Module(\mref{mIF})(Section\ref{Sec_MIM})\\
+Displacement calculation Module(\mref{mDC1})(Section\ref{Sec_DCM})\\ \wss{This reference did not work when I clicked on it.}
 
 \subsection{Syntax}
 
@@ -350,16 +353,16 @@ Equation: $\theta_{2}=arctan \frac{x_{n}-X}{z_{n}-Z}$\\
 \end{itemize}
 
 \section{MIS of acquire pieces module (\mref{mOGC})} 
-
+\label{Sec_MAP}
 \subsection{Module}
 
 PieceInitModule
 
 \subsection{Uses}
 
-Input Module(\mref{mIF})\\
-Piece Object Module(\mref{mPO})\\
-target object module(\mref{mTO})\\
+Input Module(\mref{mIF})(Section\ref{Sec_MIM})\\
+Piece Object Module(\mref{mPO})(Section\ref{Sec_POM})\\
+target object module(\mref{mTO})(Section\ref{Sec_TOM})\\
 
 \subsection{Syntax}
 
@@ -416,7 +419,7 @@ pieceObj = new PieceObj[targetObj.transform.childCount];\\
 for (int i = 1; i < subObj.Length; i++) pieceObj[i - 1] = new PieceObj(subObj[i].gameObject, initSpeed, g);\\
 
 \section{MIS of Displacement calculation module(\mref{mDC1})}
-
+\label{Sec_DCM}
 Calculate and output trace of motion for each piece in the air by using follow equations.
 \subsection{Module}
 
@@ -424,7 +427,6 @@ DisAirCalModule
 
 \subsection{Uses}
 
-Input Module(\mref{mIF})
 \subsection{Syntax}
 
 \subsubsection{Exported Access Programs}
@@ -507,7 +509,7 @@ Convert equation to codes:\\
 \end{itemize}
 
 \section{MIS of target object module(\mref{mTO})}
-
+\label{Sec_TOM}
 Object class provided by platform
 
 \subsection{Module}
@@ -515,8 +517,6 @@ Object class provided by platform
 TarObjModule
 
 \subsection{Uses}
-
-Input Module(\mref{mIF})
 
 \subsection{Syntax}
 
@@ -562,7 +562,7 @@ $TargetObj.transform.Z: \mathbb{R}$
 
 
 \section{MIS of Collision with ground detection Module (\mref{mOC})}
-
+\label{Sec_CDM}
 Detect if there is a collision between a piece and the ground. If so, set onGround
 value to true.
 
@@ -572,7 +572,7 @@ ColDetectModule
 
 \subsection{Uses}
 
-Input Module(\mref{mIF})
+Piece Object Module(\mref{mPO})(Section\ref{Sec_POM})
 
 \subsection{Syntax}
 
@@ -606,7 +606,7 @@ onGround
 \end{itemize}
 
 \section{MIS of Output Module(\mref{mOM})}
-
+\label{Sec_MOM}
 Unity3D interface with codes by calling function update() each frame. Unity3D convert data into visualization. Provide free camera for people to control view.
 
 \subsection{Module}
@@ -615,7 +615,8 @@ OutputModule
 
 \subsection{Uses}
 
-Displacement calculation module(\mref{mDC1})
+Hardware-Hiding Module(\mref{mHH})\\
+Piece Object Module(\mref{mPO})(Section\ref{Sec_POM})
 
 \subsection{Syntax}
 

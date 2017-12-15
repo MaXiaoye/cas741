@@ -1,0 +1,460 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{xr}
+\externaldocument{../SRS/SRS}
+\externaldocument{../Design/MG/MG} 
+\hypersetup{
+	colorlinks,
+	citecolor=black,
+	filecolor=black,
+	linkcolor=red,
+	urlcolor=blue
+}
+\usepackage[round]{natbib}
+\newcommand{\rref}[1]{R\ref{#1}}
+\newcommand{\ddref}[1]{DD\ref{#1}}
+\newcommand{\mref}[1]{M\ref{#1}}
+\input{../Comments}
+
+\begin{document}
+
+\title{Test Report: Breaking Effect} 
+\author{Marshall Xiaoye Ma}
+\date{\today}
+	
+\maketitle
+
+\pagenumbering{roman}
+
+\section{Revision History}
+
+\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+\midrule
+2017-12-08 & 1.0 & New document\\
+\bottomrule
+\end{tabularx}
+
+~\newpage
+
+\section{Symbols, Abbreviations and Acronyms}
+
+See SRS Documentation at \url{https://github.com/MaXiaoye/cas741/blob/master/Doc/SRS/SRS.pdf}
+
+\newpage
+
+\tableofcontents
+
+\listoftables %if appropriate
+
+\listoffigures %if appropriate
+
+\newpage
+
+\pagenumbering{arabic}
+
+This document provides a report of the results of the testing performed on the Breaking Effect application. Both system testing and unit testing are covered. Traceability between testing and both requirements and modules is given in the final section.
+The tests that were implentmented in this report follow the Test Plan document. Please refer to this document for further information at \url{https://github.com/MaXiaoye/cas741/blob/master/Doc/TestPlan/TestPlan.pdf}.
+
+\section{Functional Requirements Evaluation}
+
+\subsection{Getting input from user}
+\label{Sec_TestInput}
+
+This test suite is designed to ensure the program can handle both valid and invalid inputs from user that cover \rref{R_Inputs} and \rref{R_VerifyOutput}. Inputs provided by user include target object, explosion level (also known as initial momentum after explosion) and coefficient of friction on the ground.
+\paragraph{Assumption}
+\begin{itemize}
+	\item In all test cases, $(X,Y,Z) = (a,b,c)$ means a target object with position $(a,b,c)$. The target object for all test cases named "targetObj" consists of 32 cubes with size 1 x 1 x 1. It locates under projectDir/Assets/prefab/targetObj 
+	
+	\item $\approx$ consider equal with a delta of 0.01
+	
+	\item All test codes are in dir /src/Assets/script/BETest.cs
+\end{itemize}
+
+\begin{enumerate}
+	
+	\item{testInput}
+	
+	Type: Functional, Dynamic, Automated
+	
+	Initial State: New session
+	
+	Input: Please refer to table below
+	
+	Expect output: Please refer to table below.
+	
+	How test will be performed: Automated unit test
+	
+	Result: Pass
+\end{enumerate}
+
+\begin{center}
+	\begin{tabular}{p{2cm} p{5cm} p{4cm} p{4cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Expect output} & \textbf{Result} \\
+		\hline
+		CorrectIn &$E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$ & - &Pass\\
+		NoMu & $E = 5$, $(X,Y,Z) = (0,0,0)$  & InvalidMuException & Pass\\
+		NoObj & $E = 5$, $\mu_{k} = 0.05$ & NoObjException & Pass\\
+		NoExpLv &$(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$ & NoELvException & Pass\\
+		NonNumE &$E = a$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$ & InvalidELvException & Pass\\
+		NonNumMu &$E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = a$ & InvalidMuException & Pass\\
+		OutScoE & $E=-1$ or $E=11$,$(X,Y,Z) = (0,0,0)$,$\mu_{k} = 0.05$  & InvalidELvException & Pass\\
+		OutScoC & $E = 5$, $(X,Y,Z) = (0,99999,0)$, $\mu_{k} = 0.05$ & InvalidCoorYException & Pass\\
+		OutScoM & $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 99$ &InvalidMuException & Pass\\
+		\hline		
+	\end{tabular}
+\end{center}
+
+\subsection{Acquire pieces}
+\label{Sec_testGravityCenter}
+
+	This section covers \rref{R_ClassPiece}, \rref{R_Piece} in SRS that class PieceObj is defined as required. Instance of PieceObj can be created by acquiring each piece in the scene correctly.There is an assumption for this section that all tests in \ref{Sec_TestInput} are passed.\\
+
+\paragraph{Acquire all pieces}
+
+\begin{enumerate}
+	
+	\item{pieceInit}
+	
+	Type: Functional, Dynamic, Automated
+	
+	Initial State: New Session.
+	
+	Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$
+	
+	Expect output: A list of piece objects: pieceObj that pieceObj.length = 32. Piece shape is random that is decided by cutting method.
+	
+	How test will be performed: Automated unit test.	
+	
+	Result: Pass
+	
+\end{enumerate}
+
+\paragraph{Calculation of angle between initial speed and horizontal($\theta _{1}$) as well as the angle between x axiom and projection on horizontal of initial speed($\theta _{2}$)}
+\begin{enumerate}
+	\item{testAngles1\\}
+	
+	Type: Functional, Dynamic, Automated
+	
+	Initial State: New Session.
+	
+	Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$, $(x_{n},y_{n},z_{n}) = (1.5, 2.0, 0.5)$;
+	
+	Expect output: $pieceObj[0].\theta_{1}=arctan \frac{y_{n} - Y}{\sqrt{(z_{n}-Z)^2+(x_{n}-X)^2}} \approx 0.90$ and $pieceObj[0].\theta_{2}=arctan \frac{x_{n}-X}{z_{n}-Z} \approx 1.25$
+		
+	How test will be performed: Automated unit test. 
+	
+	Result: Pass
+	\item{testAngles2\\}
+	
+	Type: Functional, Dynamic, Automated
+	
+	Initial State: New Session.
+	
+	Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$, $(1.5, 2.0, 1.5)$
+	
+	Expect output: $\theta_{1}\approx 0.76$ and $\theta_{2}\approx 0.79$
+	
+	How test will be performed: Automated unit test.
+	
+	Result: Pass
+	
+	\item{testAngles3\\}
+	
+	Type: Functional, Dynamic, Automated
+	
+	Initial State: New Session.
+	
+	Input: Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$, $(0,y_{n},0)$ and $0y_{n}$ can't be zero
+	
+	Expect output: $\theta_{1}=90^{\circ} \approx 1.57$ and $\theta_{2}=90^{\circ} \approx 1.57$
+	
+	How test will be performed: Automated unit test.
+	
+	Result: Pass
+	
+\end{enumerate}
+
+\subsection{Calculation of displacement for each piece}
+\label{Sec_TestMotionAir}
+
+This section covers \rref{R_Output1} that displacement of each piece in the air should be calculated correctly. Testing for edge cases and error handling will be covered in Section \ref{Sec_UnitTest}.\\ 
+There is an assumption for this section that all tests in \ref{Sec_TestInput}, \ref{Sec_testGravityCenter} are passed.
+\begin{enumerate}
+	
+	\item{testMotionAir\\}
+	
+	Type: Functional, Dynamic, Automated
+	
+	Initial State: New Session.
+	
+	Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$, $\Delta t = 0.02$, $t = 2.86$
+	
+	Expect output: $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot \Delta t \approx 0.59$, $S_{z}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot \Delta t \approx 0.20$ and $S_{y}=(v_{0}\cdot sin\theta _{1} - gt)\cdot \Delta t-\frac{1}{2}g \cdot \Delta t^{2} \approx 0.40$. Above output should be shown both in text in console and in vision on the screen.
+	
+	How test will be performed: Automated unit test.
+	
+	Result: Pass
+	
+	\item{testMotionGround\\}
+	
+	Type: Functional, Dynamic, Automated
+	
+	Initial State: New Session.
+	
+	Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$, $\Delta t = 0.02$, $t = 2.86$
+	
+	Expect Output: $a=\mu_{k}g$, $v_{x} = v_{x}^{'} + a\Delta t$, $v_{z} = v_{z}^{'} + a\Delta t$, $S_{x}=v_{x}\cdot \Delta t-\frac{1}{2}a\Delta t^{2} \approx 0.58$, $S_{z}=v_{z}\cdot \Delta t-\frac{1}{2}a\Delta t^{2} \approx 0.19$ 
+	
+	How test will be performed: Automated unit test.
+	
+	Result: Pass
+\end{enumerate}
+
+\section{Nonfunctional Requirements Evaluation}
+
+\subsection{Usability}
+
+	Installation of Unity3D is not in the scope of Breaking Effect's usability test.
+
+\begin{enumerate}
+	
+	\item{Participants\\}
+	Classmate: Jason (RenJie)\\
+	Other participants: My 2 roommates.
+	
+	\item{Document given\\}
+	Readme.doc under project folder.
+	
+	\item{Task for participants\\}
+	Run test case successfully by reading Readme.doc individually . Without help from
+	others.
+	
+	\item{How test will be measured and performed\\}
+	According to content of Readme.doc and complexity of the program. If all participants can run test case successfully by only reading Readme.doc individually, then Usability of the program is good.
+	
+\end{enumerate}
+
+
+\subsection{Performance test}
+
+\begin{enumerate}
+	
+	\item{testPerformance\\}
+	
+	Type: Nonfunctional,Dynamic, Manual
+	
+	Initial State: New session
+	
+	Input/Condition: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ The range of the number of pieces is 4 - 64.
+	
+	Output/Result: Motion of each piece.
+	
+	How test will be performed: Adjust amount of pieces to see the performance that if program can run smoothly in huge amount of pieces.
+	
+\end{enumerate}
+
+\subsection{Maintainability}
+	
+	\begin{enumerate}
+		
+		\item{testMaintain}
+		
+		Type: Nonfunctional,Dynamic, Manual
+		
+		Initial State: New session
+		
+		How test will be performed: Extend the program with additional physics effect rebound (not perfectly).
+		
+	\end{enumerate}
+	
+\subsection{Reusability}
+	
+	\begin{enumerate}
+		
+		\item{testReuse}
+		
+		Type: Nonfunctional,Dynamic, Manual
+		
+		Initial State: New session
+		
+		How test will be performed: Combine Breaking Effect with existing Unity3D project.
+		
+	\end{enumerate}
+
+\section{Unit Testing}
+\label{Sec_UnitTest}
+Unit Test Generator provided by Visual Studio 2017 will be used to implement automated unit testing for this project.
+
+\subsection{Unit test for Piece Object Module (\mref{mPO})}
+\label{Sec_UmPO}
+
+\begin{enumerate}	
+	\item{ConstructorPieceObj}
+	
+	Type: Functional, Dynamic, Automated
+	
+	Initial State: New session.
+	
+	Input: Refer to table below;
+	
+	Output: Refer to table below
+	
+	How test will be performed: Automated unit testing.
+\end{enumerate}
+
+\begin{center}
+	\begin{tabular}{p{2.5cm} p{4cm} p{6cm} p{4cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Expect Output} & \textbf{Result} \\
+		\hline
+		UTPieceClass1 &$E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ &pieceObj[0].obj.name="Cube1"&Pass\\
+		UTPieceClass2 &$E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ &pieceObj[0].onGround = false&Pass\\
+		UTPieceClass3 &$E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ &pieceObj[0].initSpeed = 50&Pass\\
+		UTPieceClass4 &$E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ &pieceObj[0].gravity = -9.8&Pass\\
+		UTPieceClass5 &$E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ &pieceObj[0].stop = false&Pass\\
+		UTPieceClass6 &$E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ &pieceObj[0].speedLastFrameX = 1&Pass\\
+		UTPieceClass7 &$E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ &pieceObj[0].speedLastFrameZ = 1&Pass\\
+		\hline		
+	\end{tabular}
+\end{center}
+
+\subsection{Unit test for Target Object Module (\mref{mTO})}
+\label{Sec_UmTO}
+\begin{enumerate}
+	
+	\item{UTTarObj1\\}
+	
+	Type: Functional, Dynamic, Automated
+	
+	Initial State: New session.
+	
+	Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$
+	
+	Expect output: targetObj.transform.childCount = 32
+	
+	How test will be performed: Automated unit testing.
+	
+	Result: Pass
+\end{enumerate}
+
+\subsection{Unit test for Collision with ground detection Module (\mref{mOC})}
+\label{Sec_UmOC}
+\begin{enumerate}
+	
+	\item{UTCollision1\\}
+	
+	Type: Functional, Dynamic, Manually
+	
+	Initial State: New session.
+	
+	Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$
+	
+	Expect Output: It is clear to see that pieces drop on the ground.(Don't go through the ground). pieceObj[1].onGround = true
+	
+	How test will be performed: Manually test by developer
+	
+	Result: Pass
+\end{enumerate}
+
+\subsection{Unit test for Output Module (\mref{mOM})}
+\label{Sec_UmOM}
+\begin{enumerate}
+	
+	\item{UTOutput1\\}
+	
+	Type: Functional, Dynamic, Automated
+	
+	Initial State: New session.
+	
+	Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$
+	
+	Expect output: Visualization on screen works well.
+	
+	How test will be performed: Manual test by developer
+	
+	Result: Pass
+\end{enumerate}
+
+\subsection{Unit test for Camera controlling Module (\mref{mCC})}
+\label{Sec_UmCC}
+\begin{enumerate}
+	
+	\item{UTOutput1\\}
+	
+	Type: Functional, Dynamic, Automated
+	
+	Initial State: New session.
+	
+	Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$
+	
+	Expect output: User can control camera moving by keyboard and mouse.
+	
+	How test will be performed: Manual test by developer
+	
+	Result: Pass
+\end{enumerate}
+
+
+\section{Changes Due to Testing}
+
+\begin{itemize}	
+	\item Put codes run every frame from Update() function to FixedUpdate() function
+	\item  Add function GetCenter() and GetExplosionPoint() to get accurate explosion point that is bottom center of target center instead of position attribute defined by Unity3D.
+	\item Add some functions to get static value due to testing requirement.
+	\item Add codes to check if speed of a piece object reaches zero on the ground. If it reaches zero then stop the object immediately to prevent the speed increases in opposite direction.
+	\item Add camera controlling module to provide free camera controlling when program running to improve experience and make testing easier.
+	\item Separate collision detecting module to a new file and improve it so that BreakingEffect support multiple target objects.  
+\end{itemize}	
+	
+\section{Automated Testing}
+	Automated Testing are mentioned in test cases with Automated type in previous sections.
+\section{Trace to Requirements}
+
+\newpage
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		& \rref{R_Inputs} & \rref{R_VerifyOutput} & \rref{R_ClassPiece}& \rref{R_Piece} &\rref{R_Output1}\\
+		\hline
+		\ref{Sec_TestInput}&X &X & & & \\ \hline
+		\ref{Sec_testGravityCenter} & & &X &X &\\ \hline
+		\ref{Sec_TestMotionAir} & & & & &X\\ \hline
+	\end{tabular}
+	\caption{Traceability Matrix Showing the Connections Between Test Cases and Requirements}
+	\label{Table:inputTest2}
+\end{table}
+		
+\section{Trace to Modules}		
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		& \mref{mIF} & \mref{mPO} & \mref{mOGC}& \mref{mDC1} &\mref{mTO} &\mref{mOC}&\mref{mOM}&\mref{mCC}\\
+		\hline
+		\ref{Sec_TestInput}&X & & & & & & &\\ \hline
+		\ref{Sec_testGravityCenter} & & &X & & & & &\\ \hline
+		\ref{Sec_TestMotionAir} & & & &X & & & &\\ \hline
+		\ref{Sec_UmPO} & &X & & & & & &\\ \hline
+		\ref{Sec_UmTO} & & & & &X & & &\\ \hline
+		\ref{Sec_UmOC} & & & & & &X & &\\ \hline
+		\ref{Sec_UmOM} & & & & & & &X &\\ \hline
+		\ref{Sec_UmCC} & & & & & & & &X\\ \hline
+	\end{tabular}
+	\caption{Traceability Matrix Showing the Connections Between Test Cases and Modules}
+	\label{Table:inputTest3}
+\end{table}
+
+\section{Code Coverage Metrics}
+
+\bibliographystyle{plainnat}
+
+\bibliography{SRS}
+
+\end{document}

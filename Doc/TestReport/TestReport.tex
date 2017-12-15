@@ -57,7 +57,7 @@ See SRS Documentation at \url{https://github.com/MaXiaoye/cas741/blob/master/Doc
 \pagenumbering{arabic}
 
 This document provides a report of the results of the testing performed on the Breaking Effect application. Both system testing and unit testing are covered. Traceability between testing and both requirements and modules is given in the final section.
-The tests that were implentmented in this report follow the Test Plan document. Please refer to this document for further information at \url{https://github.com/MaXiaoye/cas741/blob/master/Doc/TestPlan/TestPlan.pdf}.
+The tests that were implemented in this report follow the Test Plan document. Please refer to this document for further information at \url{https://github.com/MaXiaoye/cas741/blob/master/Doc/TestPlan/TestPlan.pdf}.
 
 \section{Functional Requirements Evaluation}
 
@@ -224,8 +224,7 @@ There is an assumption for this section that all tests in \ref{Sec_TestInput}, \
 \begin{enumerate}
 	
 	\item{Participants\\}
-	Classmate: Jason (RenJie)\\
-	Other participants: My 2 roommates.
+	Classmate: Halona (Yuzhi)	
 	
 	\item{Document given\\}
 	Readme.doc under project folder.
@@ -237,6 +236,9 @@ There is an assumption for this section that all tests in \ref{Sec_TestInput}, \
 	\item{How test will be measured and performed\\}
 	According to content of Readme.doc and complexity of the program. If all participants can run test case successfully by only reading Readme.doc individually, then Usability of the program is good.
 	
+	\item{Result\\} Halona didn't use Unity3D before and does not have Unity installed on laptop. She used my laptop and spent 19 minutes to successfully run the demo by importing package and run BreakingEffect on a new object created by herself. During the process I still need to provide some help so I improved the user guide according to problems she met: 1. If all items in package should be imported. 
+	2. Where can I find the scripts and objects after importing package.
+	3. Is there any requirement for my own object.
 \end{enumerate}
 
 
@@ -250,12 +252,13 @@ There is an assumption for this section that all tests in \ref{Sec_TestInput}, \
 	
 	Initial State: New session
 	
-	Input/Condition: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ The range of the number of pieces is 4 - 64.
+	Input/Condition: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.2$ The range of the number of pieces is 4 - 128.
 	
 	Output/Result: Motion of each piece.
 	
 	How test will be performed: Adjust amount of pieces to see the performance that if program can run smoothly in huge amount of pieces.
 	
+	Result: Frame per second(FPS) keeps 60 when number of pieces increases from 4 to 128. So there is no extra performance issue by using BreakingEffect. Performance depends on capability of device and number of objects that a Unity3D scene already has.
 \end{enumerate}
 
 \subsection{Maintainability}
@@ -269,6 +272,8 @@ There is an assumption for this section that all tests in \ref{Sec_TestInput}, \
 		Initial State: New session
 		
 		How test will be performed: Extend the program with additional physics effect rebound (not perfectly).
+		
+		Result: Extend BreakingEffect with rebounding: Need to modify Piece Object Module, Collision with ground detection Module. \an{Don't have enough to implement this perfectly}
 		
 	\end{enumerate}
 	
@@ -284,6 +289,7 @@ There is an assumption for this section that all tests in \ref{Sec_TestInput}, \
 		
 		How test will be performed: Combine Breaking Effect with existing Unity3D project.
 		
+		Result: Combine BreakingEffect with official Unity3D demo project "Standard Assets Example Project". It can be used on it by following User Guide.
 	\end{enumerate}
 
 \section{Unit Testing}

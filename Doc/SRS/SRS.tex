@@ -140,10 +140,20 @@
 		\midrule 
 		$S$ & unit of length & displacement
 		\\
-		$t$ & \si[per-mode=symbol] s & the time in seconds since the start of the game
+		$t$ & \si[per-mode=symbol] s & the time since the start of the game
+		\\
+		$\Delta t$ & \si[per-mode=symbol] s & the time between each frame.
+		\\
+		$v_{0}$ & \si[per-mode=symbol] m/s & initial speed.
 		\\  
-		$v_{0}$ & \si[per-mode=symbol] m/s & initial speed
+		$v_{x}$ & \si[per-mode=symbol] m/s & speed in current frame on x direction.
 		\\ 
+		$v_{x}^{'}$ & \si[per-mode=symbol] m/s & speed in last frame on x direction.
+		\\
+		$v_{z}$ & \si[per-mode=symbol] m/s & speed in current frame on z direction.
+		\\ 
+		$v_{z}^{'}$ & \si[per-mode=symbol] m/s & speed in last frame on z direction.
+		\\
 		$a$ & $m/s^2$ & acceleration
 		\\
 		$g$ & $m/s^2$ & gravity acceleration
@@ -154,24 +164,30 @@
 		\\
 		$W_{f}$ & $J$ & work done by kinetic friction
 		\\
-		$x_{n}$ & $m$ & x coordinates of gravity center of piece $n$, $n \in \mathbb{N}$, which represents just one piece. \wss{Explain the
+		$X$ & $m$ & z coordinates of piece $n$
+		\\
+		$Y$ & $m$ & z coordinates of piece $n$
+		\\
+		$Z$ & $m$ & z coordinates of piece $n$
+		\\
+		$x_{n}$ & $m$ & x coordinates of piece $n$, $n \in \mathbb{N}$, which represents just one piece. \wss{Explain the
 			meaning of $n$?  Also, you should format it like a mathematical variable ($n$,
 			not n).}\an{Add explanation for $n$ and format it as a mathematical variable.}
 		\\
-		$y_{n}$ & $m$ & y coordinates of gravity center of piece n
+		$y_{n}$ & $m$ & y coordinates of piece $n$
 		\\
-		$z_{n}$ & $m$ & z coordinates of gravity center of piece n
+		$z_{n}$ & $m$ & z coordinates of piece $n$
 		\\
 		$\theta_{1}$ & degree & angle between initial speed and horizontal
 		\\
 		$\theta_{2}$ & degree & angle between
 		x axiom and projection on horizontal of initial speed
 		\\
-		$S_{x}$ & $m$ & displacement on direction of x axiom
+		$S_{x}$ & $m$ & displacement in one frame on x direction 
 		\\
-		$S_{y}$ & $m$ & displacement on direction of y axiom
+		$S_{y}$ & $m$ & displacement in one frame on y direction
 		\\
-		$S_{z}$ & $m$ & displacement on direction of z axiom
+		$S_{z}$ & $m$ & displacement in one frame on z direction
 		\\
 		$\mu_k$ &  & coefficient of friction
 		\\
@@ -334,8 +350,6 @@
 	
 	\begin{itemize}
 		
-		\item[GS\refstepcounter{goalnum}\thegoalnum \label{G_speed}:] Calculate initial speed of each piece.​
-		
 		\item[GS\refstepcounter{goalnum}\thegoalnum \label{G_motion}:] Calculate trace of motion for each piece.
 		
 	\end{itemize}
@@ -369,7 +383,7 @@
 		\wss{missing period.} \wss{What makes a piece powder?  How is powder defined?}\an{Add explanation for powder and airborne dust.}
 		
 		\item[A\refstepcounter{assumpnum}\theassumpnum \label{A_initialPE}:]
-	Before explosion, the kinetic energy and potential energy of target object are zero. Target object cannot be a moving object. An initial momentum will be assigned to each piece after explosion happens. \wss{You
+	Before explosion, the kinetic energy is zero. potential energy of target object can't be negative. An initial momentum will be assigned to each piece after explosion happens. \wss{You
 			say in your goal statement that there is an initial momentum.  If the kinetic
 			energy is zero, then the momentum will always be }\an{There is some misunderstanding in this assumption. The initial energy here represents the energy before explosion. And initial momentum in GS refers to the energy after explosion happens. So they are totally different status because of different periods. I modify the expression to make it clearer. Sorry for the confusion !}
 		
@@ -377,11 +391,13 @@
 		The same coefficient of friction everywhere on flat ground.​
 		
 		\item[A\refstepcounter{assumpnum}\theassumpnum \label{A_piece}:]
-		Pieces are not decomposable. 
+		Target object must be splitted by external function by user before it is passed to Breaking Effect. 
 		
 		\item[A\refstepcounter{assumpnum}\theassumpnum \label{A_collision}:]
 		Collision between pieces will not be considered. 
 		
+		\item[A\refstepcounter{assumpnum}\theassumpnum \label{A_velocity}:]
+		Value of initial velocity given by explosion is ten times input E unit length in unity per second.
 	\end{itemize}
 	
 	\subsubsection{Theoretical Models}\label{sec_theoretical}
@@ -609,8 +625,8 @@
 			\hline
 			Input&$x_{n}$,$y_{n}$,$z_{n}$\\
 			\hline
-			Output&$\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{x_{n}^2+y_{n}^2}}$\\
-			&$\theta_{2}=arctan \frac{y_{n}}{x_{n}}$\\
+			Output&$\theta_{1}=arctan \frac{y_{n} - Y}{\sqrt{(z_{n}-Z)^2+(x_{n}-X)^2}}$\\
+			&$\theta_{2}=arctan \frac{x_{n}-X}{z_{n}-Z}$\\
 			\hline
 			Description&$x_{n}$ is x coordinates of gravity center of piece n.\\
 			&$y_{n}$ is y coordinates of gravity center of piece n.\\
@@ -635,17 +651,17 @@
 			\hline
 			Label& \bf Uniformly accelerated motion to find displacement in the air\\
 			\hline
-			Input&$v_{0}$,$\theta_{1}$ from IM1,$\theta_{2}$ from IM1,$t$,$g$\\
+			Input&$v_{0}$,$\theta_{1}$ from IM1,$\theta_{2}$ from IM1,$t$,$\Delta t$,$g$\\
 			\hline
-			Output&$S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t$\\
-			&$S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t$,\\
-			&$S_{z}=v_{0}\cdot sin\theta _{1}\cdot t-\frac{1}{2}gt^{2}$\\
+			Output&$S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot \Delta t$\\
+			&$S_{z}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot \Delta t$,\\
+			&$S_{y}=(v_{0}\cdot sin\theta _{1} - gt)\cdot \Delta t-\frac{1}{2}g \cdot \Delta t^{2}$\\
 			\hline
-			Description&$v_{0}$ is the initial speed.\\
+			Description&$v_{0}$ is the initial speed after explosion.\\
 			&$t$ is time from beginning.\\
 			&$\theta _{1}$ is the angle between $v_{0}$ and horizontal.\\
 			&$\theta _{2}$ is the angle between x axiom and projection on horizontal of initial speed.\\
-			& The above equation applies as long as the piece moving in the air.
+			& Above equation applies as long as the piece moving in the air.
 			\\
 			\hline
 			Sources&~\ \ \\
@@ -670,8 +686,10 @@
 			Input&$v_{0}$,$\theta_{1}$,$\theta_{2}$,$t$,$g$,$\mu_{k}$\\
 			\hline
 			Output&$a=\mu_{k}g$\\
-			&$S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t-\frac{1}{2}at^{2}$\\
-			&$S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t-\frac{1}{2}at^{2}$,\\
+			&$v_{x} = v_{x}^{'} + a\Delta t$ \\
+			&$v_{z} = v_{z}^{'} + a\Delta t$ \\
+			&$S_{x}=v_{x}\cdot \Delta t-\frac{1}{2}a\Delta t^{2}$\\
+			&$S_{z}=v_{z}\cdot \Delta t-\frac{1}{2}a\Delta t^{2}$\\
 			\hline
 			Description&$v_{0}$ is the initial speed.\\
 			&$t$ is time from beginning.\\
@@ -744,9 +762,9 @@
 			\midrule 
 			$X$ &  & $L_{\text{min}} \leq X \leq L_{\text{max}}$ & 0 & 10\%
 			\\
-			$Y$ &  & $L_{\text{min}} \leq Y \leq L_{\text{max}}$ & 0 & 10\%
+			$Z$ &  & $L_{\text{min}} \leq Z \leq L_{\text{max}}$ & 0 & 10\%
 			\\
-			$Z$ &  & $0$ & 0 & 0\%
+			$Y$ &  & $0 < Y < L_{max}$ & 0 & 0\%
 			\\
 			$x_{n}$ &  & $L_{\text{min}} \leq x_{n} \leq L_{\text{max}}$ & 0 & 10\%
 			\\
@@ -816,17 +834,13 @@
 	\noindent \begin{itemize}
 		
 		\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs}:] 
-		Input the following quantities, which define the target object
+		Breaking Effect accepts following input data, which define the target object
 		and initial conditions:
 		\noindent \begin{longtable*}{l l l} 
 			\toprule
 			\textbf{symbol} & \textbf{unit} & \textbf{description}\\
 			\midrule 
-			$X$ & & x coordinates of target object
-			\\
-			$Y$ & & y coordinates of target object
-			\\
-			$Z$ & & z coordinates of target object
+			$TargetObj$ & & target object
 			\\
 			$E$ & & Initial momentum level
 			\\
@@ -837,22 +851,14 @@
 		
 		~\newpage
 		
-		\item[R\refstepcounter{reqnum}\thereqnum \label{R_InitialSpeed}:] Use inputs in R1 to find initial speed $v_{0}$, as follows:
-		
-		$v_{0}=E \cdot 10$
-		
 		\item[R\refstepcounter{reqnum}\thereqnum \label{R_VerifyOutput}:] Verify that the inputs satisfy the required physical constraints shown in Table 1.
 		
-		\item[R\refstepcounter{reqnum}\thereqnum \label{R_Piece}:] Generate pieces by calling cutting function in game engine. Then get gravity center of each piece.
+		\item[R\refstepcounter{reqnum}\thereqnum \label{R_ClassPiece}:] Define custom class for piece objects.
 		
-		\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate}:]
-		Calculate the angle between $v_{0}$ and horizontal($\theta _{1}$). Calculate the angle between x axiom and projection on horizontal of initial speed($\theta _{2}$) by IM\ref{IM_angle}. 
+		\item[R\refstepcounter{reqnum}\thereqnum \label{R_Piece}:] Initialize pieces by creating instances of custome class PieceObj. Calculate the angle between $v_{0}$ and horizontal($\theta _{1}$). Calculate the angle between x axiom and projection on horizontal of initial speed($\theta _{2}$) for each piece object by IM\ref{IM_angle}. 
 		
 		\item[R\refstepcounter{reqnum}\thereqnum \label{R_Output1}:] 
-		Calculate and output trace of motion for each piece in the air($S_{x},S_{y},S_{z}$) by IM\ref{IM_DIA}.
-		
-		\item[R\refstepcounter{reqnum}\thereqnum \label{R_Output2}:] 
-		Calculate and output trace of motion for each piece on the ground($S_{x},S_{y},S_{z}$) by IM\ref{IM_DOG}.
+		Calculate and output trace of motion for each piece ($S_{x},S_{y},S_{z}$) by IM\ref{IM_DIA} and IM\ref{IM_DOG}
 		
 	\end{itemize}
 	
@@ -860,7 +866,20 @@
 	\an{Reference instance models.}
 	\subsection{Nonfunctional Requirements}
 	
-	Performance is influenced by amount of pieces, capability of GPU and CPU. Other nonfunctional requirements are correctness and reusability.
+	\begin{itemize}
+		
+		\item usability:\\
+		Breaking Effect is easy to use. User can easily learn how to use by reading the read me document.
+		
+		\item Performance:\\
+		Breaking Effect is not a crucial requirement because it takes a target object that created by user while it does't product extra objects in the scene. However developer should choose efficient algorithm to reduce computing workload.
+		
+		\item Maintainability:\\
+		Breaking Effect allows additional physics effect to be added to make the overall result more vivid.
+		
+		\item Reusability: \\
+		Breaking Effect only relies on plotform Unity3D so that it can be extended and reused by Unity3D project that has similar requirements.
+	\end{itemize}
 	
 	\wss{More information on the NFRs would improve this document.}
 	\an{Haven't come up with other good points for NFRs. Will keep thinking ! }
@@ -885,29 +904,25 @@
 	general definitions, data definitions, instance models, and likely changes on
 	the assumptions.
 	
-	
-	\afterpage{
-		\begin{landscape}
 			\begin{table}[h!]
 				\centering
-				\begin{tabular}{|c|c|c|c|c|c|c|c|}
+				\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 					\hline
-					& \aref{A_mechanical}& \aref{A_airFriction}& \aref{A_powder}& \aref{A_initialPE}& \aref{A_ground}& \aref{A_piece}& \aref{A_collision}\\
+					& \aref{A_mechanical}& \aref{A_airFriction}& \aref{A_powder}& \aref{A_initialPE}& \aref{A_ground}& \aref{A_piece}& \aref{A_collision}&
+					\aref{A_velocity}\\
 					\hline
-					\tref{T_CME}        & X& & & & & &\\ \hline
-					\tref{T_WKF}        & & & & & X& &\\ \hline
-					\ddref{DD_UAM}        & & & & & X& &\\ \hline
-					\ddref{DD_Fk}        & & & & & X& &\\ \hline
-					\iref{IM_angle}        & & & & & & &\\ \hline
-					\iref{IM_DIA}        & & X& & & & &\\ \hline
-					\iref{IM_DOG}        & & & & & X& &\\ \hline
-					\lcref{LC_SOP}        & & X& & & & X&\\ \hline
+					\tref{T_CME}        & X& & & & & & &\\ \hline
+					\tref{T_WKF}        & & & & & X& & &\\ \hline
+					\ddref{DD_UAM}        & & & & & X& & &\\ \hline
+					\ddref{DD_Fk}        & & & & & X& & &\\ \hline
+					\iref{IM_angle}        & & & & & & & &\\ \hline
+					\iref{IM_DIA}        & & X& & & & & &\\ \hline
+					\iref{IM_DOG}        & & & & & X& & &\\ \hline
+					\lcref{LC_SOP}        & & X& & & & X& &\\ \hline
 				\end{tabular}
 				\caption{Traceability Matrix Showing the Connections Between Assumptions and Other Items}
 				\label{Table:A_trace}
 			\end{table}
-		\end{landscape}
-	}
 	
 	\begin{table}[h!]
 		\centering
@@ -929,20 +944,18 @@
 	
 	\begin{table}[h!]
 		\centering
-		\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+		\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 			\hline
-			& \iref{IM_angle}& \iref{IM_DIA}& \iref{IM_DOG}& \rref{R_Inputs}& \rref{R_InitialSpeed}& \rref{R_VerifyOutput}& \rref{R_Piece}& \rref{R_Calculate}& \rref{R_Output1}& \rref{R_Output2} \\
+			& \iref{IM_angle}& \iref{IM_DIA}& \iref{IM_DOG}& \rref{R_Inputs}& \rref{R_VerifyOutput}& \rref{R_ClassPiece}& \rref{R_Piece}& \rref{R_Output1}\\
 			\hline
-			\iref{IM_angle}            & & & & X& & & & X& &\\ \hline
-			\iref{IM_DIA}            & X& & & & & & & X& X&\\ \hline
-			\iref{IM_DOG}          & & & & X& & & & & &X\\ \hline
-			\rref{R_Inputs}          & & & & & X& & & & X&X\\ \hline
-			\rref{R_InitialSpeed}     & & & & & & & & & &\\ \hline
-			\rref{R_VerifyOutput}    & & & & & & & & & &\\ \hline
-			\rref{R_Piece}    & & & & & & & & & &\\ \hline
-			\rref{R_Calculate}   & & & & & & & & & X&\\ \hline
-			\rref{R_Output1}  & & & & & & & & & &\\ \hline
-			\rref{R_Output2}  & & & & & & & & & &\\ \hline
+			\iref{IM_angle}            & & & & X& & & &\\ \hline
+			\iref{IM_DIA}            & X& & & & & & &\\ \hline
+			\iref{IM_DOG}          & & & & X& & &X &\\ \hline
+			\rref{R_Inputs}          & & & & & X& & &\\ \hline
+			\rref{R_VerifyOutput}    & & & & & & & &\\ \hline
+			\rref{R_ClassPiece}   & & & & & & & &\\ \hline
+			\rref{R_Piece}    & & & & & & & &\\ \hline
+			\rref{R_Output1}  & & & & & & & &\\ \hline
 		\end{tabular}
 		\caption{Traceability Matrix Showing the Connections Between Requirements and Instance Models}
 		\label{Table:R_trace}

@@ -143,6 +143,7 @@
 		\label{acMove}:] The method to check if a piece is stopped. \an{In unity, negative speed means having speed towards opposite direction that is not equivalent with stop.}
 		\item[\refstepcounter{acnum} \actheacnum \label{acTO}:] Different types of target object. 
 		\item[\refstepcounter{acnum} \actheacnum \label{acCD}:] Method to detect if a piece is on the ground.
+		\item[\refstepcounter{acnum} \actheacnum \label{acOP}:] Perspective of default view.
 		\item[\refstepcounter{acnum} \actheacnum \label{acCC}:] Method to control camera.
 	\end{description}
 	
@@ -185,12 +186,13 @@
 		\item [\refstepcounter{mnum} \mthemnum \label{mBH}:] Behaviour-Hiding Module
 		\item [\refstepcounter{mnum} \mthemnum \label{mIF}:] Input Module
 		\item [\refstepcounter{mnum} \mthemnum \label{mPO}:] Piece Object Module
-		\item [\refstepcounter{mnum} \mthemnum \label{mOGC}:] Pieces initialization module
+		\item [\refstepcounter{mnum} \mthemnum \label{mOGC}:] Acquire Pieces module
 		\item [\refstepcounter{mnum} \mthemnum \label{mDC1}:] Displacement calculation Module
 		\item [\refstepcounter{mnum} \mthemnum \label{mSD}:] Software Decision Module
 		\item [\refstepcounter{mnum} \mthemnum \label{mTO}:] Target Object Module
 		\item [\refstepcounter{mnum} \mthemnum \label{mOC}:] Collision with ground detection Module
 		\item [\refstepcounter{mnum} \mthemnum \label{mOM}:] Output Module
+		\item [\refstepcounter{mnum} \mthemnum \label{mCC}:] Camera controlling Module
 	\end{description}
 	
 	
@@ -204,15 +206,16 @@
 			{Hardware-Hiding Module} & ~ \\
 			\midrule
 			
-			\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input Module\\			
-			& Piece Object Module\\
-			& Pieces initialization module\\
+			\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & Input module\\			
+			& Piece object module\\
+			& Acquire pieces module\\
 			& Displacement calculation module\\
 			\midrule
 			
-			\multirow{3}{0.3\textwidth}{Software Decision Module} & Target Object Module\\
-			& Collision with ground detection Module\\
-			& Output Module\\
+			\multirow{3}{0.3\textwidth}{Software Decision Module} & Target object module\\
+			& Collision with ground detection module\\
+			& Output module\\
+			& Camera controlling module\\
 			\bottomrule
 			
 		\end{tabular}
@@ -292,7 +295,7 @@
 		\item[Implemented By:] Breaking Effect
 	\end{description}
 	
-	\subsubsection{Pieces initialization module (\mref{mOGC})}
+	\subsubsection{Acquire Pieces Module (\mref{mOGC})}
 	\wss{sometimes you forget to add a space before your bracket (}\\ 
 	\an{Fixed. Thank you for this remind !}
 	\begin{description}
@@ -346,11 +349,21 @@
 	
 	\begin{description}
 		\item[Secrets:] Interact with platform to convert data into visualization.
-		\item[Services:] Display motion of pieces in vision. Provide free camera for people to control view.
+		\item[Services:] Display motion of pieces in vision. 
 		% Changes in these modules are more likely to be motivated by a desire to
 		% improve performance than by externally imposed changes.
 		\item[Implemented By:] Unity3D
 		\end{description}
+	
+	\subsubsection{Camera controlling Module (\mref{mCC})}
+	
+	\begin{description}
+		\item[Secrets:] Method to control main camera.
+		\item[Services:] Provide free camera for people to control view.
+		% Changes in these modules are more likely to be motivated by a desire to
+		% improve performance than by externally imposed changes.
+		\item[Implemented By:] Unity3D
+	\end{description}
 	
 	\section{Traceability Matrix} \label{SecTM}
 	
@@ -365,13 +378,11 @@
 			\toprule
 			\textbf{Req.} & \textbf{Modules}\\
 			\midrule
-			\rref{R_Inputs} & \mref{mHH},\mref{mIF}\\
-			\rref{R_InitialSpeed} & \mref{mIF}\\
+			\rref{R_Inputs} & \mref{mHH}\\
 			\rref{R_VerifyOutput} & \mref{mIF}\\
-			\rref{R_Piece} & \mref{mOGC},\mref{mOC}\\
-			\rref{R_Calculate} & \mref{mAC}\\
-			\rref{R_Output1} & \mref{mDC1}\\
-			\rref{R_Output2} & \mref{mDC2}\\
+			\rref{R_ClassPiece} & \mref{mPO}\\
+			\rref{R_Piece} & \mref{mOGC}\\
+			\rref{R_Output1} & \mref{mOC}, \mref{mDC1}\\
 			\bottomrule
 		\end{tabular}
 		\caption{Trace Between Requirements and Modules}
@@ -386,7 +397,13 @@
 			\midrule
 			\acref{acHardware} & \mref{mHH}\\
 			\acref{acInput} & \mref{mIF}\\
-			\acref{acCF} & \mref{mOC}\\
+			\acref{acPO} & \mref{mPO}\\
+			\acref{acPI} & \mref{mOGC}\\
+			\acref{acMove} & \mref{mDC1}\\
+			\acref{acTO} & \mref{mTO}\\
+			\acref{acCD} & \mref{mOC}\\
+			\acref{acOP} & \mref{mOM}\\
+			\acref{acCC} & \mref{mCC}\\
 			\bottomrule
 		\end{tabular}
 		\caption{Trace Between Anticipated Changes and Modules}
@@ -408,7 +425,7 @@
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[width=0.7\textwidth]{./Figure1.png}
+		\includegraphics[width=1.1\textwidth]{./Figure1.png}
 		\caption{Use hierarchy among modules}
 		\label{FigUH}
 	\end{figure}

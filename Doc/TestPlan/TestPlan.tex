@@ -1,11 +1,8 @@
 \documentclass[12pt, titlepage]{article}
 
-\usepackage{amsmath, mathtools}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
-\usepackage{xr}
-\externaldocument{../SRS/SRS} 
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -14,816 +11,223 @@
     urlcolor=blue
 }
 \usepackage[round]{natbib}
-\newcommand{\rref}[1]{R\ref{#1}}
-\newcommand{\ddref}[1]{DD\ref{#1}}
+
+\title{SE 3XA3: Test Plan\\Title of Project}
+
+\author{Team \#, Team Name
+		\\ Student 1 name and macid
+		\\ Student 2 name and macid
+		\\ Student 3 name and macid
+}
+
+\date{\today}
+
 \input{../Comments}
+
 \begin{document}
 
-\title{Test Plan for Breaking Effect (BE)} 
-\author{Marshall Xiaoye Ma}
-\date{\today}
-	
 \maketitle
 
 \pagenumbering{roman}
+\tableofcontents
+\listoftables
+\listoffigures
 
-\section{Revision History}
-
+\begin{table}[bp]
+\caption{\bf Revision History}
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-2017-10-21 & 1.0 & New Document\\
+Date 1 & 1.0 & Notes\\
+Date 2 & 1.1 & Notes\\
 \bottomrule
 \end{tabularx}
-
-~\newpage
-
-\section{Symbols, Abbreviations and Acronyms}
-
-	\renewcommand{\arraystretch}{1.2}
-	%\begin{table}[ht]
-	\noindent \begin{tabular}{l l l} 
-		\toprule		
-		\textbf{symbol} & \textbf{unit} & \textbf{description}\\
-		\midrule 
-		$S$ & unit of length & displacement
-		\\
-		$t$ & $s$ & the time in seconds since the start of the game
-		\\  
-		$v_{0}$ & $m/s$ & initial speed
-		\\ 
-		$a$ & $m/s^2$ & acceleration
-		\\
-		$g$ & $m/s^2$ & gravity acceleration
-		\\
-		$\Delta E_{k}$ & J & variation of kinetic energy
-		\\
-		$\Delta E_{p}$ & J & variation of potential energy
-		\\
-		$W_{f}$ & $J$ & work done by kinetic friction
-		\\
-		$x_{n}$ & $m$ & x coordinates of gravity center of piece $n$, $n \in N$
-		\\
-		$y_{n}$ & $m$ & y coordinates of gravity center of piece $n$
-		\\
-		$z_{n}$ & $m$ & z coordinates of gravity center of piece $n$
-		\\
-		$\theta_{1}$ & degree & angle between initial speed and horizontal
-		\\
-		$\theta_{2}$ & degree & angle between
-		x axiom and projection on horizontal of initial speed
-		\\
-		$S_{x}$ & m & displacement on direction of x axiom
-		\\
-		$S_{y}$ & m & displacement on direction of y axiom
-		\\
-		$S_{z}$ & m & displacement on direction of z axiom
-		\\
-		$\mu_k$ &  & coefficient of friction
-		\\
-		\bottomrule
-	\end{tabular}
-
-	\renewcommand{\arraystretch}{1.2}
-	\begin{tabular}{l l} 
-		\toprule		
-		\textbf{symbol} & \textbf{description}\\
-		\midrule 
-		A & Assumption\\
-		DD & Data Definition\\
-		GD & General Definition\\
-		GS & Goal Statement\\
-		IM & Instance Model\\
-		LC & Likely Change\\
-		PS & Physical System Description\\
-		R & Requirement\\
-		SRS & Software Requirements Specification\\
-		BE & Breaking Effect\\
-		T & Theoretical Model\\
-		\bottomrule
-	\end{tabular}\\
-	
-	
-\newpage
-
-\tableofcontents
-
-\listoftables
-
-\listoffigures
-
-\wss{If you don't have a list of figures, you can remove this heading.}
+\end{table}
 
 \newpage
 
 \pagenumbering{arabic}
 
+This document ...
+
 \section{General Information}
 
 \subsection{Purpose}
 
-The purpose for this document is to build test plan for project Breaking
-Effect.Test cases in the document are designed based on SRS of the project and
-aim to cover both functional and non-functional requirements described in SRS.\\
-\wss{You don't need to end paragraphs with an explicit character.  This practice
-has the unfortunate consequence of sometimes leaving an extra blank line in the
-generated document.}
-
-This document is used as a guide that need to be followed exactly in test stage before release of this project. \\
-
 \subsection{Scope}
-This test plan covers verification and validation for the project Breaking Effect to make sure the program is implemented as requirement specification, including automated testing, system test and unit test. The project relies on Unity3D as platform and uses function provided by Unity3D for object cutting. So test for object cutting is not included in this test plan. This test plan is designed based on SRS so that it doesn't cover test cases for requirements not in SRS. 
 
-\wss{An explicit web-link to your GitHub repo would be nice.}
+\subsection{Acronyms, Abbreviations, and Symbols}
+	
+\begin{table}[hbp]
+\caption{\textbf{Table of Abbreviations}} \label{Table}
+
+\begin{tabularx}{\textwidth}{p{3cm}X}
+\toprule
+\textbf{Abbreviation} & \textbf{Definition} \\
+\midrule
+Abbreviation1 & Definition1\\
+Abbreviation2 & Definition2\\
+\bottomrule
+\end{tabularx}
+
+\end{table}
+
+\begin{table}[!htbp]
+\caption{\textbf{Table of Definitions}} \label{Table}
+
+\begin{tabularx}{\textwidth}{p{3cm}X}
+\toprule
+\textbf{Term} & \textbf{Definition}\\
+\midrule
+Term1 & Definition1\\
+Term2 & Definition2\\
+\bottomrule
+\end{tabularx}
+
+\end{table}	
 
 \subsection{Overview of Document}
-
-This test plan firstly describes environment and platform for Breaking Effect. Purpose and scope of outlined the document generally in previous sections. Detailed test plan and test cases are covered in following sections including test team, automated testing approach, verification tools and test cases for both functional requirements and non-functional requirements.
 
 \section{Plan}
 	
 \subsection{Software Description}
 
-Breaking effect presents how the pieces of an object move after it separates into parts with
-suddenness or violence.
-
-This project implements running time breaking effect in codes for 3-D models in unity3D without help from any similar plug-in. Including different shapes 3-D objects breaking based on physics and pieces interacting with the momentum provided by the breaking force. The breaking effect program simulates 3-D objects destruction process in vision by implementing scientific computing functions.
-
-\wss{The text is better for version control, and for reading in other editors,
-  if you use a hard-wrap at 80 characters}
-
-This project concentrates on calculation while
-HCI or GUI are not important parts. Applied force is decided in codes in advance as input
-and trace of motion is the output after calculation.
-
 \subsection{Test Team}
-The team that is responsible for all tests is Xiaoye Ma.
+
 \subsection{Automated Testing Approach}
 
-Most testing work for Breaking Effect does not rely on automated testing. Because the final output is visualization and experience from users. Verification of inputs will be done automatically through help from Unit Test Generator provided by IDE Visual Studio 2017. Test cases are covered in following sections. Verification of correctness and output from intermediate steps will be tested manually.  
+\subsection{Testing Tools}
 
-Automated testing also helps check correctness of C$\#$ codes including bugs and syntax errors detecting.
- 
-\subsection{Verification Tools}
-
-The project is implemented by C$\#$ programming language that is supported by platform Unity3D. The program is written through IDE Visual Studio 2017 which supports following tools:
-
-\begin{itemize}
-	\item Unit Test Generator\\
-	
-	Unit Test Generator will be used to decrease workload involved in creating new unit tests. It helps the routine test creation tasks. It also provides the ability to generate and configure test project and test class. 
-	
-\end{itemize}
-
-\begin{itemize}
-	\item Automatic code checking\\
-	
-	Visual Studio automatically help check code error when developer is programming to pick out errors including syntax error, grammar error. 	
-\end{itemize}
-% \subsection{Testing Schedule}
+\subsection{Testing Schedule}
 		
-% See Gantt Chart at the following url ...
-
-\subsection{Non-Testing Based Verification}
-Code walkthrough will be done by developer and a peer reviewer to identify any
-defects. They both review codes and do logic analysis to see if the program
-satisfies all requirements in SRS. The walkthrough should also find and fix
-possible bugs and peer reviewer is expected to provide any comment to help
-developer improve the program.
-
-\wss{Great to see a code walkthrough!  However, could you please give some more
-  detail on how the walkthrough will be done.  How many participants?  How will
-  they be recruited?  What documentation will they be given?  etc.  What
-  specific guidelines will there be for the meeting and the process?  If you
-  google "code walkthrough" you will find guidance on how to prepare for and
-  structure the meeting.  How will the results of the code walkthrough be
-  summarized?}
+See Gantt Chart at the following url ...
 
 \section{System Test Description}
-
-Section \ref{Sec_TestInput} focuses on verifying correctness of users inputs that covers \rref{R_Inputs} and \rref{R_VerifyOutput}. Testing cases in this section ensure Breaking Effect can handle both valid inputs and invalid inputs. Corresponding error messages for different situations of invalid inputs including incomplete inputs, inputs in incorrect data types and inputs do not satisfy data constraints.\\  
-Sections from \ref{Sec_testGravityCenter} focus on verifying outputs from intermediate steps and make sure all modules in program work correctly that cover other functional requirements including \rref{R_InitialSpeed}, \rref{R_Piece}, \rref{R_Calculate}, \rref{R_Output1}, \rref{R_Output2}. 
-
-\wss{Very nice to have explicit cross-references between documents.  To keep the information up to date, consider using make to build your documentation.}
-
+	
 \subsection{Tests for Functional Requirements}
 
-\subsubsection{Getting input from user}
-\label{Sec_TestInput}
-
-This test suite is designed to ensure the program can handle both valid and invalid inputs from user.\\ 
-Inputs provided by user include target object, explosion level (also known as initial momentum after explosion) and coefficient of friction on the ground. 
+\subsubsection{Area of Testing1}
 		
-\paragraph{Correct input}
+\paragraph{Title for Test}
 
 \begin{enumerate}
 
-\item{testCorrectInput\\}
+\item{test-id1\\}
 
-Type: Functional, Dynamic, Automated
-
-Initial State: New Session.
-
-Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$  
-
-Output: Receive inputs successfully and display all inputs in console.
-
-How test will be performed: Automated unit test 
-
-\end{enumerate}
-
-\paragraph{Missing necessary input}
-
-\begin{enumerate}
-	
-\item{testNoObject\\}
-
-Type: Functional, Dynamic, Automated
+Type: Functional, Dynamic, Manual, Static etc.
 					
-Initial State: New Session.
+Initial State: 
 					
-Input: $E = 5$, $\mu_{k} = 0.05$
+Input: 
 					
-Output: Error message - No object is found.
+Output: 
 					
-How test will be performed: Automated unit test
+How test will be performed: 
 					
-\item{testNoMu\\}
+\item{test-id2\\}
 
-Type: Functional, Dynamic, Automated
-
-Initial State: New Session.
-
-Input: $E = 5$, $(X,Y,Z) = (0,0,0)$  
-
-Output: Error message - Please input coefficient of friction on the ground.
-
-How test will be performed: Automated unit test
-
-\item{testNoMomentum\\}
-
-Type: Functional, Dynamic, Automated
-
-Initial State: New Session.
-
-Input: $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$  
-
-Output: Error message - Please input explosion level.
-
-How test will be performed: Automated unit test
+Type: Functional, Dynamic, Manual, Static etc.
+					
+Initial State: 
+					
+Input: 
+					
+Output: 
+					
+How test will be performed: 
 
 \end{enumerate}
 
-\paragraph{Non-numerical value}
+\subsubsection{Area of Testing2}
 
-\begin{enumerate}
-
-\item{testNonNumMomentum\\}
-
-Type: Functional, Dynamic, Automated
-
-Initial State: New Session.
-
-Input: $E = a$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$  
-
-Output: Error message - Explosion level can only be a number from 1 to 10.
-\wss{You have a test where $E$ is not a number, but I don't see a test where $E$
-  is a number, but not in the correct range.  Okay, I found the test later in
-  the document.  These tests are so simple and repetitive, it would be better to
-  summarize them in a table, where each row corresponds to a different test.}
-
-How test will be performed: Automated unit test
-
-\item{testNonNumCoordinate\\}
-
-Type: Functional, Dynamic, Automated
-
-Initial State: New Session.
-
-Input: $E = 5$, $(X,Y,Z) = (0,0,a)$, $\mu_{k} = 0.05$  
-
-Output: Error message - Coordinate can only be a number from -1000 to 1000.
-
-How test will be performed: Automated unit test
-
-\item{testNonNumMu\\}
-
-Type: Functional, Dynamic, Automated
-
-Initial State: New Session.
-
-Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = a$  
-
-Output: Error message - coefficient of friction can only be a number from 0 to 1.
-
-How test will be performed: Automated unit test
-
-\end{enumerate}
-
-\paragraph{Incomplete inputs}
-
-\begin{enumerate}
-
-\item{testMissingAxiom1\\}
-
-Type: Functional, Dynamic, Automated
-
-Initial State: New Session.
-
-Input: $E = 5$, $(X,Y,Z) = (0,0,)$, $\mu_{k} = 0.05$  
-
-Output: Error message - Please complete input.
-
-How test will be performed: Automated unit test 
-
-\item{testMissingAxiom2\\}
-
-Type: Functional, Dynamic, Automated
-
-Initial State: New Session.
-
-Input: $E = 5$, $(X,Y,Z) = (0,,0)$, $\mu_{k} = 0.05$  
-
-Output: Error message - Please complete input.
-
-How test will be performed: Automated unit test 
-
-\item{testMissingAxiom3\\}
-
-Type: Functional, Dynamic, Automated
-
-Initial State: New Session.
-
-Input: $E = 5$, $(X,Y,Z) = (,0,0)$, $\mu_{k} = 0.05$  
-
-Output: Error message - Please complete input.
-
-How test will be performed: Automated unit test 
-
-\end{enumerate}
-
-\paragraph{Inputs out of scope}
-
-\begin{enumerate}
-
-\item{testWrongMomentum\\}
-
-Type: Functional, Dynamic, Automated
-
-Initial State: New Session.
-
-Input: $E = -1$ or $E = 11$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$  
-
-Output: Error message - Explosion level can only be a number from 1 to 10.
-
-How test will be performed: Automated unit test
-
-\item{testWrongXY1\\}
-
-Type: Functional, Dynamic, Automated
-
-Initial State: New Session.
-
-Input: $E = 5$, $(X,Y,Z) = (0,99999,0)$, $\mu_{k} = 0.05$  
-
-Output: Error message - Coordinate X and Y can only be a number from -1000 to 1000.
-
-How test will be performed: Automated unit test
-
-\item{testWrongXY2\\}
-
-Type: Functional, Dynamic, Automated
-
-Initial State: New Session.
-
-Input: $E = 5$, $(X,Y,Z) = (99999,0,0)$, $\mu_{k} = 0.05$  
-
-Output: Error message - Coordinate X and Y can only be a number from -1000 to 1000.
-
-How test will be performed: Automated unit test
-
-\item{testWrongZ\\}
-
-Type: Functional, Dynamic, Automated
-
-Initial State: New Session.
-
-Input: $E = 5$, $(X,Y,Z) = (0,0,5)$, $\mu_{k} = 0.05$  
-
-Output: Error message - Coordinate Z can only be 0.
-
-How test will be performed: Automated unit test
-
-\item{testWrongMu\\}
-
-Type: Functional, Dynamic, Automated
-
-Initial State: New Session.
-
-Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 99$  
-
-Output: Error message - coefficient of friction can only be a number from 0 to 1.
-
-How test will be performed: Automated unit test 
-
-\end{enumerate}
-
-\subsubsection{Obtaining gravity center of each piece}
-\label{Sec_testGravityCenter}
-
-This section covers \rref{R_Piece} in SRS that program needs to obtain gravity center of each piece correctly. Testing for edge cases and error handling will be covered in Section \ref{Sec_UnitTest}. \\
-There is an assumption for this section that all tests in \ref{Sec_TestInput} are passed.
-
-\begin{enumerate}
-
-\item{testGravityCenter\\}
-
-Type: Functional, Dynamic, Manual
-
-Initial State: New Session.
-
-Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$  
-
-Output: A list of coordinates of all pieces in format $(x_{n},y_{n},z_{n})$ in the console.
-
-How test will be performed: Manually input and check output by developer.
-
-\end{enumerate}
-
-\wss{You can be more specific here.  What is the shape.  What is the centre of
-  gravity?  Why isn't this test automated?}
-
-\subsubsection{Initial speed calculation of each piece}
-\label{Sec_TestForInitialSpeed}
-
-Test case in this section covers \rref{R_InitialSpeed} in SRS that program calculates initial speed for each piece. Testing for edge cases and error handling will be covered in Section \ref{Sec_UnitTest}.\\
-There is an assumption for this section that all tests in \ref{Sec_TestInput} and \ref{Sec_testGravityCenter} are passed.
-\begin{enumerate}
-
-\item{testInitialSpeed\\}
-
-Type: Functional, Dynamic, Manual
-
-Initial State: New Session.
-
-Input: $E = [1,10]$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$  
-
-Output: initial speed $v_{0} = 10 * E$  \wss{Why?  How was this derived?  The
-  reader should be able to verify the test cases and there isn't enough
-  information here to do the verification.}
-
-How test will be performed: Manually input and check output by developer.
-
-\end{enumerate}
-
-\subsubsection{Calculation of angle between initial speed and horizontal($\theta _{1}$) as well as the angle between x axiom and projection on horizontal of initial speed($\theta _{2}$)}
-\label{Sec_TestForAngle}
-
-This section is designed to determine  angle calculation module works correctly to calculate two angles, which covers \rref{R_Calculate} in SRS. Testing for edge cases and error handling will be covered in Section \ref{Sec_UnitTest}.\\
-There is an assumption for this section that all tests in \ref{Sec_TestInput}, \ref{Sec_testGravityCenter} and \ref{Sec_TestForInitialSpeed} are passed.
-\begin{enumerate}
-
-\item{testAngles1\\}
-
-Type: Functional, Dynamic, Manual
-
-Initial State: New Session.
-
-Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$, $(x_{n},y_{n},z_{n})$ and $x_{n},y_{n},z_{n}$ can't be zero, which is the output list from \ref{Sec_testGravityCenter}  
-
-Output: Pairs of $\theta_{1}$ and $\theta_{2}$. Where $\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{x_{n}^2+y_{n}^2}}$ and $\theta_{2}=arctan \frac{y_{n}}{x_{n}}$
-
-How test will be performed: Manually input and check output by developer. \an{Here we take $(X,Y,Z) = (0,0,0)$ as input case for System test. Test cases for different values will be covered in unit test part section \ref{Sec_UnitTest}}
-
-\wss{Rather than be general, you should give specific input values and specific
-  output values.  This comment applies elsewhere in this document as well.
-  Again, it isn't clear why this has to be a manual test.}
-
-\item{testAngles2\\}
-
-Type: Functional, Dynamic, Manual
-
-Initial State: New Session.
-
-Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$, $(0,0,z_{n})$ and $z_{n}$ can't be zero, which is output from \ref{Sec_testGravityCenter}  
-
-Output: $\theta_{1}=90^{\circ}$ and $\theta_{2}=arctan \frac{y_{n}}{x_{n}}$
-
-How test will be performed: Manually input and check output by developer.
-
-\item{testAngles3\\}
-
-Type: Functional, Dynamic, Manual
-
-Initial State: New Session.
-
-Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$, $(x_{n},y_{n},0)$ and $x_{n},y_{n}$ can't be zero, which is output from \ref{Sec_testGravityCenter}  
-
-Output: $\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{x_{n}^2+y_{n}^2}}$ and $\theta_{2}=90^{\circ}$
-
-How test will be performed: Manually input and check output by developer.
-
-\item{testAngles4\\}
-
-Type: Functional, Dynamic, Manual
-
-Initial State: New Session.
-
-Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$, $(x_{n},y_{n},z_{n}) = (0,0,0)$ which is output from \ref{Sec_testGravityCenter}  
-
-Output: $\theta_{1}=90^{\circ}$ and $\theta_{2}=90^{\circ}$
-
-How test will be performed: Manually input and check output by developer.
-
-\end{enumerate}
-
-
-
-\subsubsection{Calculation of displacement for each piece in the air}
-\label{Sec_TestMotionAir}
-
-This section covers \rref{R_Output1} that displacement of each piece in the air should be calculated correctly. Testing for edge cases and error handling will be covered in Section \ref{Sec_UnitTest}.\\ 
-There is an assumption for this section that all tests in \ref{Sec_TestInput}, \ref{Sec_testGravityCenter}, \ref{Sec_TestForInitialSpeed} and \ref{Sec_TestForAngle} are passed.
-\begin{enumerate}
-
-\item{testMotionAir\\}
-
-Type: Functional, Dynamic, Manual
-
-Initial State: New Session.
-
-Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$, time t, and $\theta_{1}$, $\theta_{2}$, $v_{0}$ that are result from \ref{Sec_TestForAngle}, \ref{Sec_TestForInitialSpeed}
-
-Output: $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t$, $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t$ and $S_{z}=v_{0}\cdot sin\theta _{1}\cdot t-\frac{1}{2}gt^{2}$. Above output should be shown both in text in console and in vision on the screen. 
-
-How test will be performed: Manually input and check output by developer. \an{Here we take $E = 5$ and  $(X,Y,Z) = (0,0,0)$ as input case for System test. Test cases for different values will be covered in unit test part section \ref{Sec_UnitTest}}
-
-\end{enumerate}
-
-\subsubsection{Calculation of displacement for each piece on the ground}
-
-This section tests the final functional requirement \rref{R_Output2} is satisfied correctly that displacement of each piece on the ground should be calculated correctly. Testing for edge cases and error handling will be covered in Section \ref{Sec_UnitTest}.\\
-There is an assumption for this section that all tests in \ref{Sec_TestInput}, \ref{Sec_testGravityCenter}, \ref{Sec_TestForInitialSpeed}, \ref{Sec_TestForAngle} and \ref{Sec_TestMotionAir} passed.
-
-\begin{enumerate}
-
-\item{testMotionGround\\}
-
-Type: Functional, Dynamic, Manual
-
-Initial State: New Session.
-
-Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$, time t and $\theta_{1}$, $\theta_{2}$, $v_{0}$ that are result from \ref{Sec_TestForAngle}, \ref{Sec_TestForInitialSpeed}
-
-Output: $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t-\frac{1}{2}at^{2}$ and $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t-\frac{1}{2}at^{2}$. Above output should be shown both in text in console and in vision on the screen.
-
-How test will be performed: Manually input and check output by developer.\an{Here we take $E = 5$ and  $(X,Y,Z) = (0,0,0)$ as input case for System test. Test cases for different values will be covered in unit test part section \ref{Sec_UnitTest}}
-
-\end{enumerate}
-
-\subsubsection{Comparison with professional plug-in}
-
-This test case is designed to compare Breaking Effect with existing plug-in in Unity3D. Visualization is the most important point of the project so this section aims to test if Breaking Effect simulates the explosion vividly. 
-
-\begin{enumerate}
-
-\item{testCompare\\}
-
-Type: Functional, Dynamic, Manual
-
-Initial State: New session.
-
-Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$ 
-
-Output: Motion of each piece.
-
-How test will be performed: Compare output with professional plug-ins. 
-
-\end{enumerate}
+...
 
 \subsection{Tests for Nonfunctional Requirements}
 
-\subsubsection{Performance test}
+\subsubsection{Area of Testing1}
+		
+\paragraph{Title for Test}
 
 \begin{enumerate}
 
-\item{testPerformance\\}
+\item{test-id1\\}
 
-Type: Nonfunctional,Dynamic, Manual
+Type: 
 					
-Initial State: New session
+Initial State: 
 					
-Input/Condition: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$
+Input/Condition: 
 					
-Output/Result: Motion of each piece.
+Output/Result: 
 					
-How test will be performed: Adjust amount of pieces to see the performance that if program can run smoothly in huge amount of pieces.
+How test will be performed: 
+					
+\item{test-id2\\}
+
+Type: Functional, Dynamic, Manual, Static etc.
+					
+Initial State: 
+					
+Input: 
+					
+Output: 
+					
+How test will be performed: 
 
 \end{enumerate}
 
-\wss{Be more specific.  What will the range of the number of pieces be?  How
-  will you judge smoothness?  You might need to also summarize the target
-  hardware.  Can you summarize the total time of calculation and plot it?}
+\subsubsection{Area of Testing2}
 
-\subsubsection{Comparison with professional plug-in}
-
-This test case is designed to compare Breaking Effect with existing plug-in in Unity3D. Visualization is the most important point of the project so this section aims to test if Breaking Effect simulates the explosion vividly. 
-
-\begin{enumerate}
-	
-	\item{testCompare\\}
-	
-	Type: Functional, Dynamic, Manual
-	
-	Initial State: New session.
-	
-	Input: $E = 5$, $(X,Y,Z) = (0,0,0)$, $\mu_{k} = 0.05$. Performance of professional plug-in, example:Realistic Explosions Pack.
-	
-	Output: Motion of each piece.
-	
-	How test will be performed: Compare output with professional plug-ins. 
-	
-\end{enumerate}
-
-\wss{How will the comparison be assessed? quantified?}
+...
 
 \subsection{Traceability Between Test Cases and Requirements}
 
-\begin{table}[h!]
-	\centering
-	\begin{tabular}{|c|c|c|c|c|c|c|c|}
-		\hline        
-		& \rref{R_Inputs} & \rref{R_InitialSpeed} & \rref{R_VerifyOutput}& \rref{R_Piece} &\rref{R_Calculate} & \rref{R_Output1}&\rref{R_Output2} \\
-		\hline
-		testCorrectInput &X & &X & & & &\\ \hline
-		testNoObject &X & & & & & &\\ \hline
-		testNoMu &X & & & & & &\\ \hline
-		testNoMomentum &X & & & & & &\\ \hline
-		testNonNumMomentum & & &X & & & &\\ \hline
-		testNonNumCoordinate & & &X & & & &\\ \hline
-		testNonNumMu & & &X & & & &\\ \hline
-		testMissingAxiom & & &X & & & &\\ \hline
-		testWrongMomentum & & &X & & & &\\ \hline
-		testWrongCoordinate & & &X & & & &\\ \hline
-		testWrongMu & & &X & & & &\\ \hline
-		testGravityCenter & & & &X & & &\\ \hline
-		testInitialSpeed & &X & & & & &\\ \hline
-		testAngles & & & & &X & &\\ \hline
-		testMotionAir & & & & & &X &\\ \hline
-		testMotionGround & & & & & & &X\\ \hline
-	\end{tabular}
-	\caption{Traceability Matrix Showing the Connections Between Items of Different Sections}
-	\label{Table:trace}
-\end{table}
+\section{Tests for Proof of Concept}
 
-\newpage
-% \section{Tests for Proof of Concept}
-
-% \subsection{Area of Testing1}
+\subsection{Area of Testing1}
 		
-% \paragraph{Title for Test}
+\paragraph{Title for Test}
 
-% \begin{enumerate}
+\begin{enumerate}
 
-% \item{test-id1\\}
+\item{test-id1\\}
 
-% Type: Functional, Dynamic, Manual, Static etc.
+Type: Functional, Dynamic, Manual, Static etc.
 					
-% Initial State: 
+Initial State: 
 					
-% Input: 
+Input: 
 					
-% Output: 
+Output: 
 					
-% How test will be performed: 
+How test will be performed: 
 					
-% \item{test-id2\\}
+\item{test-id2\\}
 
-% Type: Functional, Dynamic, Manual, Static etc.
+Type: Functional, Dynamic, Manual, Static etc.
 					
-% Initial State: 
+Initial State: 
 					
-% Input: 
+Input: 
 					
-% Output: 
+Output: 
 					
-% How test will be performed: 
+How test will be performed: 
 
-% \end{enumerate}
+\end{enumerate}
 
-% \subsection{Area of Testing2}
+\subsection{Area of Testing2}
 
-% ...
+...
+
+	
+\section{Comparison to Existing Implementation}	
 				
 \section{Unit Testing Plan}
-\label{Sec_UnitTest}
-Unit Test Generator provided by Visual Studio 2017 will be used to implement automated unit testing for this project.\\
-For each function, a test class will be created through Unit Test Generator. Developer provides inputs, runs automated test to see if it is passed.\\
-Inputs will be provided by different target objects, initial locations, initial momentum, coefficient of friction. \\
-Unit tests for this project focuses on edge cases checking and error handling. Unit tests for input handling module are covered in \ref{Sec_TestInput}.\\ 
-Unit tests for other modules will be designed after modules designing are finished.
-
-\subsection{Unit test for initial speed calculation}
-
-\begin{enumerate}
-	
-	\item{UnitTestIS\\}
-	
-	Type: Functional, Dynamic, Automated
-	
-	Initial State: New session.
-	
-	Input: Edge cases for E. Example: E=1, E=10.
-		Error cases for E. Example: E=nil, E=-1, E=99
-	
-	Output: Initial speed $v_{0}$ when edge cases.
-			Error message when error cases.
-	
-	How test will be performed: Automated unit testing.
-	
-\end{enumerate}
-
-\subsection{Unit test for gravity center calculation}
-
-\wss{It is unclear how this test differs from the previous centre of gravity
-  test?}
-
-\begin{enumerate}
-	
-	\item{UnitTestGC\\}
-	
-	Type: Functional, Dynamic, Automated
-	
-	Initial State: New session.
-	
-	Input: location of target object $(X,Y,0)$ that range of X and Y is $[-1000,1000]$ and object cutting function provide by platform. 
-	\an{Object cutting function is provided by developer that is only used for doing unit testing. Users don't need to input this when using the program. Also no such input in System test, that needs input from user only.}
-	
-	Output: A list of coordinates of all pieces in format $(x_{n},y_{n},z_{n})$ in the console.
-	
-	How test will be performed: Automated unit testing.
-	
-\end{enumerate}
-
-\subsection{Unit test for angles calculation}
-
-\begin{enumerate}
-	
-	\item{UnitTestAC1\\}
-	
-	Type: Functional, Dynamic, Automated
-	
-	Initial State: New session.
-	
-	Input: Normal cases for $(X,Y,0)$, $(x_{n},y_{n},z_{n})$. Range of X and Y is $[-1000,1000]$. Example: (10,10,0);(31,-5,-10)
-	
-	Output: $\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{x_{n}^2+y_{n}^2}}$ and $\theta_{2}=arctan \frac{y_{n}}{x_{n}}$
-	
-	How test will be performed: Automated unit testing.
-	
-	\item{UnitTestAC2\\}
-	
-	Type: Functional, Dynamic, Automated
-	
-	Initial State: New session.
-	
-	Input: Edge cases for $(X,Y,0)$, $(x_{n},y_{n},z_{n})$. Example: (1000,1000,0);(-1000,-1000,-1000)
-	
-	Output: $\theta_{1}=arctan \frac{|z_{n}|}{\sqrt{x_{n}^2+y_{n}^2}}$ and $\theta_{2}=arctan \frac{y_{n}}{x_{n}}$
-	
-	How test will be performed: Automated unit testing.
-	
-\end{enumerate}
-
-\subsection{Unit test for displacement calculation}
-
-\begin{enumerate}
-	
-	\item{UnitTestDCA\\}
-	
-	Type: Functional, Dynamic, Automated
-	
-	Initial State: New session.
-	
-	Input: $E = [1-10]$, $(X,Y,0)$ that range of X and Y is $[-1000,1000]$, $\mu_{k} = [0,1]$, time t, and $\theta_{1}$, $\theta_{2}$, $v_{0}$ that are result from \ref{Sec_TestForAngle}, \ref{Sec_TestForInitialSpeed}.
-	
-	Output: $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t$, $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t$ and $S_{z}=v_{0}\cdot sin\theta _{1}\cdot t-\frac{1}{2}gt^{2}$
-	
-	How test will be performed: Automated unit testing.\an{Will perform finite test cases for different input in valid range.}
-	
-	\item{UnitTestDCG\\}
-	
-	Type: Functional, Dynamic, Automated
-	
-	Initial State: New session.
-	
-	Input: $E = [1-10]$, $(X,Y,0)$ that range of X and Y is [-1000,1000], $\mu_{k} = [0,1]$, time t and $\theta_{1}$, $\theta_{2}$, $v_{0}$ that are result from \ref{Sec_TestForAngle}, \ref{Sec_TestForInitialSpeed}
-	
-	Output: $a = \mu_{k}g$, $S_{x}=v_{0}\cdot cos\theta _{1}\cdot cos\theta _{2}\cdot t-\frac{1}{2}at^{2}$ and $S_{y}=v_{0}\cdot cos\theta _{1}\cdot sin\theta _{2}\cdot t-\frac{1}{2}at^{2}$ \an{Acceleration $a$ is an intermediate result that doesn't need separate module and system test.}
-	
-	How test will be performed: Automated unit testing.
-	
-\end{enumerate}
+		
+\subsection{Unit testing of internal functions}
+		
+\subsection{Unit testing of output files}		
 
 \bibliographystyle{plainnat}
 
@@ -833,21 +237,15 @@ Unit tests for other modules will be designed after modules designing are finish
 
 \section{Appendix}
 
+This is where you can place additional information.
+
 \subsection{Symbolic Parameters}
 
 The definition of the test cases will call for SYMBOLIC\_CONSTANTS.
 Their values are defined in this section for easy maintenance.
 
-\begin{tabular}{l l l} 
-	\toprule		
-	\textbf{symbol} & \textbf{value} & \textbf{description}\\
-	\midrule 
-	$g$ & $9.8 m/s^{2}$ & gravity acceleration\\	
-	\bottomrule
-\end{tabular}\\
-
 \subsection{Usability Survey Questions?}
 
-Usability survey will not be done for this project.
+This is a section that would be appropriate for some teams.
 
 \end{document}
